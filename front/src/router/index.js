@@ -35,6 +35,26 @@ export default new Router({
           name: 'userdetail',   
           component: resolve => require(['../components/user/Userdetail.vue'], resolve)
         },
+        {
+          path: 'newslist',
+          name: 'newslist',   
+          component: resolve => require(['../components/news/Newslist.vue'], resolve)
+        },
+        {
+          path: 'category',
+          name: 'category',   
+          component: resolve => require(['../components/news/Category.vue'], resolve)
+        },
+        {
+          path: 'setting',
+          name: 'setting',   
+          component: resolve => require(['../components/system/Setting.vue'], resolve)
+        },
+        {
+          path: 'newsdetail',
+          name: 'newsdetail',
+          component: resolve => require(['../components/news/Newsdetail.vue'], resolve)
+        }
       ]
     },
     {

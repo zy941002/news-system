@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/common/base/base.js"
+    ],
+    "names": [
+        "__call",
+        "method",
+        "http",
+        "toLowerCase",
+        "setCorsHeader",
+        "end",
+        "header",
+        "think",
+        "controller",
+        "base"
+    ],
+    "mappings": ";AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;mBAECA,M,qBAAQ;AACL,QAAIC,SAAS,KAAKC,IAAL,CAAUD,MAAV,CAAiBE,WAAjB,EAAb;AACA,QAAGF,WAAW,SAAd,EAAwB;AACtB,WAAKG,aAAL;AACA,WAAKC,GAAL;AACA;AACD;AACD,SAAKD,aAAL;AACA,WAAO,gCAAMJ,MAAN,WAAP;AACD,G;;mBACDI,a,4BAAe;AACb,SAAKE,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,kBAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EAhB0BC,MAAMC,UAAN,CAAiBC,I",
+    "file": "../../../src/common/base/base.js",
+    "sourcesContent": [
+        "\n// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\nexport default class extends think.controller.base {\n\t__call(){\n    let method = this.http.method.toLowerCase();\n    if(method === \"options\"){\n      this.setCorsHeader();\n      this.end();\n      return;\n    }\n    this.setCorsHeader();\n    return super.__call();\n  }\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}\n"
+    ]
+}

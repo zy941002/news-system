@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/admin/config/config.js"
+    ],
+    "names": [],
+    "mappings": "AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;kBAGe;AACb;AADa,C",
+    "file": "../../../src/admin/config/config.js",
+    "sourcesContent": [
+        "'use strict';\n// +-NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n/**\n * config\n */\nexport default {\n  //key: value\n};"
+    ]
+}

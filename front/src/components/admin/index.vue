@@ -1,5 +1,6 @@
 <template>
   <div id="admin">
+  	<sidebar></sidebar>	
     <router-view></router-view>
   </div>
 </template>

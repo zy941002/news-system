@@ -53,12 +53,12 @@
   	name:"userlist",
   	 methods: {
       edit(index,row) {
-        console.log(row.id)
         this.$router.push({ name: 'userdetail', query: { userId: row.id }})
       },
       deleteUser(index,row) {
-        this.$http.delete(`http://localhost:8360/user/user/${row.id}`).then((data)=>{
-          console.log(data)
+        this.$alert(`删除${row.name}会将其所有相关信息删除,确定吗？`)
+        this.$http.delete(`http://localhost:8360/user/user/${row.id}`).then((res)=>{ 
+          console.log(res.data)
         })
       }
     },
@@ -68,7 +68,8 @@
   		}
   	},
   	mounted(){
-  		this.$http.get(`http://localhost:8360/user/user`).then( (res)=> {
+  		this.$http.get(`http://localhost:8360/user/user`).then((res)=> {
+        console.log(res.data.data)
         this.$set(this,"users",res.data.data)		
   		})
   	}

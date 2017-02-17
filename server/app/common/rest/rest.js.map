@@ -1,0 +1,49 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/common/rest/rest.js"
+    ],
+    "names": [
+        "init",
+        "http",
+        "_method",
+        "getAction",
+        "data",
+        "id",
+        "modelInstance",
+        "getPk",
+        "pk",
+        "where",
+        "find",
+        "success",
+        "select",
+        "postAction",
+        "post",
+        "think",
+        "isEmpty",
+        "fail",
+        "add",
+        "insertId",
+        "deleteAction",
+        "delete",
+        "rows",
+        "affectedRows",
+        "putAction",
+        "get",
+        "console",
+        "log",
+        "update",
+        "__before",
+        "header",
+        "method",
+        "toLowerCase",
+        "end",
+        "controller",
+        "rest"
+    ],
+    "mappings": "AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;;;;;;;;;;;;;;;;AACA;;;;;;;;;;;;;;AAGE;;;;mBAIAA,I,iBAAKC,I,EAAK;AACR,oCAAMD,IAAN,YAAWC,IAAX;AACA;AACA;AACA,SAAKC,OAAL,GAAe,SAAf;AACD,G;;mBACCC,S;;;;;;;AACIC,gB;;iBACA,KAAKC,E;;;;;;mBACQ,KAAKC,aAAL,CAAmBC,KAAnB,E;;;AAAXC,c;;mBACS,KAAKF,aAAL,CAAmBG,KAAnB,kDAA2BD,EAA3B,IAAgC,KAAKH,EAArC,yBAA0CK,IAA1C,E;;;AAAbN,gB;6CACO,KAAKO,OAAL,CAAaP,IAAb,C;;;;mBAEI,KAAKE,aAAL,CAAmBM,MAAnB,E;;;AAAbR,gB;6CACO,KAAKO,OAAL,CAAaP,IAAb,C;;;;;;;;;mBAGPS,U;;;;;;;mBACe,KAAKP,aAAL,CAAmBC,KAAnB,E;;;AAAXC,c;AACAJ,gB,GAAO,KAAKU,IAAL,E;;AACX,mBAAOV,KAAKI,EAAL,CAAP;;iBACGO,MAAMC,OAAN,CAAcZ,IAAd,C;;;;;8CACM,KAAKa,IAAL,CAAU,eAAV,C;;;;mBAEY,KAAKX,aAAL,CAAmBY,GAAnB,CAAuBd,IAAvB,C;;;AAAjBe,oB;8CACG,KAAKR,OAAL,CAAa,EAACN,IAAIc,QAAL,EAAb,C;;;;;;;;;mBAEPC,Y;;;;;;;;gBACK,KAAKf,E;;;;;8CACD,KAAKY,IAAL,CAAU,CAAC,CAAX,EAAa,cAAb,C;;;;mBAEM,KAAKX,aAAL,CAAmBC,KAAnB,E;;;AAAXC,c;;mBACa,KAAKF,aAAL,CAAmBG,KAAnB,oDAA2BD,EAA3B,IAAgC,KAAKH,EAArC,0BAA0CgB,MAA1C,E;;;AAAbC,gB;8CACG,KAAKX,OAAL,CAAa,EAACY,cAAcD,IAAf,EAAb,C;;;;;;;;;mBAEPE,S;;;;;;;;gBACK,KAAKnB,E;;;;;8CACD,KAAKY,IAAL,CAAU,CAAC,CAAX,EAAe,cAAf,C;;;;mBAEM,KAAKX,aAAL,CAAmBC,KAAnB,E;;;AAAXC,c;AACAJ,gB,GAAO,KAAKqB,GAAL,E;;AACXC,oBAAQC,GAAR,CAAYvB,IAAZ;AACA,mBAAOA,KAAKI,EAAL,CAAP;;iBACIO,MAAMC,OAAN,CAAcZ,IAAd,C;;;;;8CACK,KAAKa,IAAL,CAAU,eAAV,C;;;;mBAEQ,KAAKX,aAAL,CAAmBG,KAAnB,oDAA2BD,EAA3B,IAAgC,KAAKH,EAArC,0BAA0CuB,MAA1C,CAAiDxB,IAAjD,C;;;AAAbkB,gB;8CACG,KAAKX,OAAL,CAAa,EAACY,cAAcD,IAAf,EAAb,C;;;;;;;;;;AAGT;;mBACAO,Q,uBAAU;AACR,SAAKC,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,gCAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAA+C,IAA/C;AACA,QAAIC,SAAS,KAAK9B,IAAL,CAAU8B,MAAV,CAAiBC,WAAjB,EAAb;AACA,QAAGD,WAAW,SAAd,EAAwB;AACtB,WAAKE,GAAL;AACA;AACD;AACF,G;;;EAlE0BlB,MAAMmB,UAAN,CAAiBC,I",
+    "file": "../../../src/common/rest/rest.js",
+    "sourcesContent": [
+        "// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\nimport Base from '../../common/base/base.js'\n\nexport default class extends think.controller.rest {\n  /**\n   * index action logic\n   * @return {} []\n   */\n  init(http){\n    super.init(http);\n    //设置 _method，表示从 GET 参数获取 _method 字段的值\n    //如果没有取到，则从 http method 中获取\n    this._method = \"_method\";\n  }\n  * getAction(){\n    let data;\n    if (this.id) {\n      let pk = yield this.modelInstance.getPk();\n      data = yield this.modelInstance.where({[pk]: this.id}).find();\n      return this.success(data);\n    }\n    data = yield this.modelInstance.select();\n    return this.success(data);\n  }\n\n  * postAction(){\n    let pk = yield this.modelInstance.getPk();\n    let data = this.post();\n    delete data[pk];\n    if(think.isEmpty(data)){\n      return this.fail(\"data is empty\");\n    }\n    let insertId = yield this.modelInstance.add(data);\n    return this.success({id: insertId});\n  }\n  * deleteAction(){\n    if (!this.id) {\n      return this.fail(-1,\"params error\");\n    }\n    let pk = yield this.modelInstance.getPk();\n    let rows = yield this.modelInstance.where({[pk]: this.id}).delete();\n    return this.success({affectedRows: rows});\n  }\n  * putAction(){\n    if (!this.id) {\n      return this.fail(-1,  \"params error\");\n    }\n    let pk = yield this.modelInstance.getPk();\n    let data = this.get();\n    console.log(data)\n    delete data[pk];\n    if (think.isEmpty(data)) {\n      return this.fail(\"data is empty\");\n    }\n    let rows = yield this.modelInstance.where({[pk]: this.id}).update(data);\n    return this.success({affectedRows: rows});\n  }\n\n  // 找不到方法时调用\n  __before(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with, Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header('Access-Control-Allow-Credentials',true);\n    let method = this.http.method.toLowerCase();\n    if(method === \"options\"){\n      this.end();\n      return;\n    }\n  }\n}"
+    ]
+}

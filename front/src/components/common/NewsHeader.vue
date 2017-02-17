@@ -1,31 +1,47 @@
 <template>
-  <div class="news-header">      
-      <Sidebar
-      	:show-menu="show"
-      ></Sidebar>
-  </div>
+  <!-- <div class="fix-header">
+      <i class="el-icon-menu" @click="showMenus"></i>      
+  </div> -->
 </template>
 
 <script>
-import Sidebar from './Sidebar.vue'
 export default {
   name: 'header',
-  data(){
+  data() {
   	return {
   		show:false,
   	}
   },
-  components:{
-  	Sidebar
+  methods:{
+    showMenus: function() {
+      this.show = !this.show;
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less"scoped>
-	.news-header{
+<style lang="less" scoped>
+@import url('../../assets/less/CV.less');
+	.fix-header{
 		width: 100%;
 		height: 50px;
-		background: #324157;
+    position: fixed;
+		background: @ColorF;
+    box-shadow: rgba(0, 0, 0, 0.247059) 0px 0px 4px;
+    z-index: 6;
+    transition: all 0.3s ease;
 	}
+  .el-icon-menu{
+    font-size: 1.5rem;
+    vertical-align: middle;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    -webkit-transform: translateY(-50%);
+       -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+         -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
 </style>

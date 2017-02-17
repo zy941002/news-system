@@ -1,0 +1,16 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/admin/controller/logout.js"
+    ],
+    "names": [
+        "indexAction",
+        "session",
+        "success"
+    ],
+    "mappings": "AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;;;;;;;;;;;;;;;;;;;;AAEA;;;;;;;;;;;;;;AAEE;;;;mBAIMA,W;;;;;;;qBACE,KAAKC,OAAL,CAAa,EAAb,C;;;+CACC,KAAKC,OAAL,4B",
+    "file": "../../../src/admin/controller/logout.js",
+    "sourcesContent": [
+        "// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\n\nimport Base from './base.js';\nexport default class extends Base {\n  /**\n   * index action\n   * @return {Promise} []\n   */\n  async indexAction() {\n    await this.session('');\n    return this.success(`退出登录`);\n  }\n}"
+    ]
+}
