@@ -14,7 +14,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _base = require('./base.js');
+var _base = require('../../common/base/base.js');
 
 var _base2 = _interopRequireDefault(_base);
 
@@ -35,6 +35,10 @@ var _class = function (_Base) {
   _class.prototype.indexAction = function indexAction() {
     //auto render template file index_index.html
     return this.display();
+  };
+
+  _class.prototype.testAction = function testAction() {
+    return this.success("useAction");
   };
 
   return _class;

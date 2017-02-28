@@ -4,11 +4,12 @@
         "../../../src/common/config/config.js"
     ],
     "names": [
-        "route_on"
+        "route_on",
+        "resource_on"
     ],
-    "mappings": "AAAA;AACA;;;;;kBAGe;AACb;AACAA,YAAU;AAFG,C",
+    "mappings": "AAAA;AACA;;;;;kBAGe;AACb;AACAA,YAAU,IAFG;AAGbC,eAAa,IAHA,E",
     "file": "../../../src/common/config/config.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * config\n */\nexport default {\n  //key: value\n  route_on: true\n};"
+        "'use strict';\n/**\n * config\n */\nexport default {\n  //key: value\n  route_on: true,\n  resource_on: true, //是否开启静态资源解析功能\n};"
     ]
 }

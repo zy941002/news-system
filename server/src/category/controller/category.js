@@ -3,8 +3,7 @@
  * rest controller
  * @type {Class}
  */
-import Rest from '../../common/rest/rest.js'
-export default class extends Rest {
+export default class extends think.controller.rest {
   /**
    * init
    * @param  {Object} http []

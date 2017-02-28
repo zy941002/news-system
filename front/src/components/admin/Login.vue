@@ -1,31 +1,31 @@
 <template>
-  <div>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    	<el-form-item label="用户名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="login-panel">
+    <h2 class="ver-center brand-name"><i>欢迎使用新闻发布系统</i></h2>
+    <div class="abs-center login-board">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm ">
+      	<el-form-item label="用户名" prop="username">
+          <el-input type="text" v-model="ruleForm.username" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
-
 <script>
-  export default {
-  	name:"register",
-    data() {
+import Storage from '../../assets/js/storage.js'
+  export default{
+  	name:"login",
+    data(){
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
           callback();
         }
       };
@@ -40,23 +40,12 @@
       };
       return {
         ruleForm: {
-          pass: '',
-          checkPass: '',
-          age: '',
+          password: '',
           username:"",
-
         },
         rules: {
-          pass: [
+          password: [
             { validator: validatePass, trigger: 'blur',required: true},
-          ],
-          checkPass: [
-            { validator: validatePass2, trigger: 'blur', required: true},
-
-          ],
-          email: [
-            { required: true, message: '请输入邮箱地址' },
-            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
           ],
           username: [
           	 { required: true, message: '请输入用户名', trigger: 'change' }
@@ -64,22 +53,62 @@
         }
       };
     },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
+    porp:[],
+    methods:{
+      submitForm(formName){
+        this.$refs[formName].validate((valid)=>{
+          if (valid){
+            this.$http.post(`http://localhost:8360/admin/user/login`,{
+              name : this.ruleForm.username,
+              password: this.ruleForm.password
+            }).then( (res)=> {
+              if(res.data.errorno<0 ){
+                this.$message.error('用户名或密码错误')
+                return;
+              }
+              else if(res.data.data[0][`type`]===0){
+                this.$message.error("非管理员,不能使用本系统");
+              }
+              else{
+                Storage.set('userInfo',JSON.stringify(res.data.data[0]));
+                this.$store.dispatch('SET_USER');
+                this.$router.push({name:"Admin"});
+              }
+            })
+          }
+          else{
             this.$message.error('请正确填写表单信息');
             return false;
           }
         });
       },
-      resetForm(formName) {
+      resetForm(formName){
         this.$refs[formName].resetFields();
       }
-    }
-  }
+    },
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="less" scoped>
+@import url('../../assets/less/CV.less');
+  .login-panel{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: @Navyblue;
+  }
+  .login-board{
+    width: 400px;
+    height: 250px;
+    background: @ColorF;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.7) 5px 3px 8px;
+  }
+  .brand-name{
+    color:@ColorF;
+  }
+  .demo-ruleForm{
+    padding:40px 50px 0 20px;
+  }
+</style>

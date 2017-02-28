@@ -18,18 +18,14 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _rest = require('../../common/rest/rest.js');
-
-var _rest2 = _interopRequireDefault(_rest);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _class = function (_Rest) {
-  (0, _inherits3.default)(_class, _Rest);
+var _class = function (_think$controller$res) {
+  (0, _inherits3.default)(_class, _think$controller$res);
 
   function _class() {
     (0, _classCallCheck3.default)(this, _class);
-    return (0, _possibleConstructorReturn3.default)(this, _Rest.apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, _think$controller$res.apply(this, arguments));
   }
 
   /**
@@ -38,7 +34,7 @@ var _class = function (_Rest) {
    * @return {}      []
    */
   _class.prototype.init = function init(http) {
-    _Rest.prototype.init.call(this, http);
+    _think$controller$res.prototype.init.call(this, http);
   };
   /**
    * before magic method
@@ -47,7 +43,7 @@ var _class = function (_Rest) {
 
 
   return _class;
-}(_rest2.default);
+}(think.controller.rest);
 
 exports.default = _class;
 //# sourceMappingURL=category.js.map

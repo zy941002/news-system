@@ -52,7 +52,7 @@ export default {
   },
   methods:{
     handleDelete(index,data) {
-      this.$http.delete(`http://localhost:8360/category/category/${data.id}`).then((res)=>{
+      this.$http.delete(`http://localhost:8360/admin/category/${data.id}`).then((res)=>{
          this.$store.dispatch(`SET_CATEGORY`)
       })
     }

@@ -6,8 +6,6 @@
 // | Author: zhouying <inkzhou@gmail.com>
 // +----------------------------------------------------------------------
 'use strict';
-import Base from '../../common/base/base.js'
-
 export default class extends think.controller.rest {
   /**
    * index action logic

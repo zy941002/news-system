@@ -26,14 +26,14 @@ export default new Router({
           component: resolve => require(['../components/admin/Manage.vue'], resolve)
         },
         {
-          path: 'userlist',
-          name: 'userlist',   
-          component: resolve => require(['../components/user/Userlist.vue'], resolve)
-        },
-        {
           path: 'userdetail',
           name: 'userdetail',   
           component: resolve => require(['../components/user/Userdetail.vue'], resolve)
+        },
+        {
+          path: 'newuser',
+          name: 'newuser',
+          component: resolve => require(['../components/user/Newuser.vue'], resolve)
         },
         {
           path: 'newslist',
@@ -54,7 +54,12 @@ export default new Router({
           path: 'newsdetail',
           name: 'newsdetail',
           component: resolve => require(['../components/news/Newsdetail.vue'], resolve)
-        }
+        },
+        {
+          path: '*',
+          name: 'userlist',   
+          component: resolve => require(['../components/user/Userlist.vue'], resolve)
+        },
       ]
     },
     {

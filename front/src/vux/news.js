@@ -17,7 +17,7 @@ export default {
     },
     actions:{
     	async [SET_NEWS]({commit,state},parmas){
-            let id = ''
+        let id = ''
         if(parmas){
              id = parmas.dataid
         }        

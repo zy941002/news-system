@@ -3,15 +3,10 @@
     "sources": [
         "../../../src/home/config/config.js"
     ],
-    "names": [
-        "route_on",
-        "default_module",
-        "default_controller",
-        "default_action"
-    ],
-    "mappings": "AAAA;AACA;;;;;kBAGe;AACb;AACAA,YAAU,IAFG;AAGbC,kBAAgB,MAHH;AAIbC,sBAAoB,OAJP;AAKbC,kBAAgB;AALH,C",
+    "names": [],
+    "mappings": "AAAA;AACA;;;;;kBAGe;AACb;AADa,C",
     "file": "../../../src/home/config/config.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * config\n */\nexport default {\n  //key: value\n  route_on: true,\n  default_module: \"home\",\n  default_controller: \"index\", \n  default_action: \"index\",\n};"
+        "'use strict';\n/**\n * config\n */\nexport default {\n  //key: value\n};"
     ]
 }

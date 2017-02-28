@@ -17,14 +17,13 @@ export default {
     },
     actions:{
 	    [SET_CATEGORY]({ state, commit, rootState }){
-	    	API.FIND(`category/category`).then(res => {
+	    	API.FIND(`admin/category`).then(res => {
 				commit('SET_CATEGORY',res.data.data);
 			},err=>{
 				console.log(res)
 			})
 	    },
 	    [GET_CATEGORY](state,category){
-	    	console.log("GET_CATEGORY")
 	    	return state.category
 	    }
     }

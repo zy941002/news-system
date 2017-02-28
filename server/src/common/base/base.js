@@ -8,19 +8,19 @@
 // +----------------------------------------------------------------------
 'use strict';
 export default class extends think.controller.base {
-	__call(){
+  async __before(){
     let method = this.http.method.toLowerCase();
-    if(method === "options"){
+    if(method === 'options'){
       this.setCorsHeader();
       this.end();
-      return;
     }
     this.setCorsHeader();
-    return super.__call();
-  }
+    return;
+  }  
+  //-----end of before
   setCorsHeader(){
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
-    this.header("Access-Control-Allow-Headers", "x-requested-with");
+    this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
     this.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
     this.header("Access-Control-Allow-Credentials", "true");
   }

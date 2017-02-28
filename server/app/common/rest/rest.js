@@ -9,25 +9,21 @@
 
 exports.__esModule = true;
 
-var _regenerator = require('babel-runtime/regenerator');
+var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = require('babel-runtime/helpers/inherits');
+var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _base = require('../../common/base/base.js');
-
-var _base2 = _interopRequireDefault(_base);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,7 +70,7 @@ var _class = function (_think$controller$res) {
 
           case 7:
             data = _context.sent;
-            return _context.abrupt('return', this.success(data));
+            return _context.abrupt("return", this.success(data));
 
           case 9:
             _context.next = 11;
@@ -82,10 +78,10 @@ var _class = function (_think$controller$res) {
 
           case 11:
             data = _context.sent;
-            return _context.abrupt('return', this.success(data));
+            return _context.abrupt("return", this.success(data));
 
           case 13:
-          case 'end':
+          case "end":
             return _context.stop();
         }
       }
@@ -111,7 +107,7 @@ var _class = function (_think$controller$res) {
               break;
             }
 
-            return _context2.abrupt('return', this.fail("data is empty"));
+            return _context2.abrupt("return", this.fail("data is empty"));
 
           case 7:
             _context2.next = 9;
@@ -119,10 +115,10 @@ var _class = function (_think$controller$res) {
 
           case 9:
             insertId = _context2.sent;
-            return _context2.abrupt('return', this.success({ id: insertId }));
+            return _context2.abrupt("return", this.success({ id: insertId }));
 
           case 11:
-          case 'end':
+          case "end":
             return _context2.stop();
         }
       }
@@ -141,7 +137,7 @@ var _class = function (_think$controller$res) {
               break;
             }
 
-            return _context3.abrupt('return', this.fail(-1, "params error"));
+            return _context3.abrupt("return", this.fail(-1, "params error"));
 
           case 2:
             _context3.next = 4;
@@ -154,10 +150,10 @@ var _class = function (_think$controller$res) {
 
           case 7:
             rows = _context3.sent;
-            return _context3.abrupt('return', this.success({ affectedRows: rows }));
+            return _context3.abrupt("return", this.success({ affectedRows: rows }));
 
           case 9:
-          case 'end':
+          case "end":
             return _context3.stop();
         }
       }
@@ -176,7 +172,7 @@ var _class = function (_think$controller$res) {
               break;
             }
 
-            return _context4.abrupt('return', this.fail(-1, "params error"));
+            return _context4.abrupt("return", this.fail(-1, "params error"));
 
           case 2:
             _context4.next = 4;
@@ -194,7 +190,7 @@ var _class = function (_think$controller$res) {
               break;
             }
 
-            return _context4.abrupt('return', this.fail("data is empty"));
+            return _context4.abrupt("return", this.fail("data is empty"));
 
           case 10:
             _context4.next = 12;
@@ -202,10 +198,10 @@ var _class = function (_think$controller$res) {
 
           case 12:
             rows = _context4.sent;
-            return _context4.abrupt('return', this.success({ affectedRows: rows }));
+            return _context4.abrupt("return", this.success({ affectedRows: rows }));
 
           case 14:
-          case 'end':
+          case "end":
             return _context4.stop();
         }
       }

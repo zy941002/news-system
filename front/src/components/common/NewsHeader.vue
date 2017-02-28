@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="fix-header">
+<!--   <div class="fix-header">
       <i class="el-icon-menu" @click="showMenus"></i>      
   </div> -->
 </template>
@@ -38,10 +38,6 @@ export default {
     position: absolute;
     top:50%;
     left: 50%;
-    -webkit-transform: translateY(-50%);
-       -moz-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-         -o-transform: translateY(-50%);
-            transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 </style>

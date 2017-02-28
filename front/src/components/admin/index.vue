@@ -1,7 +1,6 @@
 <template>
   <div id="admin">
-  	<sidebar></sidebar>	
-    <router-view></router-view>
+  	<sidebar></sidebar>
   </div>
 </template>
 
@@ -14,5 +13,4 @@ export default {
   }
 }
 </script>
-
 <style></style>

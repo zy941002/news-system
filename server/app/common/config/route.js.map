@@ -1,0 +1,16 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/common/config/route.js"
+    ],
+    "names": [
+        "admin",
+        "reg",
+        "topic"
+    ],
+    "mappings": ";;;AAAA;;;kBAGe;AACXA,WAAO,EAAC;AACJC,aAAK;AADF,KADI;AAIX;AACAC,WAAO,CAAC;;AAAD;AALI,C",
+    "file": "../../../src/common/config/route.js",
+    "sourcesContent": [
+        "/**\n * Created by Zhouying on 2017/1/18.\n */\nexport default {\n    admin: {//系统后台\n        reg: /^admin/\n    },\n    //默认走topic\n    topic: {//网站信息统一输出口\n\n    }\n}"
+    ]
+}

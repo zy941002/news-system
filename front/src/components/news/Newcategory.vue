@@ -32,7 +32,7 @@ export default {
     },
     methods: {
     	addNew: function() {
-    		this.$http.post(`http://localhost:8360/category/category`,{
+    		this.$http.post(`http://localhost:8360/admin/category`,{
     			name:this.form.name
     		}).then((res=>{
     			if(res.data.errno==0) {

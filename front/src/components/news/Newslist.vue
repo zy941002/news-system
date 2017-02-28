@@ -17,7 +17,7 @@
       label="作者"
       width="180">
       <template scope='scope'>
-      	{{ scope.row.author_id }}			      
+      	{{ scope.row.author_id }}
       </template>		
     </el-table-column>
 

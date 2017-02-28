@@ -1,12 +1,10 @@
 <template>
+<div>
   <div class="news-menu">
     <el-row>
       <el-col>
         <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" theme="dark" :router=true>
-        	<el-menu-item index="user">
-        		<span><img class="user-logo" src="../../assets/logo.png"></span>
-        		<span class="nick-name">zhouying</span>
-        	</el-menu-item>          
+        	<Usericon></Usericon>
         	<el-menu-item index="userlist" @clcik="set_state('')"><i class="el-icon-star-on"></i>用户管理</el-menu-item>
           <el-menu-item index="newslist" @clcik="set_state('SET_NEWS')"><i class="el-icon-menu"></i>新闻管理</el-menu-item>
           <el-menu-item index="category" @clcik="set_state('')"><i class="el-icon-setting"></i>分类管理</el-menu-item>
@@ -16,13 +14,16 @@
       <div> LOG OUT</div>
     </el-row>
   </div>
+  <router-view></router-view>
+  </div>
 </template>
 <script>
+  import Usericon from '../../components/user/Usericon.vue'
+  import Storage from '../../assets/js/storage.js'
   export default {
   	components: {
-
+      Usericon
   	},
-    props: ['showMenu'],
     methods: {
       set_state(type){
         this.$store.dispatch(type);
@@ -32,6 +33,10 @@
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+      goDetail(){
+        console.log('----')
+        this.$router.push({name:'userdetail',query:{id:JSON.parse(Storage.get('userInfo').id)}})
       }
     }
   }
