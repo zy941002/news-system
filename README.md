@@ -13,18 +13,23 @@ npm start
 
 <hr/>
 2017.2.15
+
 完成情况：
-	前端的路由写入+后端表格
+	
+	前端的路由写入
+	后端数据库的设计
+
 
 <hr/>
-
 2017.2.15
+
 	- 解决数据库中文乱码的的问题
+
 
 <hr/>
 2017 2.17	
-<B>引入vuex做状态管理</B>
 
+<B>引入vuex做状态管理</B>
 前端：
 
 - 用户：获取所有，单个用户信息，可编辑
@@ -41,26 +46,28 @@ npm start
 
 <hr/>
 2017.2.18
--
+
 后端：删除用户时，需要删除相应的新闻数据。
+
 DELETE FRMO NEWS , USER ,COMMENTS
 USING NEWS , USER,COMMENTS
 where USER.id = XX ,NEWS.author_id = XX COMMNETS.user_id=XXX
 
-没有关系依赖的走Rest API ,有关系依赖的就走一般的action
+没有关系依赖的走REST API ,有关系依赖的就走一般的action
 
 <hr/>
 2017.2.20
+
 懒癌晚期:QWQ
 - 用户登录部分
 - 图片实现上传
 - TODO:新增用户, 以及更改用户信息
 2017.2.22
-
 － 用户登录
 
 <hr/>
 2017.2.28
+
 六天没更新了QWQ。懒癌药丸
 解决MYSQL时间和JS时间不一致的问题
 今日完成：
@@ -74,6 +81,7 @@ TODO :
 
 <hr/>
 2017.2.29
+
 DONE:
 - 删除用户增加on delete cased ，摆脱依赖关系
 - 新增加news controller
