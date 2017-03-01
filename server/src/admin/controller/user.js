@@ -1,16 +1,11 @@
 'use strict';
 
-import Base from '../../common/base/base.js';
 var fs = require('fs');
 var path = require('path');
 let moment = require('moment')
 let util = require('util')
 
 export default class extends think.controller.base {
-  /**
-   * index action
-   * @return {Promise} []
-   */
   async indexAction() {
     this.setCorsHeader()
     let data = await this.model(`user`).select();
@@ -19,11 +14,11 @@ export default class extends think.controller.base {
   async fetchuserAction(){
     this.setCorsHeader();
     let where = this.get();
-    let data =await this.model(`user`).where(where).select();
-
+    let data = await this.model(`user`).fetchuser(where);
     return this.json({data:data})
   }
   async loginAction() {  
+      this.setCorsHeader();
       let where = this.post();      
       let data =await this.model(`user`).where(where).select();
       if(think.isEmpty(data)){
@@ -40,9 +35,9 @@ export default class extends think.controller.base {
       this.end();
     }
     else{  
-      let model = this.model(`user`);
       let params = this.post();
       let id = this.post(`id`);
+      let model = this.model(`user`);
       let file = JSON.stringify(this.post(`file`));
       let user = this.model(`user`);
       let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
@@ -58,16 +53,12 @@ export default class extends think.controller.base {
     }
   }
   async removeAction(){
+    this.setCorsHeader();
     let id = this.get(`id`);
-    let model= this.model(`user`)
-    let res = await model.parseSql(sql,id,id,id);
-    console.log(res);
-    // let del = await model.execute(res)
-    // console.log(del);  
-    
+    let model= this.model(`user`);
+    let affectedRows = await model.where({id:id}).delete()
+    return this.success(affectedRows);
   }
-
-
   setCorsHeader(){
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
     this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");

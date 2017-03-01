@@ -6,7 +6,7 @@ export default {
         reg: /^admin/
     },
     //默认走topic
-    topic: {//网站信息统一输出口
-
-    }
+	news: {//系统后台
+        reg: /^news/
+    },
 }

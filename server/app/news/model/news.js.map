@@ -1,0 +1,19 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/news/model/news.js"
+    ],
+    "names": [
+        "fetchNews",
+        "where",
+        "model",
+        "select",
+        "think",
+        "base"
+    ],
+    "mappings": "AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;kBAIOA,S;yFAAUC,K;;;;;;cACF,KAAKC,KAAL,SAAmBD,KAAnB,CAAyBA,KAAzB,EAAgCE,MAAhC,E;;;;;;;;;;;;;;;;;;;;;EAFcC,MAAMF,KAAN,CAAYG,I",
+    "file": "../../../src/news/model/news.js",
+    "sourcesContent": [
+        "'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\tasync fetchNews(where){\n\t\treturn await this.model(`news`).where(where).select();\n\t}\n}"
+    ]
+}

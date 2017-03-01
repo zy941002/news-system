@@ -3,7 +3,9 @@ export const GET_NEWS = `GET_NEWS`
 import API from '../api/api.js'    
 export default {
     state:{
-        news:null,
+        news:{
+            title:"",
+        },
     },
     mutations: {
         [SET_NEWS](state,news) {
@@ -17,18 +19,11 @@ export default {
     },
     actions:{
     	async [SET_NEWS]({commit,state},parmas){
-        let id = ''
-        if(parmas){
-             id = parmas.dataid
-        }        
-    	await API.FIND(`news/news`,{
-            id : id
-        }).
-        then(res => {
-            console.log(res)
-    		commit('SET_NEWS',res.data.data);
-            },
-            err=>{console.log(res)})
+        parmas?parmas:{};        
+    	await API.FIND(`news/news/fetch`,parmas).then(
+            res => {
+                commit('SET_NEWS',res.data.data[0])}
+            ,err=>{console.log(res)})
         },
 	[GET_NEWS](state,news){
 	    return state.news

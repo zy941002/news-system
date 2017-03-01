@@ -6,7 +6,7 @@
       border
       style="width: 100%">
       <el-table-column
-        prop="name"
+        prop="id"
         label="用户ID"
         width="120">
       </el-table-column>
@@ -63,14 +63,13 @@ import API from '../../api/api.js'
         this.$router.push({ name: 'userdetail', query: { id: row.id }})
       },
       deleteUser(index,row){
-      this.$confirm('此操作将永久删除该文件, 是否继续?','提示',{
+      this.$confirm('此操作将永久删除该用户及相关数据, 是否继续?','提示',{
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(()=>{
-          // let data =  this.$http.get(`http://localhost:8306?deleteuser/?id=${row.id}`);
           API.DELETE(`admin/user/remove`,{id:row.id}).then((res)=>{
-            console.log(res)
+            this.users.splice(row.index,1);
           })
 
           this.$message({
@@ -103,5 +102,4 @@ import API from '../../api/api.js'
     }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->

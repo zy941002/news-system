@@ -6,11 +6,11 @@
     "names": [
         "admin",
         "reg",
-        "topic"
+        "news"
     ],
-    "mappings": ";;;AAAA;;;kBAGe;AACXA,WAAO,EAAC;AACJC,aAAK;AADF,KADI;AAIX;AACAC,WAAO,CAAC;;AAAD;AALI,C",
+    "mappings": ";;;AAAA;;;kBAGe;AACXA,WAAO,EAAC;AACJC,aAAK;AADF,KADI;AAIX;AACHC,UAAM,EAAC;AACAD,aAAK;AADN;AALQ,C",
     "file": "../../../src/common/config/route.js",
     "sourcesContent": [
-        "/**\n * Created by Zhouying on 2017/1/18.\n */\nexport default {\n    admin: {//系统后台\n        reg: /^admin/\n    },\n    //默认走topic\n    topic: {//网站信息统一输出口\n\n    }\n}"
+        "/**\n * Created by Zhouying on 2017/1/18.\n */\nexport default {\n    admin: {//系统后台\n        reg: /^admin/\n    },\n    //默认走topic\n\tnews: {//系统后台\n        reg: /^news/\n    },\n}"
     ]
 }

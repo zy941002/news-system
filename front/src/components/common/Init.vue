@@ -2,11 +2,11 @@
   <div>
     <h1>系统初始化</h1>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    	<el-form-item label="用户名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" auto-complete="off"></el-input>
+    	<el-form-item label="用户名" prop="name">
+        <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" auto-complete="off"></el-input>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass">
         <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off"></el-input>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import API from '../../api/api.js'
   export default {
   	name:"register",
     data() {
@@ -39,7 +40,7 @@
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.pass) {
+        } else if (value !== this.ruleForm.password) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -47,10 +48,11 @@
       };
       return {
         ruleForm: {
-          pass: '',
+          password: '',
           checkPass: '',
           age: '',
-          username:"",
+          name:'',
+          email: ''
 
         },
         rules: {
@@ -75,7 +77,9 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            API.POST(`admin/user/add`,this.ruleForm).then((res)=>{
+              console.log(res.data)
+            })
           } else {
             this.$message.error('请正确填写表单信息');
             return false;

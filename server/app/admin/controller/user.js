@@ -30,10 +30,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _base = require('../../common/base/base.js');
-
-var _base2 = _interopRequireDefault(_base);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fs = require('fs');
@@ -49,10 +45,6 @@ var _class = function (_think$controller$bas) {
     return (0, _possibleConstructorReturn3.default)(this, _think$controller$bas.apply(this, arguments));
   }
 
-  /**
-   * index action
-   * @return {Promise} []
-   */
   _class.prototype.indexAction = function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
       var data;
@@ -93,7 +85,7 @@ var _class = function (_think$controller$bas) {
               this.setCorsHeader();
               where = this.get();
               _context2.next = 4;
-              return this.model('user').where(where).select();
+              return this.model('user').fetchuser(where);
 
             case 4:
               data = _context2.sent;
@@ -121,24 +113,25 @@ var _class = function (_think$controller$bas) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
+              this.setCorsHeader();
               where = this.post();
-              _context3.next = 3;
+              _context3.next = 4;
               return this.model('user').where(where).select();
 
-            case 3:
+            case 4:
               data = _context3.sent;
 
               if (!think.isEmpty(data)) {
-                _context3.next = 8;
+                _context3.next = 9;
                 break;
               }
 
               return _context3.abrupt('return', this.fail({ errorno: -1 }, "用户名或密码错误"));
 
-            case 8:
+            case 9:
               return _context3.abrupt('return', this.success(data));
 
-            case 9:
+            case 10:
             case 'end':
               return _context3.stop();
           }
@@ -155,7 +148,7 @@ var _class = function (_think$controller$bas) {
 
   _class.prototype.addAction = function () {
     var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-      var method, model, params, id, file, user, now, affectedRows, _affectedRows;
+      var method, params, id, model, file, user, now, affectedRows, _affectedRows;
 
       return _regenerator2.default.wrap(function _callee4$(_context4) {
         while (1) {
@@ -174,9 +167,9 @@ var _class = function (_think$controller$bas) {
               break;
 
             case 6:
-              model = this.model('user');
               params = this.post();
               id = this.post('id');
+              model = this.model('user');
               file = (0, _stringify2.default)(this.post('file'));
               user = this.model('user');
               now = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
@@ -220,24 +213,22 @@ var _class = function (_think$controller$bas) {
 
   _class.prototype.removeAction = function () {
     var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-      var id, model, res;
+      var id, model, affectedRows;
       return _regenerator2.default.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
+              this.setCorsHeader();
               id = this.get('id');
               model = this.model('user');
-              _context5.next = 4;
-              return model.parseSql(sql, id, id, id);
+              _context5.next = 5;
+              return model.where({ id: id }).delete();
 
-            case 4:
-              res = _context5.sent;
+            case 5:
+              affectedRows = _context5.sent;
+              return _context5.abrupt('return', this.success(affectedRows));
 
-              console.log(res);
-              // let del = await model.execute(res)
-              // console.log(del);  
-
-            case 6:
+            case 7:
             case 'end':
               return _context5.stop();
           }

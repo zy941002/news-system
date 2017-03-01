@@ -1,7 +1,7 @@
 {
     "version": 3,
     "sources": [
-        "../../../src/admin/model/index.js"
+        "../../../src/admin/model/user.js"
     ],
     "names": [
         "fetchuser",
@@ -13,7 +13,7 @@
         "base"
     ],
     "mappings": "AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;kBAIOA,S;yFAAUC,K;;;;;;;cACE,KAAKC,KAAL,CAAW,MAAX,EAAmBD,KAAnB,CAAyBA,KAAzB,EAAgCE,MAAhC,E;;;AAAbC,W;wCACGA,I;;;;;;;;;;;;;;;;;;EAHoBC,MAAMH,KAAN,CAAYI,I",
-    "file": "../../../src/admin/model/index.js",
+    "file": "../../../src/admin/model/user.js",
     "sourcesContent": [
         "'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\tasync fetchuser(where){\n\t\tlet data = await this.model('user').where(where).select();\n\t\treturn data;\n\t}\n}"
     ]

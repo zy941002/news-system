@@ -1,0 +1,29 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/news/controller/index.js"
+    ],
+    "names": [
+        "indexAction",
+        "setCorsHeader",
+        "fetchAction",
+        "news",
+        "model",
+        "where",
+        "get",
+        "select",
+        "data",
+        "console",
+        "log",
+        "success",
+        "header",
+        "think",
+        "controller",
+        "base"
+    ],
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;AAEA;;;;;;;;;;;;;;mBAIEA,W,0BAAa;AACZ,SAAKC,aAAL;AACC;AACD,G;;mBACKC,W;;;;;;;AACL,mBAAKD,aAAL;AACIE,kB,GAAO,KAAKC,KAAL,Q;AACPC,mB,GAAQ,KAAKC,GAAL,E;;qBACKH,KAAKE,KAAL,CAAWA,KAAX,EAAkBE,MAAlB,E;;;AAAbC,kB;;AACJC,sBAAQC,GAAR,CAAY,KAAZ;+CACO,KAAKC,OAAL,CAAaH,IAAb,C;;;;;;;;;;;;;;;;;mBAERP,a,4BAAe;AACdQ,YAAQC,GAAR,CAAY,WAAZ;AACC,SAAKE,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EApB0BC,MAAMC,UAAN,CAAiBC,I",
+    "file": "../../../src/news/controller/index.js",
+    "sourcesContent": [
+        "'use strict';\n\nimport Base from './base.js';\n\nexport default class extends think.controller.base {\n   \n  indexAction(){\n  \tthis.setCorsHeader()\n    // return this.display();\n  }\n  async fetchAction(){\n  \tthis.setCorsHeader();\n  \tlet news = this.model(`news`);\n  \tlet where = this.get();\n  \tlet data = await news.where(where).select();\n  \tconsole.log('---')\n  \treturn this.success(data);\n  }\n  setCorsHeader(){\n  \tconsole.log(\"SET___COR\")\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}"
+    ]
+}

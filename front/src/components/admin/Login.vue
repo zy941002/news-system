@@ -72,7 +72,7 @@ import Storage from '../../assets/js/storage.js'
               else{
                 Storage.set('userInfo',JSON.stringify(res.data.data[0]));
                 this.$store.dispatch('SET_USER');
-                this.$router.push({name:"Admin"});
+                this.$router.replace({name:"Admin"});
               }
             })
           }
