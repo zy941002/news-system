@@ -16,8 +16,8 @@ export default {
     	}    	
     },
     actions:{
-	    [SET_CATEGORY]({ state, commit, rootState }){
-	    	API.FIND(`admin/category`).then(res => {
+	    async [SET_CATEGORY]({ state, commit, rootState }){
+	    	await API.FIND(`news/news/getcate`).then(res => {
 				commit('SET_CATEGORY',res.data.data);
 			},err=>{
 				console.log(res)

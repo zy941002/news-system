@@ -1,5 +1,6 @@
 <template>
   <div id="admin">
+    <el-button type="primary" @click="goNew">添加新闻</el-button>    
   	<el-table
     :data="tableData"
     border
@@ -16,7 +17,7 @@
         label="作者"
         width="180">
         <template scope='scope'>
-        	{{ scope.row.author.name }}
+        	{{ scope.row.extra.user.name }}
         </template>		
       </el-table-column>
       <el-table-column
@@ -62,12 +63,14 @@ export default {
     }
   },
   methods: {
+    goNew(){
+      this.$router.push({name:'newsdetail'})
+    },
     handleEdit(index, data) {
       this.$router.push({name:"newsdetail"});
       this.$store.dispatch('SET_NEWS',{id:data.id})
     },
     handleDelete(index, row) {
-      console.log(row.id)
       API.DELETE(`news/news/remove`,{id:row.id}).then((res)=>{
         this.$store.dispatch('SET_NEWS')
       })

@@ -3,22 +3,66 @@ export default class extends think.controller.base {
   async fetchAction(){
   	this.setCorsHeader();
     let where = this.get()
+    console.log(news)
   	let news = await this.model(`news`).fetchNews(where);
     let __this = this;
     let promise = [];
+
+
     news.forEach((item,index)=>{
-      promise.push(new Promise((resolve,reject)=>{
-        __this.model(`cate`).where({id:item.cate_id}).select();
-        resolve(__this.model(`user`).where({id:item.author_id}).select())
+      promise.push(new Promise(async (resolve,reject)=>{    
+        let link = await __this.model(`news_cate`).where({news_id:item.id}).select(); 
+        
+        // 查询到所有分类
+        link.forEach(async (item,index)=>{
+          let cate = "cate";
+          let data = await __this.model(`category`).where({id:item.cate_id}).select()
+            link[index][cate] = data[0]; 
+        })
+
+        // unlink.forEach(async(item,index)=>{
+        //   let uncate = 'uncate';
+        //   let data = await __this.model(`category`).where({id:item.cate_id}).select();
+        //     unlink[index][uncate] = data[0]
+        // })        
+        let user =await __this.model(`user`).where({id:item.author_id}).select();
+        let res = {
+          cate:link,
+          uncate: unlink,
+          user: user
+        }
+        resolve(res)
       }))
     });
     let results = await Promise.all(promise);
     news.map((item,index)=>{
-      let author = 'author';
-      return item[author] = results[index][0]
+      let extra = 'extra';
+      return item[extra] = results[index]
     })
   	return this.success(news);
   }
+  // 删除分类
+  async delcateAction(){
+    this.setCorsHeader();
+    let where = this.get();
+    let affectedRows = await this.model(`news_cate`).where(where).delete();
+    console.log(affectedRows)
+
+  }
+  // 获取分类：包括已选分类和未选分类
+  // async getcateAction(){
+  //   this.setCorsHeader();
+  //   let where = this.get();
+  //   let user = {};
+  //   let {id} = where;
+  //   if(id){
+  //     user.id = id
+  //   }
+  //   let data = await this.model(`category`).select();
+  //   return this.success(data)
+  // }
+
+  // 删除新闻
   async removeAction(){
     this.setCorsHeader();
     let model = this.model(`news`);

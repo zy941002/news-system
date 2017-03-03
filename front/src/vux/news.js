@@ -4,7 +4,12 @@ import API from '../api/api.js'
 export default {
     state:{
         news:{
+            categories:[],
             title:"",
+            extra:{
+                cate:{},
+                user:{},
+            },
         },
     },
     mutations: {

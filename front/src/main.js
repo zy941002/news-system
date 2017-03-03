@@ -9,8 +9,6 @@ Vue.use(require('vue-resource'));
 import 'element-ui/lib/theme-default/index.css'
 import 'assets/less/CV.less'
 Vue.use(ElementUI)
-
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
