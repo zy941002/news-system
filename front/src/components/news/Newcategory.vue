@@ -37,7 +37,7 @@ export default {
     		}).then((res=>{
     			if(res.data.errno==0) {
             this.$message.success(`分类${this.form.name}增添成功`);
-            this.$store.dispatch(`SET_CATEGORY`);
+            this.$store.dispatch(`SET_CATEGORIES`);
             this.dialogFormVisible = false;
           }
     		}))

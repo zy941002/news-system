@@ -1,35 +1,24 @@
 'use strict';
+let moment = require('moment')
 export default class extends think.controller.base {
   async fetchAction(){
   	this.setCorsHeader();
-    let where = this.get()
-    console.log(news)
+    let where = this.get();
   	let news = await this.model(`news`).fetchNews(where);
     let __this = this;
     let promise = [];
-
-
-    news.forEach((item,index)=>{
+    news.forEach(async (item,index)=>{          
       promise.push(new Promise(async (resolve,reject)=>{    
-        let link = await __this.model(`news_cate`).where({news_id:item.id}).select(); 
-        
-        // 查询到所有分类
+        let link = await __this.model(`news_cate`).where({news_id:item.id}).select();
         link.forEach(async (item,index)=>{
-          let cate = "cate";
-          let data = await __this.model(`category`).where({id:item.cate_id}).select()
-            link[index][cate] = data[0]; 
+          let cate = "cate";          
+          let data = await __this.model(`category`).where({id:item.cate_id}).select()          
+              link[index][cate] = data[0]; 
         })
-
-        // unlink.forEach(async(item,index)=>{
-        //   let uncate = 'uncate';
-        //   let data = await __this.model(`category`).where({id:item.cate_id}).select();
-        //     unlink[index][uncate] = data[0]
-        // })        
         let user =await __this.model(`user`).where({id:item.author_id}).select();
         let res = {
           cate:link,
-          uncate: unlink,
-          user: user
+          user: user[0]
         }
         resolve(res)
       }))
@@ -46,21 +35,14 @@ export default class extends think.controller.base {
     this.setCorsHeader();
     let where = this.get();
     let affectedRows = await this.model(`news_cate`).where(where).delete();
-    console.log(affectedRows)
-
   }
-  // 获取分类：包括已选分类和未选分类
-  // async getcateAction(){
-  //   this.setCorsHeader();
-  //   let where = this.get();
-  //   let user = {};
-  //   let {id} = where;
-  //   if(id){
-  //     user.id = id
-  //   }
-  //   let data = await this.model(`category`).select();
-  //   return this.success(data)
-  // }
+
+  // 新增分类
+  async addCateAction(){
+    this.setCorsHeader();
+    let where = this.post();
+    console.log(where);
+  }
 
   // 删除新闻
   async removeAction(){
@@ -69,6 +51,27 @@ export default class extends think.controller.base {
     let id = this.get(`id`);
     let affectedRows = await model.where({id:id}).delete()
     return this.success(affectedRows);
+  }
+  async addnewsAction(){
+    this.setCorsHeader();
+    let model = this.model(`news`);    
+    let where =  this.post();
+    let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    let {id,title,content,pass,extra} =where;
+    console.log(where);
+    if(!think.isEmpty(id)){
+      let affectedRows = model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : parseInt(pass)});
+    }else{
+
+        let affectedRows = model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id})
+    }
+    // else{
+    //   console.log(`新增`);
+    //   let affectedRows = model.add({title:title,timeflag:now,content: content,pass : parseInt(pass)})
+    // }
+
+    return this.success('addnews')
+
   }
   setCorsHeader(){
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");

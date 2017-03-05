@@ -11,15 +11,14 @@ Vue.use(VueResource)
 const baseUrl = 'http://localhost:8360/'
 
 export default {
-	[FIND]:function(url,parms){
-		return Vue.resource(baseUrl+`${url}`).get(parms);
+	[FIND]:async function(url,parms){
+		return await Vue.resource(baseUrl+`${url}`).get(parms);
 	},
 	[UPDATE]:function(url,parms){
 		return Vue.resource(baseUrl+`${url}`).update(parms);
 	},
-	[POST]:function(url,parms){
-		console.log(Vue.resource.actions)
-		return Vue.resource(baseUrl+`${url}`).save(parms);
+	[POST]:async function(url,parms){
+		return await Vue.resource(baseUrl+`${url}`).save(parms);
 	},
 	[DELETE]:function(url,parms){
 		return Vue.resource(baseUrl+`${url}`).remove(parms)

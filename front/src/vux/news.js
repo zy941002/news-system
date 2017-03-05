@@ -6,8 +6,10 @@ export default {
         news:{
             categories:[],
             title:"",
+            pass:false,
+            content:"",
             extra:{
-                cate:{},
+                cate:[],
                 user:{},
             },
         },

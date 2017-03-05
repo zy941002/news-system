@@ -40,11 +40,11 @@ import { mapGetters } from 'vuex'
 export default {
 	name:"category",
 	mounted(){
-    this.$store.dispatch('SET_CATEGORY')
+    this.$store.dispatch('SET_CATEGORIES')
 	},
   computed: {
     ...mapGetters({
-      tableData: 'GET_CATEGORY'
+      tableData: 'GET_CATEGORIES'
     })
   },
   components:{
@@ -53,7 +53,7 @@ export default {
   methods:{
     handleDelete(index,data) {
       this.$http.delete(`http://localhost:8360/admin/category/${data.id}`).then((res)=>{
-         this.$store.dispatch(`SET_CATEGORY`)
+         this.$store.dispatch(`SET_CATEGORIES`)
       })
     }
   }
