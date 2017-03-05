@@ -7,3 +7,4 @@ test/e2e/reports
 selenium-debug.log
 server/www/static/
 server/node_modules/
+server/app
