@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="category-list">
   <newcategoy></newcategoy>
 	<el-table
     :data="tableData"
@@ -31,11 +31,13 @@
       </template>
     </el-table-column>
   </el-table>
+  <categorylist></categorylist>
   </div>
 </template>
 
 <script>
 import newcategoy from './Newcategory.vue'
+import categorylist from './Categorylist.vue'
 import { mapGetters } from 'vuex'
 export default {
 	name:"category",
@@ -49,6 +51,7 @@ export default {
   },
   components:{
     newcategoy,
+    categorylist
   },
   methods:{
     handleDelete(index,data) {
@@ -59,4 +62,8 @@ export default {
   }
 }
 </script>
-<style></style>
+<style scoped lang="less">
+.category-list{
+  width: 500px;
+}
+</style>

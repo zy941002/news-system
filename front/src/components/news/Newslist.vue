@@ -67,8 +67,8 @@ export default {
       this.$router.push({name:'newsdetail'})
     },
     handleEdit(index, data) {
-      this.$router.push({name:"newsdetail"});
-      this.$store.dispatch('SET_NEWS',{id:data.id})
+      this.$router.push({name:"newsdetail",query:{id:data.id}});
+      // this.$store.dispatch('SET_NEWS',{id:data.id})
     },
     handleDelete(index, row) {
       API.DELETE(`news/news/remove`,{id:row.id}).then((res)=>{

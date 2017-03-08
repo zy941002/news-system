@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <el-button type="primary" @click="goNew">添加用户</el-button>
     <el-table
@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import newuser from '../user/Newuser.vue'
+
 import * as TOOLS from '../../../src/js/tool.js'
 import API from '../../api/api.js'
   export default{
@@ -84,7 +84,7 @@ import API from '../../api/api.js'
         })
       },
       goNew(){
-        this.$router.push({name:'newuser'})
+        this.$router.push({name:'userdetail'})
       }
     },
   	data(){
@@ -97,9 +97,6 @@ import API from '../../api/api.js'
         this.$set(this,"users",res.data.data)		
   		})
   	},
-    components:{
-      newuser,
-    }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

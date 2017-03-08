@@ -1,15 +1,12 @@
 <template>
-  <div class="hello">
-		<!-- Form -->
+  <div>
 		<el-button type="text" @click="dialogFormVisible = true">新增分类</el-button>
-
 		<el-dialog title="新增分类" v-model="dialogFormVisible">
 		  <el-form :model="form">
 		    <el-form-item label="分类名称" :label-width="formLabelWidth">
 		      <el-input v-model="form.name" auto-complete="off"></el-input>
 		    </el-form-item>
-		  </el-form>
-		  
+		  </el-form>		  
 		  <div slot="footer" class="dialog-footer">
 		    <el-button @click="dialogFormVisible = false">取 消</el-button>
 		    <el-button type="primary" @click="addNew()">确 定</el-button>
@@ -47,5 +44,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
+.category-list{
+  width: 500px;
+}
 </style>

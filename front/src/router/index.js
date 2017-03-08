@@ -31,9 +31,9 @@ export default new Router({
           component: resolve => require(['../components/user/Userdetail.vue'], resolve)
         },
         {
-          path: 'newuser',
-          name: 'newuser',
-          component: resolve => require(['../components/user/Newuser.vue'], resolve)
+          path: 'userlist',
+          name: 'userlist',   
+          component: resolve => require(['../components/user/Userlist.vue'], resolve)
         },
         {
           path: 'newslist',

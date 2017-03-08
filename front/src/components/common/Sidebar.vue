@@ -29,14 +29,13 @@
         this.$store.dispatch(type);
       },
       handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+        this.$router.push({path:'userdetail',query:{id:JSON.parse(Storage.get('userInfo').id)}})
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
       goDetail(){
-        console.log('----')
-        this.$router.push({name:'userdetail',query:{id:JSON.parse(Storage.get('userInfo').id)}})
+        this.$router.push({path:'userdetail',query:{id:JSON.parse(Storage.get('userInfo').id)}})
       }
     }
   }

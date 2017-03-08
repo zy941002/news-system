@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; 
 let moment = require('moment')
 export default class extends think.controller.base {
   async fetchAction(){
@@ -7,6 +7,7 @@ export default class extends think.controller.base {
   	let news = await this.model(`news`).fetchNews(where);
     let __this = this;
     let promise = [];
+    
     news.forEach(async (item,index)=>{          
       promise.push(new Promise(async (resolve,reject)=>{    
         let link = await __this.model(`news_cate`).where({news_id:item.id}).select();
@@ -23,6 +24,7 @@ export default class extends think.controller.base {
         resolve(res)
       }))
     });
+    
     let results = await Promise.all(promise);
     news.map((item,index)=>{
       let extra = 'extra';
@@ -58,20 +60,52 @@ export default class extends think.controller.base {
     let where =  this.post();
     let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     let {id,title,content,pass,extra} =where;
-    console.log(where);
+    let cate = this.model(`news_cate`);
+    extra.cate.forEach(async (item,index)=>{
+      let affectedRows = await cate.add({news_id:id,cate_id:item.cate.id})
+    })
+    // // console.log(extra.cate);
     if(!think.isEmpty(id)){
-      let affectedRows = model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : parseInt(pass)});
+      console.log(Number(pass))
+      let affectedRows = model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : Number(pass)});
     }else{
-
         let affectedRows = model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id})
     }
-    // else{
-    //   console.log(`新增`);
-    //   let affectedRows = model.add({title:title,timeflag:now,content: content,pass : parseInt(pass)})
-    // }
 
     return this.success('addnews')
 
+  }
+  async categorylistAction(){
+    this.setCorsHeader();
+    let {id} = this.get();
+    let news = this.model(`news`);
+    let cate = this.model(`category`);
+    let cates = [];
+    let where = {}
+    if(id){
+      where = {
+        cate_id:id
+      }
+    }
+    cates = await this.model(`news_cate`).where(where).select();  
+    console.log(cates)
+    
+
+    let promise = [];    
+    cates.forEach((item,index)=>{
+      promise.push(new Promise(async (resolve,reject)=>{
+        let cateitem = await cate.where({id:item.cate_id}).select();
+        let newsitem = await news.where({id:item.news_id}).select();
+        let res = {
+          cate : cateitem[0],
+          news: newsitem[0]
+        }
+        resolve(res)
+      }))    
+    })
+
+    let data =await Promise.all(promise);    
+    return this.success(data)
   }
   setCorsHeader(){
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");

@@ -14,7 +14,7 @@
       <el-form-item label="点击量" prop="clicked">
         <el-input v-model="ruleForm.clicked"></el-input>
       </el-form-item>
-      
+
       <el-form-item label="审核状态">
         <el-switch on-text="通过" off-text="不通过" v-model="ruleForm.pass"></el-switch>
       </el-form-item>
@@ -29,7 +29,7 @@
         {{tag.cate.name}}
         </el-tag>
       </el-form-item>
-        
+
       <el-form-item label="新增分类" >
         <el-select  placeholder="请选择" v-model="newscate">
           <el-option
@@ -39,11 +39,9 @@
           </el-option>
         </el-select>
       </el-form-item>
-
       <el-form-item label="新闻内容">
-        <el-input type="textarea" id="editor" v-model="ruleForm.content"></el-input>
+        <el-input type="textarea" id="editor"></el-input>
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -60,31 +58,40 @@ import wangEditor from 'wangeditor'
 import storage from '../../js/storage.js'
 export default {
   mounted(){
+    let id = this.$route.query.id;
     let __this = this;
-    var editor = new wangEditor('editor');
+
+    API.FIND(`news/news/fetch`,{id:id}).then((res)=>{
+      
+      res.data.data[0].pass =   Boolean(res.data.data[0].pass);
+      
+      __this.$set(__this,'ruleForm',res.data.data[0])
+      
+      let editor = new wangEditor('editor');
         editor.config.uploadImgUrl = 'http://localhost:8360/admin/upload';
         editor.config.uploadImgFileName = 'image';
-        editor.config.uploadImgFns.onload = function (resultText, xhr) {
+      
+      editor.config.uploadImgFns.onload = function (resultText, xhr) {
         var originalName = editor.uploadImgOriginalName || '';  
         editor.command(null, 'insertHtml', '<img src="' + JSON.parse(resultText).src + '" alt="' + originalName + '" style="max-width:100%;"/>');
-    };
-    editor.config.uploadImgFns.ontimeout = function (xhr) {
+      };
+      
+      editor.config.uploadImgFns.ontimeout = function (xhr) {
         alert('上传超时');
-    };
-    editor.config.uploadImgFns.onerror = function (xhr) {
+      };
+      
+      editor.config.uploadImgFns.onerror = function (xhr) {
         alert('上传错误');
-    };
-    editor.onchange = function () {
-        __this.ruleForm.content=this.$txt.html();
-    };
-    editor.create();
-  },
-	computed: {
-    ruleForm(){
-      this.$store.state.news.news.pass=Boolean(this.$store.state.news.news.pass);
-      console.log(this.$store.state.news.news.content);
-      return this.$store.state.news.news
-    },
+      };
+      
+      editor.create();
+      
+      editor.onchange = function () {
+        __this.ruleForm.content = this.$txt.html();
+      };
+      
+      editor.$txt.html(__this.ruleForm.content);
+    })        
   },
   created(){
     API.FIND(`admin/category`).then((res)=>{
@@ -96,7 +103,6 @@ export default {
       API.FIND(`admin/category/${newVal}`).then(res=>{
         let hasin = false;
         let  cell = res.data.data;
-
         this.ruleForm.extra.cate.forEach((item,index)=>{
           if(item.cate.name==cell.name){
             this.$message({message:`该新闻已属于${item.cate.name}`,type:"error"});
@@ -114,13 +120,19 @@ export default {
     return {
       categories:[],
       newscate:'',
+      ruleForm:{
+        extra:{
+          cate:[],
+          user:""
+        }
+      },
       rules: {
         title:[
           {required:true,message:"请输入新闻标题"}
         ]
       }
       };
-    },
+    },  
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -141,7 +153,7 @@ export default {
       },
       handleClose(tag){
       API.DELETE(`news/news/delcate`,{news_id:tag.news_id,cate_id:tag.cate_id}).then((res)=>{})
-      this.$store.state.news.news.extra.cate.splice(this.$store.state.news.news.extra.cate.indexOf(tag), 1);
+      this.ruleForm.extra.cate.splice(this.ruleForm.extra.cate.indexOf(tag),1)
       }
     }
 }

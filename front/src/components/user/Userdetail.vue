@@ -57,6 +57,7 @@ import API from '../../api/api.js'
     data(){
       return {
         user:null,
+        ruleForm:{},
         fileList: [],
         rules: {
           name: [
@@ -71,12 +72,12 @@ import API from '../../api/api.js'
           ],
         }
       }
-    },    
-    computed:{
-      ...(mapGetters({
-        ruleForm:'GET_USER'
-      }))
-    },
+    }, 
+    mounted(){
+      API.FIND(`admin/user/fetchuser`,{id:this.$route.query.id}).then(res=>{
+        this.$set(this,`ruleForm`,res.data.data[0])
+      })
+    },   
     methods: {
       handleRemove(file, fileList) {
         console.log(file, fileList);
