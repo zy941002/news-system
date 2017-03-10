@@ -1,12 +1,10 @@
 .DS_Store
 node_modules/
-front/node_modules/
-server/node_modules/
 dist/
 npm-debug.log
-test/unit/coverage
-test/e2e/reports
-selenium-debug.log
+front/test/unit/coverage
+front/test/e2e/reports
+front/selenium-debug.log
 server/www/static/
 server/node_modules/
 server/app

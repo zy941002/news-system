@@ -35,6 +35,7 @@
           <el-option
             v-for="item in categories"
             :label="item.name"
+            :key = 'item'
             :value="item.id">
           </el-option>
         </el-select>

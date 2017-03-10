@@ -36,8 +36,7 @@ export default class extends think.controller.base {
     }
     else{  
       let params = this.post();
-      let id = this.post(`id`);
-      let model = this.model(`user`);
+      let {id}= params;
       let file = JSON.stringify(this.post(`file`));
       let user = this.model(`user`);
       let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
@@ -54,7 +53,7 @@ export default class extends think.controller.base {
   }
   async removeAction(){
     this.setCorsHeader();
-    let id = this.get(`id`);
+    let {id} = this.get();
     let model= this.model(`user`);
     let affectedRows = await model.where({id:id}).delete()
     return this.success(affectedRows);

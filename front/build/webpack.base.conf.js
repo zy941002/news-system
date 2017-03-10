@@ -1,15 +1,14 @@
 var path = require('path')
 var utils = require('./utils')
-var config = require('../config')
+var config = require('../../config/')
 var vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
-
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './front/src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -20,15 +19,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
-    modules: [
-      resolve('src'),
-      resolve('node_modules')
-    ],
     alias: {
-      'vue$': 'vue/dist/vue.common.js',
-      'src': resolve('src'),
-      'assets': resolve('src/assets'),
-      'components': resolve('src/components')
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
     }
   },
   module: {

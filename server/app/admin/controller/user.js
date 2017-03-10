@@ -148,7 +148,7 @@ var _class = function (_think$controller$bas) {
 
   _class.prototype.addAction = function () {
     var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-      var method, params, id, model, file, user, now, affectedRows, _affectedRows;
+      var method, params, id, file, user, now, affectedRows, _affectedRows;
 
       return _regenerator2.default.wrap(function _callee4$(_context4) {
         while (1) {
@@ -163,13 +163,12 @@ var _class = function (_think$controller$bas) {
 
               this.setCorsHeader();
               this.end();
-              _context4.next = 24;
+              _context4.next = 23;
               break;
 
             case 6:
               params = this.post();
-              id = this.post('id');
-              model = this.model('user');
+              id = params.id;
               file = (0, _stringify2.default)(this.post('file'));
               user = this.model('user');
               now = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
@@ -177,26 +176,26 @@ var _class = function (_think$controller$bas) {
               this.setCorsHeader();
 
               if (think.isEmpty(id)) {
-                _context4.next = 20;
+                _context4.next = 19;
                 break;
               }
 
-              _context4.next = 16;
+              _context4.next = 15;
               return user.where({ id: id }).update((0, _assign2.default)(params, { file: file }, { createTime: now }));
 
-            case 16:
+            case 15:
               affectedRows = _context4.sent;
               return _context4.abrupt('return', this.success(affectedRows));
 
-            case 20:
-              _context4.next = 22;
+            case 19:
+              _context4.next = 21;
               return user.add((0, _assign2.default)(params, { file: file }, { createTime: now }));
 
-            case 22:
+            case 21:
               _affectedRows = _context4.sent;
               return _context4.abrupt('return', this.success(_affectedRows));
 
-            case 24:
+            case 23:
             case 'end':
               return _context4.stop();
           }
@@ -213,13 +212,14 @@ var _class = function (_think$controller$bas) {
 
   _class.prototype.removeAction = function () {
     var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-      var id, model, affectedRows;
+      var _get, id, model, affectedRows;
+
       return _regenerator2.default.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
               this.setCorsHeader();
-              id = this.get('id');
+              _get = this.get(), id = _get.id;
               model = this.model('user');
               _context5.next = 5;
               return model.where({ id: id }).delete();

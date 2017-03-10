@@ -3,7 +3,7 @@
   <el-tag type="success">按分类查询</el-tag>
   <el-select v-model="category" placeholder="按分类查询">
     <el-option
-      v-for="item in categories"
+      v-for="item in categories":key="item.id"
       :label="item.name"
       :value="item.id">
     </el-option>
