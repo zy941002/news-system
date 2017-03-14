@@ -1,7 +1,7 @@
 <template>
-  <div @click="goDetail()">
-    {{user.name}}
-  </div>
+    <figure @click="goDetail()" >
+      <img :src="file.url" class="avatar">
+    </figure>
 </template>
 
 <script>
@@ -12,11 +12,15 @@
   	name:"manage",
   	data(){
   		return{
-  			user:null
+  			user:{},
+        file:{}
   		}
   	},
     created(){
+
       this.user = JSON.parse(Storage.get("userInfo"));
+      this.file = JSON.parse(this.user.file)
+    
     },
     methods:{
       goDetail(){
@@ -26,5 +30,14 @@
     }
   }
 </script>
-
+<style lang="less">
+  .avatar{
+    width: 50px;
+    height: 50px;
+    display: block;
+    border-radius: 50%;
+    // margin-left: 40px;
+    margin: 20px 0px 0 40px;
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

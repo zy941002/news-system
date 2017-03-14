@@ -14,13 +14,13 @@ export default {
 	[FIND]:async function(url,parms){
 		return await Vue.resource(baseUrl+`${url}`).get(parms);
 	},
-	[UPDATE]:function(url,parms){
-		return Vue.resource(baseUrl+`${url}`).update(parms);
+	[UPDATE]:async function(url,parms){
+		return await Vue.resource(baseUrl+`${url}`).update(parms);
 	},
 	[POST]:async function(url,parms){
 		return await Vue.resource(baseUrl+`${url}`).save(parms);
 	},
-	[DELETE]:function(url,parms){
-		return Vue.resource(baseUrl+`${url}`).remove(parms)
+	[DELETE]:async function(url,parms){
+		return await Vue.resource(baseUrl+`${url}`).remove(parms)
 	}
 }

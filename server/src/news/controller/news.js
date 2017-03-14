@@ -61,15 +61,23 @@ export default class extends think.controller.base {
     let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     let {id,title,content,pass,extra} =where;
     let cate = this.model(`news_cate`);
-    extra.cate.forEach(async (item,index)=>{
-      let affectedRows = await cate.add({news_id:id,cate_id:item.cate.id})
-    })
-    // // console.log(extra.cate);
+    
+
     if(!think.isEmpty(id)){
-      console.log(Number(pass))
-      let affectedRows = model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : Number(pass)});
+      console.log(`更行id`)
+      extra.cate.forEach(async (item,index)=>{
+        let affectedRows = await cate.add({news_id:id,cate_id:item.cate.id})
+      })
+
+      let affectedRows = await model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : Number(pass)});
+
     }else{
-        let affectedRows = model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id})
+
+        let resid = await model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id})  
+        extra.cate.forEach(async (item,index)=>{
+
+          let affectedRows = await cate.add({news_id:resid,cate_id:item.cate.id})
+        })
     }
 
     return this.success('addnews')

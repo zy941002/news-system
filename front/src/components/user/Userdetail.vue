@@ -1,63 +1,83 @@
 <template>
-  <div>
-    <el-upload
-    action="http://localhost:8360/admin/upload"
-    type="drag"
-    name="image"
-    :data="ruleForm"
-    :thumbnail-mode="true"
-    :on-preview="handlePreview"
-    :on-remove="handleRemove"
-    :default-file-list="fileList"
-    :multiple="false"
-    :on-success="setURL"
-    >        
-    <i class="el-icon-upload"></i>
-    <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
-    <div class="el-upload__tip" slot="tip" >点击上传头像</div>
-    </el-upload>
+  <div class="main">    
+    <el-breadcrumb separator="/" class="bread-crumb">
+      <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/userlist' }">用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户详情</el-breadcrumb-item>
+    </el-breadcrumb>
+    
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-form">
+        <div class="upload-avatar  pv-center">
+          <el-upload
+          action="http://localhost:8360/admin/upload"
+          type="drag"
+          name="image"
+          :data="ruleForm"
+          :on-preview="handlePreview"
 
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="用户名" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
-      </el-form-item>
+          :multiple="false"
+          :on-success="setURL"
+          >        
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <div class="el-upload__tip" slot="tip" >点击上传头像</div>
+          </el-upload>
+        </div>  
 
-      <el-form-item label="昵称" prop="nickname">
-        <el-input v-model="ruleForm.nickname"></el-input>
-      </el-form-item>
 
-      <el-form-item label="邮寄地址" prop="address">
-        <el-input v-model="ruleForm.address"></el-input>
-      </el-form-item>
+        <div class="user-item">
+          <el-form-item label="用户名" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
 
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="ruleForm.email"></el-input>
-      </el-form-item>
+          <el-form-item label="昵称" prop="nickname">
+            <el-input v-model="ruleForm.nickname"></el-input>
+          </el-form-item>
 
-      <el-form-item label="用户类型" prop="type">
-        <el-select v-model="ruleForm.type">
-          <el-option label="普通用户" value="0"></el-option>
-          <el-option label="管理员" value="1"></el-option>
-          <el-option label="超级管理员" value="2"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
+          <el-form-item label="邮寄地址" prop="address">
+            <el-input v-model="ruleForm.address"></el-input>
+          </el-form-item>
+
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="ruleForm.email"></el-input>
+          </el-form-item>
+
+          <el-form-item label="用户类型" prop="type">
+            <el-select v-model="ruleForm.type">
+              <el-option label="普通用户" value="0"></el-option>
+              <el-option label="管理员" value="1"></el-option>
+              <el-option label="超级管理员" value="2"></el-option>
+            </el-select>
+          </el-form-item>
+
+          
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button @click="resetForm('ruleForm')">重置</el-button>
+          </el-form-item>
+
+        </div>
     </el-form>
   </div>
 </template>
 <script type="text/javascript">
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import * as getters from '../../vux/user.js'
 import API from '../../api/api.js'
+import * as Util from '../../assets/js/util.js'
   export default {
     name:'userdetail',
     data(){
       return {
         user:null,
-        ruleForm:{},
+        imageUrl: '',
+        ruleForm:{
+          name:"",
+          nickname:"",
+          address:"",
+          email:"",
+          type:"",          
+        },
         fileList: [],
         rules: {
           name: [
@@ -74,8 +94,13 @@ import API from '../../api/api.js'
       }
     }, 
     mounted(){
-      API.FIND(`admin/user/fetchuser`,{id:this.$route.query.id}).then(res=>{
-        this.$set(this,`ruleForm`,res.data.data[0])
+      let params = {},id="";
+      this.$route.query.id?params ={id:this.$route.query.id}:params={id:0}
+      API.FIND(`admin/user/fetchuser`,params).then(res=>{
+        if(res.data.data[0]){
+          this.$set(this,'imageUrl',JSON.parse(res.data.data[0].file).url)
+          this.$set(this,`ruleForm`,res.data.data[0])  
+        }        
       })
     },   
     methods: {
@@ -88,13 +113,20 @@ import API from '../../api/api.js'
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.$store.state.file)
             let file = {file:this.$store.state.file}
             let params = Object.assign(this.ruleForm,this.$store.state.file)
+
             API.POST(`admin/user/add`,params).then((res)=>{
+              if(res.data.data){
+                this.$message({
+                  message:"添加成功",
+                  type:"success"
+                })
+              }
               this.$store.dispatch('SET_USER',{id: res.data.data})
             })
           } else {
+            this.$message()
             console.log('error submit!!');  
             return false;
           }
@@ -105,13 +137,45 @@ import API from '../../api/api.js'
       },
       setURL(res, file, fileList){
         let data = {
-          url : res.src,
+          url : res.url,
           name : res.originalFilename
         }
-        this.fileList.push(data)
+        this.imageUrl = data.url;
         this.$store.dispatch('SET_FILE',res)
       }
     }
   };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="less">
+@import url('../../assets/less/CV.less');
+  .avatar-uploader-icon {
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    border-radius: 50%;
+    color: @Gray;
+    border: 1px solid @Gray;
+  }
+  .avatar {
+    width: 150px;
+    height: 150px;
+  }
+  .user-form{
+    width: 70%;
+  }
+  .upload-avatar{
+    text-align: center;
+    width: 200px;
+    margin: 50px 0 0 40px;
+    line-height: 32px;
+  }
+  .el-form-item{
+    margin-left: 300px;
+    margin-top: 20px;
+  }
+  .user-item{
+    margin-top:-200px;
+  }
+
+</style>

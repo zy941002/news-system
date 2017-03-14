@@ -1,7 +1,5 @@
-<template>
-  <div id="admin">
+<template> 
   	<sidebar></sidebar>
-  </div>
 </template>
 
 <script>

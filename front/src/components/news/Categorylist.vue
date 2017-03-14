@@ -1,13 +1,14 @@
 <template>
-  <div id="admin">
-  <el-tag type="success">按分类查询</el-tag>
-  <el-select v-model="category" placeholder="按分类查询">
-    <el-option
-      v-for="item in categories":key="item.id"
-      :label="item.name"
-      :value="item.id">
-    </el-option>
-  </el-select>
+  <div class="">
+    <el-select v-model="category" placeholder="按分类查询">
+      <el-option
+        v-for="item in categories":key="item.id"
+        :label="item.name"
+        :value="item.id">
+      </el-option>
+    </el-select>
+  
+  
   <el-table
       :data="tableData"
       style="width: 100%">
@@ -45,7 +46,6 @@ export default{
     API.FIND(`admin/category`).then((res)=>{
       this.$set(this,'categories',res.data.data)
     })
-
   },
   data(){
     return {

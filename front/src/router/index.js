@@ -21,11 +21,6 @@ export default new Router({
       component: Admin,
       children: [
         {
-          path: 'manage',
-          name: 'manage',
-          component: resolve => require(['../components/admin/Manage.vue'], resolve)
-        },
-        {
           path: 'userdetail',
           name: 'userdetail',   
           component: resolve => require(['../components/user/Userdetail.vue'], resolve)
@@ -54,6 +49,11 @@ export default new Router({
           path: 'newsdetail',
           name: 'newsdetail',
           component: resolve => require(['../components/news/Newsdetail.vue'], resolve)
+        },
+        {
+          path:'analysis',
+          name:'analysis',
+          component: resolve => require(['../components/analysis/Analysis.vue'], resolve)
         },
         {
           path: '*',

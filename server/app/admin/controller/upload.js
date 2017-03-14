@@ -61,7 +61,7 @@ var _class = function (_Base) {
 
 							think.mkdir(uploadPath);
 							basename = path.basename(filepath);
-							fileInfo = (0, _assign2.default)(file, { src: "http://localhost:8360/static/" + basename });
+							fileInfo = (0, _assign2.default)(file, { url: "http://localhost:8360/static/" + basename });
 
 							fs.renameSync(filepath, uploadPath + '/' + basename);
 							file.path = uploadPath + '/' + basename;

@@ -1,5 +1,10 @@
   <template>
-  <div>
+  <div class="main">
+    <el-breadcrumb separator="/" class="bread-crumb">
+      <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+    </el-breadcrumb>
+    
     <el-button type="primary" @click="goNew">添加用户</el-button>
     <el-table
       :data="users"
@@ -26,7 +31,7 @@
       <el-table-column
         prop="email"
         label="邮箱"
-        width="120">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="address"
@@ -35,19 +40,24 @@
       </el-table-column>
 
       <el-table-column
-        prop="type"
         label="类型"
         width="120">
-      </el-table-column>      
+        <template scope="scope">
+          <div v-if="scope.row.type==0">普通用户</div>
+          <div v-if="scope.row.type==1">管理员</div>
+          <div v-if="scope.row.type==2">超级管理员</div>
+        </template>
+      </el-table-column> 
+
       <el-table-column
         label="操作"
-        width="100">
+        width="150">
         <template scope="scope">
-          <el-button @click="edit(scope.$index,scope.row)" type="text" size="small">编辑</el-button>
-          <el-button @click="deleteUser(scope.$index,scope.row)"type="text" size="small">删除</el-button>
-        
+          <el-button @click="edit(scope.$index,scope.row)" type="button" size="small">编辑</el-button>
+          <el-button @click="deleteUser(scope.$index,scope.row)"type="danger" size="small">删除</el-button>        
         </template>
       </el-table-column>
+
     </el-table>
   </div>
 </template>

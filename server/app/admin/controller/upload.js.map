@@ -18,7 +18,7 @@
         "mkdir",
         "basename",
         "fileInfo",
-        "src",
+        "url",
         "renameSync",
         "isFile",
         "pics",
@@ -33,6 +33,6 @@
     "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAEA;;;;;;AACA,IAAIA,KAAKC,QAAQ,IAAR,CAAT;AACA,IAAIC,OAAOD,QAAQ,MAAR,CAAX;;;;;;;;;;kBAGOE,W;;;;;;;WACEC,MAAMC,OAAN,CAAc,KAAKC,IAAL,CAAU,OAAV,CAAd,C;;;;;AACCA,W,GAAQF,MAAMG,MAAN,CAAa,EAAb,EAAiB,KAAKD,IAAL,CAAU,OAAV,CAAjB,C;AACXE,e,GAAWF,KAAKJ,I;AAChBO,iB,GAAaL,MAAMM,aAAN,GAAsB,S;;AACvCN,aAAMO,KAAN,CAAYF,UAAZ;AACIG,e,GAAWV,KAAKU,QAAL,CAAcJ,QAAd,C;AACXK,e,GAAW,sBAAcP,IAAd,EAAmB,EAACQ,KAAI,kCAAgCF,QAArC,EAAnB,C;;AACfZ,UAAGe,UAAH,CAAcP,QAAd,EAAwBC,aAAa,GAAb,GAAmBG,QAA3C;AACAN,YAAKJ,IAAL,GAAYO,aAAa,GAAb,GAAmBG,QAA/B;;YACGR,MAAMY,MAAN,CAAaV,KAAKJ,IAAlB,C;;;;;AACEe,W,GAAO,KAAKC,KAAL,Q;;cACcD,KAAKE,GAAL,CAASN,QAAT,C;;;AAArBO,mB;wCACO,KAAKC,IAAL,CAAUR,QAAV,C;;;AAEPS,eAAQC,GAAR,CAAY,WAAZ;;;wCAGI,KAAKC,IAAL,CAAU,MAAV,C",
     "file": "../../../src/admin/controller/upload.js",
     "sourcesContent": [
-        "'use strict';\n\nimport Base from '../../common/base/base.js';\nvar fs = require('fs');\nvar path = require('path');\n\nexport default class extends Base {\n\tasync indexAction(){\n\t   \tif(!think.isEmpty(this.file('image'))){\n\t\t   \tvar file =  think.extend({}, this.file('image'));\t\n\t\t\tvar filepath = file.path;\n\t\t\tvar uploadPath = think.RESOURCE_PATH + '/static';\n\t\t\tthink.mkdir(uploadPath);\n\t\t\tvar basename = path.basename(filepath);\n\t\t\tlet fileInfo = Object.assign(file,{src:\"http://localhost:8360/static/\"+basename})\n\t\t\tfs.renameSync(filepath, uploadPath + '/' + basename);\n\t\t\tfile.path = uploadPath + '/' + basename;\n\t\t\tif(think.isFile(file.path)){\n\t\t\t\tlet pics = this.model(`file`)\n\t\t\t\tlet affectedRows = await pics.add(fileInfo)\n\t\t      return this.json(fileInfo)\n\t\t    }else{\n\t\t      console.log('not exist')\n\t\t    }\n   \t\t}\t           \t\n    \treturn this.fail(\"参数错误\");\n  \t}\n}"
+        "'use strict';\n\nimport Base from '../../common/base/base.js';\nvar fs = require('fs');\nvar path = require('path');\n\nexport default class extends Base {\n\tasync indexAction(){\n\t   \tif(!think.isEmpty(this.file('image'))){\n\t\t   \tvar file =  think.extend({}, this.file('image'));\t\n\t\t\tvar filepath = file.path;\n\t\t\tvar uploadPath = think.RESOURCE_PATH + '/static';\n\t\t\tthink.mkdir(uploadPath);\n\t\t\tvar basename = path.basename(filepath);\n\t\t\tlet fileInfo = Object.assign(file,{url:\"http://localhost:8360/static/\"+basename})\n\t\t\tfs.renameSync(filepath, uploadPath + '/' + basename);\n\t\t\tfile.path = uploadPath + '/' + basename;\n\t\t\tif(think.isFile(file.path)){\n\t\t\t\tlet pics = this.model(`file`)\n\t\t\t\tlet affectedRows = await pics.add(fileInfo)\n\t\t      return this.json(fileInfo)\n\t\t    }else{\n\t\t      console.log('not exist')\n\t\t    }\n   \t\t}\t           \t\n    \treturn this.fail(\"参数错误\");\n  \t}\n}"
     ]
 }

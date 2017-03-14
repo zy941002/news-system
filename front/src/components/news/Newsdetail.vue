@@ -1,6 +1,6 @@
 <template>
-  <div id="admin">
-    <el-breadcrumb separator="/">
+  <div class="main">
+    <el-breadcrumb separator="/" class="bread-crumb">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/newslist' }">新闻列表</el-breadcrumb-item>
       <el-breadcrumb-item>新闻详情</el-breadcrumb-item>
@@ -12,15 +12,15 @@
       </el-form-item>
 
       <el-form-item label="点击量" prop="clicked">
-        <el-input v-model="ruleForm.clicked"></el-input>
+        <el-input v-model="ruleForm.clicked":disabled="true"></el-input>
       </el-form-item>
 
       <el-form-item label="审核状态">
         <el-switch on-text="通过" off-text="不通过" v-model="ruleForm.pass"></el-switch>
       </el-form-item>
-
       <el-form-item label="分类于">
-        <el-tag
+        <div v-if="ruleForm.extra.cate.length>0">
+          <el-tag
           v-for="tag in ruleForm.extra.cate"
           :closable="true"
           :key='tag'
@@ -28,6 +28,11 @@
         >
         {{tag.cate.name}}
         </el-tag>
+        </div>
+
+        <div v-else>
+          <el-tag>暂无分类</el-tag>
+        </div>        
       </el-form-item>
 
       <el-form-item label="新增分类" >
@@ -59,22 +64,23 @@ import wangEditor from 'wangeditor'
 import storage from '../../js/storage.js'
 export default {
   mounted(){
-    let id = this.$route.query.id;
+    let id = this.$route.query.id?this.$route.query.id:-1;
     let __this = this;
 
     API.FIND(`news/news/fetch`,{id:id}).then((res)=>{
+      if(res.data.data.length>0){
+        res.data.data[0].pass =   Boolean(res.data.data[0].pass);  
+        __this.$set(__this,'ruleForm',res.data.data[0])
+      }
       
-      res.data.data[0].pass =   Boolean(res.data.data[0].pass);
-      
-      __this.$set(__this,'ruleForm',res.data.data[0])
-      
+    
       let editor = new wangEditor('editor');
         editor.config.uploadImgUrl = 'http://localhost:8360/admin/upload';
         editor.config.uploadImgFileName = 'image';
       
       editor.config.uploadImgFns.onload = function (resultText, xhr) {
         var originalName = editor.uploadImgOriginalName || '';  
-        editor.command(null, 'insertHtml', '<img src="' + JSON.parse(resultText).src + '" alt="' + originalName + '" style="max-width:100%;"/>');
+        editor.command(null, 'insertHtml', '<img src="' + JSON.parse(resultText).url + '" alt="' + originalName + '" style="max-width:100%;"/>');
       };
       
       editor.config.uploadImgFns.ontimeout = function (xhr) {
@@ -122,6 +128,7 @@ export default {
       categories:[],
       newscate:'',
       ruleForm:{
+        title:"",
         extra:{
           cate:[],
           user:""
@@ -138,8 +145,8 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            let user = JSON.parse(storage.get(`userInfo`));
-            Object.assign(this.ruleForm.extra.user,user);
+            this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
+            console.log(this.ruleForm.extra)
             API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
               console.log(res)
             })
@@ -153,8 +160,8 @@ export default {
         this.$refs[formName].resetFields();
       },
       handleClose(tag){
-      API.DELETE(`news/news/delcate`,{news_id:tag.news_id,cate_id:tag.cate_id}).then((res)=>{})
-      this.ruleForm.extra.cate.splice(this.ruleForm.extra.cate.indexOf(tag),1)
+        API.DELETE(`news/news/delcate`,{news_id:tag.news_id,cate_id:tag.cate_id}).then((res)=>{})
+          this.ruleForm.extra.cate.splice(this.ruleForm.extra.cate.indexOf(tag),1)
       }
     }
 }

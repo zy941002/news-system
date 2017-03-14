@@ -24,6 +24,7 @@
     "moment": "^2.17.1",
     "net": "^1.0.2",
     "vue": "^2.1.10",
+    "vue-echarts": "^2.3.3",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",
     "vuex": "^2.2.1",

@@ -1,6 +1,6 @@
 <template>
   <div>
-		<el-button type="text" @click="dialogFormVisible = true">新增分类</el-button>
+		<el-button type="primary"  @click="dialogFormVisible = true">新增分类</el-button>
 		<el-dialog title="新增分类" v-model="dialogFormVisible">
 		  <el-form :model="form">
 		    <el-form-item label="分类名称" :label-width="formLabelWidth">

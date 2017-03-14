@@ -1,6 +1,6 @@
 //获取单例
 export const getSingle = function(fn){
-    var result;
+    let result;
     return function (){
         return result || (result=fn.apply(this,arguments));
     };

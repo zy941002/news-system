@@ -25,6 +25,7 @@ export default{
     actions:{
 	    async [SET_USER]({ state, commit, rootState },param){
 	    	await API.FIND(`admin/user/fetchuser`,param).then(res => {
+                console.log(res.data)
 				commit('SET_USER',res.data.data[0]);
 			},err=>{
 				console.log(res)

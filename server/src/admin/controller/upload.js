@@ -12,7 +12,7 @@ export default class extends Base {
 			var uploadPath = think.RESOURCE_PATH + '/static';
 			think.mkdir(uploadPath);
 			var basename = path.basename(filepath);
-			let fileInfo = Object.assign(file,{src:"http://localhost:8360/static/"+basename})
+			let fileInfo = Object.assign(file,{url:"http://localhost:8360/static/"+basename})
 			fs.renameSync(filepath, uploadPath + '/' + basename);
 			file.path = uploadPath + '/' + basename;
 			if(think.isFile(file.path)){

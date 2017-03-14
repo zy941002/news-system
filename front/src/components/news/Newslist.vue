@@ -1,5 +1,10 @@
 <template>
-  <div id="admin">
+  <div class="main">
+    <el-breadcrumb separator="/" class="bread-crumb">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/newslist' }">新闻列表</el-breadcrumb-item>
+    </el-breadcrumb>
+
     <el-button type="primary" @click="goNew">添加新闻</el-button>    
   	<el-table
     :data="tableData"
@@ -71,9 +76,30 @@ export default {
       // this.$store.dispatch('SET_NEWS',{id:data.id})
     },
     handleDelete(index, row) {
-      API.DELETE(`news/news/remove`,{id:row.id}).then((res)=>{
-        this.$store.dispatch('SET_NEWS')
-      })
+      this.$confirm('此操作将永久删除该新闻, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          API.DELETE(`news/news/remove`,{id:row.id}).then((res)=>{
+            this.tableData.splice(index,1);
+            // this.$store.dispatch('SET_NEWS')
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      
+
+
+
+      
     }
   }
 }
