@@ -124,6 +124,7 @@ import * as Util from '../../assets/js/util.js'
                 })
               }
               this.$store.dispatch('SET_USER',{id: res.data.data})
+              this.$router.replace({path:'/admin/'})
             })
           } else {
             this.$message()

@@ -22,6 +22,9 @@
       this.file = JSON.parse(this.user.file)
     
     },
+    mounted(){
+      
+    },
     methods:{
       goDetail(){
         this.$store.dispatch('SET_USER',{id:this.user.id})

@@ -1,6 +1,6 @@
 'use strict'
 export const FIND = `FIND`
-export const UPDATE = `PUT`
+export const PUT = `PUT`
 export const DELETE = `DELETE`
 export const POST =	`POST`
 
@@ -14,7 +14,7 @@ export default {
 	[FIND]:async function(url,parms){
 		return await Vue.resource(baseUrl+`${url}`).get(parms);
 	},
-	[UPDATE]:async function(url,parms){
+	[PUT]:async function(url,parms){
 		return await Vue.resource(baseUrl+`${url}`).update(parms);
 	},
 	[POST]:async function(url,parms){

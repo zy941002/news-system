@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-tag type="success">图片预览</el-tag>
     <el-carousel :interval="4000" type="card" height="200px">
       <el-carousel-item v-for="item in pics" :key='item'>
         <img :src="item.url">      
@@ -30,8 +29,12 @@ export default{
       }
     },
     mounted(){
-      API.FIND(`admin/config`).then((res)=>{
-        this.pics = res.data.data
+      API.FIND(`admin/config/`).then((res)=>{
+        this.pics = res.data.data.filter((item,index)=>{
+          if(item.type==0){
+            return item
+          }
+        })
      })
     },
     methods:{

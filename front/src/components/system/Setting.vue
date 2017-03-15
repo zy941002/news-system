@@ -10,7 +10,7 @@
 			<indexpic></indexpic>      
 	    </el-tab-pane>
 	    <el-tab-pane label="友链管理" name="second">
-	      <!-- <categorylist></categorylist> -->
+	    	<links></links>
 	    </el-tab-pane>
   </el-tabs>
 
@@ -19,6 +19,7 @@
 
 <script>
 import indexpic from '../admin/Indexpic.vue'
+import Links from './Links.vue'
 export default {
 	data(){
 		return{
@@ -26,7 +27,8 @@ export default {
 		}
 	},
 	components:{
-		indexpic
+		indexpic,
+		Links
 	}
 }
 </script>
