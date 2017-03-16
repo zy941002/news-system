@@ -3,7 +3,7 @@
     <el-breadcrumb separator="/" class="bread-crumb">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/userlist' }">用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户详情</el-breadcrumb-item>
+      <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
     </el-breadcrumb>
     
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-form">
@@ -67,6 +67,15 @@ import API from '../../api/api.js'
 import * as Util from '../../assets/js/util.js'
   export default {
     name:'userdetail',
+    computed:{
+      status(){
+        if(this.$route.query.id){
+          return "更新用户"
+        }else{
+          return "新增用户"
+        }
+      }
+    },
     data(){
       return {
         user:null,

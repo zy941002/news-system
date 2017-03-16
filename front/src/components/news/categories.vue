@@ -17,6 +17,7 @@
       <el-table-column
         label="分类名称"
         width="180">
+        
         <template scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
         </template>
@@ -48,9 +49,25 @@ export default {
   },
   methods:{
     handleDelete(index,data) {
-      this.$http.delete(`http://localhost:8360/admin/category/${data.id}`).then((res)=>{
-         this.$store.dispatch(`SET_CATEGORIES`)
-      })
+      this.$confirm('确定删除该分类, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).
+      then(() => {
+        this.$http.delete(`http://localhost:8360/admin/category/${data.id}`).then((res)=>{
+           this.$store.dispatch(`SET_CATEGORIES`)
+        })}).
+      catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+
+
+      
     }
   }
 }

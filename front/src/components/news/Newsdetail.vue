@@ -3,7 +3,7 @@
     <el-breadcrumb separator="/" class="bread-crumb">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/newslist' }">新闻列表</el-breadcrumb-item>
-      <el-breadcrumb-item>新闻详情</el-breadcrumb-item>
+      <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -20,14 +20,14 @@
       </el-form-item>
       <el-form-item label="分类于">
         <div v-if="ruleForm.extra.cate.length>0">
-          <el-tag
-          v-for="tag in ruleForm.extra.cate"
-          :closable="true"
-          :key='tag'
-          @close="handleClose(tag)"
-        >
-        {{tag.cate.name}}
-        </el-tag>
+            <el-tag
+            v-for="tag in ruleForm.extra.cate"
+            :closable="true"
+            :key='tag'
+            @close="handleClose(tag)"
+          >
+            {{tag.cate.name}}
+          </el-tag>
         </div>
 
         <div v-else>
@@ -63,6 +63,15 @@ import API from '../../api/api.js'
 import wangEditor from 'wangeditor'
 import storage from '../../js/storage.js'
 export default {
+  computed:{
+      status(){
+        if(this.$route.query.id){
+          return "更新新闻"
+        }else{
+          return "新增新闻"
+        }
+      }
+    },
   mounted(){
     let id = this.$route.query.id?this.$route.query.id:-1;
     let __this = this;
@@ -146,9 +155,9 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
-            console.log(this.ruleForm.extra)
+            console.log(this.ruleForm.extra.cate.cate)
             API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
-              console.log(res)
+              
             })
           } else {
             console.log('error submit!!');

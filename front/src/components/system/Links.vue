@@ -1,14 +1,13 @@
 <template> 
 	<div>
 		<el-dialog :title="status" v-model="dialogTableVisible">
-
 		<el-form  :model="curLink" class="demo-form-inline">
 			<el-form-item label="网站名称">
-		    	<el-input  v-model="curLink.name"placeholder="审批人"></el-input>
+		    	<el-input  v-model="curLink.name"placeholder="网站名称"></el-input>
 		  	</el-form-item>
 
 		  <el-form-item label="网站链接">
-		    <el-input  v-model="curLink.url"placeholder="审批人"></el-input>
+		    <el-input  v-model="curLink.url"placeholder="网站链接"></el-input>
 		  </el-form-item>
  			
  			<el-button type="primary" @click="addLink">保存</el-button>
@@ -16,7 +15,7 @@
 		  
 		  </el-form>
 		</el-dialog>
-		
+		<el-button type="primary" @click="addLink">新增</el-button>
 		<el-table
     		:data="tableData"
     		border
@@ -50,7 +49,6 @@
 		          @click="handleDelete(scope.row , scope.$index)">删除</el-button>
 		      </template>
 		    </el-table-column>
-  			<el-button type="primary" @click="addLink">新增</el-button>
   		</el-table>
   		
 	</div>

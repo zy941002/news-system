@@ -143,7 +143,6 @@ var _class = function (_think$controller$bas) {
                   return _ref2.apply(this, arguments);
                 };
               }());
-
               _context4.next = 10;
               return _promise2.default.all(promise);
 
@@ -277,11 +276,10 @@ var _class = function (_think$controller$bas) {
               cate = this.model('news_cate');
 
               if (think.isEmpty(id)) {
-                _context10.next = 14;
+                _context10.next = 13;
                 break;
               }
 
-              console.log('\u66F4\u884Cid');
               extra.cate.forEach(function () {
                 var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(item, index) {
                   var affectedRows;
@@ -290,7 +288,7 @@ var _class = function (_think$controller$bas) {
                       switch (_context8.prev = _context8.next) {
                         case 0:
                           _context8.next = 2;
-                          return cate.add({ news_id: id, cate_id: item.cate.id });
+                          return cate.thenAdd({ news_id: id, cate_id: item.cate.id }, { news_id: id, cate_id: item.cate.id });
 
                         case 2:
                           affectedRows = _context8.sent;
@@ -308,19 +306,19 @@ var _class = function (_think$controller$bas) {
                 };
               }());
 
-              _context10.next = 11;
+              _context10.next = 10;
               return model.where({ id: id }).update({ title: title, timeflag: now, content: content, pass: Number(pass) });
 
-            case 11:
+            case 10:
               affectedRows = _context10.sent;
-              _context10.next = 18;
+              _context10.next = 17;
               break;
 
-            case 14:
-              _context10.next = 16;
+            case 13:
+              _context10.next = 15;
               return model.add({ title: title, timeflag: now, content: content, pass: parseInt(pass), author_id: extra.user.id });
 
-            case 16:
+            case 15:
               resid = _context10.sent;
 
               extra.cate.forEach(function () {
@@ -349,10 +347,10 @@ var _class = function (_think$controller$bas) {
                 };
               }());
 
-            case 18:
+            case 17:
               return _context10.abrupt('return', this.success('addnews'));
 
-            case 19:
+            case 18:
             case 'end':
               return _context10.stop();
           }
@@ -371,7 +369,7 @@ var _class = function (_think$controller$bas) {
     var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
       var _this4 = this;
 
-      var _get, id, news, cate, cates, where, promise, data;
+      var _get, id, news, cate, cates, promise, where, data;
 
       return _regenerator2.default.wrap(function _callee12$(_context12) {
         while (1) {
@@ -381,7 +379,7 @@ var _class = function (_think$controller$bas) {
               _get = this.get(), id = _get.id;
               news = this.model('news');
               cate = this.model('category');
-              cates = [];
+              cates = [], promise = [];
               where = {};
 
               if (id) {
@@ -395,9 +393,6 @@ var _class = function (_think$controller$bas) {
             case 9:
               cates = _context12.sent;
 
-              console.log(cates);
-
-              promise = [];
 
               cates.forEach(function (item, index) {
                 promise.push(new _promise2.default(function () {
@@ -438,14 +433,14 @@ var _class = function (_think$controller$bas) {
                 }()));
               });
 
-              _context12.next = 15;
+              _context12.next = 13;
               return _promise2.default.all(promise);
 
-            case 15:
+            case 13:
               data = _context12.sent;
               return _context12.abrupt('return', this.success(data));
 
-            case 17:
+            case 15:
             case 'end':
               return _context12.stop();
           }

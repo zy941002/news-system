@@ -34,7 +34,7 @@ export default{
           if(item.type==0){
             return item
           }
-        })
+        })    
      })
     },
     methods:{

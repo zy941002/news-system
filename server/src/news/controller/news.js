@@ -23,8 +23,7 @@ export default class extends think.controller.base {
         }
         resolve(res)
       }))
-    });
-    
+    });    
     let results = await Promise.all(promise);
     news.map((item,index)=>{
       let extra = 'extra';
@@ -45,7 +44,6 @@ export default class extends think.controller.base {
     let where = this.post();
     console.log(where);
   }
-
   // 删除新闻
   async removeAction(){
     this.setCorsHeader();
@@ -61,12 +59,9 @@ export default class extends think.controller.base {
     let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     let {id,title,content,pass,extra} =where;
     let cate = this.model(`news_cate`);
-    
-
     if(!think.isEmpty(id)){
-      console.log(`更行id`)
       extra.cate.forEach(async (item,index)=>{
-        let affectedRows = await cate.add({news_id:id,cate_id:item.cate.id})
+        let affectedRows = await cate.thenAdd({news_id:id,cate_id:item.cate.id},{news_id:id,cate_id:item.cate.id})
       })
 
       let affectedRows = await model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : Number(pass)});
@@ -75,9 +70,9 @@ export default class extends think.controller.base {
 
         let resid = await model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id})  
         extra.cate.forEach(async (item,index)=>{
-
           let affectedRows = await cate.add({news_id:resid,cate_id:item.cate.id})
         })
+
     }
 
     return this.success('addnews')
@@ -88,7 +83,7 @@ export default class extends think.controller.base {
     let {id} = this.get();
     let news = this.model(`news`);
     let cate = this.model(`category`);
-    let cates = [];
+    let cates = [],promise = [];    
     let where = {}
     if(id){
       where = {
@@ -96,10 +91,7 @@ export default class extends think.controller.base {
       }
     }
     cates = await this.model(`news_cate`).where(where).select();  
-    console.log(cates)
     
-
-    let promise = [];    
     cates.forEach((item,index)=>{
       promise.push(new Promise(async (resolve,reject)=>{
         let cateitem = await cate.where({id:item.cate_id}).select();
