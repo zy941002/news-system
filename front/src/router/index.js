@@ -4,12 +4,17 @@ import NotFound from '../components/common/NotFound.vue'
 import Admin from '../components/admin/index.vue'
 import Init from '../components/common/Init.vue'
 import Login from '../components/admin/Login.vue'
+
 Vue.use(Router)
 export default new Router({
   routes: [
     {
       path: '/init',
       component: Init
+    },
+    {
+      path: '/index',
+      component: resolve => require(['../components/index/Index.vue'],resolve)
     },
     {
       path: "/login",
