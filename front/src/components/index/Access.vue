@@ -2,8 +2,8 @@
 	<div>		
   		<aside class="access-panle" :class="{'show':showAccess}">
 		  <el-tabs v-model="active">
-		    <el-tab-pane label="登录" name="first">用户管理</el-tab-pane>
-		    <el-tab-pane label="注册" name="second">配置管理</el-tab-pane>
+		    <el-tab-pane label="登录" name="first"><login @hideAccess="hideAccess"></login></el-tab-pane>
+		    <el-tab-pane label="注册" name="second"><register></register></el-tab-pane>
 		  </el-tabs>
   		</aside>
   </div>
@@ -11,6 +11,8 @@
 </template>
 <script>
 import API from '../../api/api.js'
+import login from './Login.vue'
+import register from './Regeister.vue'
 export default{
 	data(){
 		return {
@@ -26,7 +28,17 @@ export default{
 		},
 		showLists(){
 			this.showList = !this.showList
+		},
+		hideAccess(){
+			console.log("-------------")
+			let res = this.$emit("hideAccess");
 		}
+
+
+	},
+	components:{
+		login,
+		register
 	}
 
 }

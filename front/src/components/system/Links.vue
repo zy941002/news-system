@@ -80,7 +80,6 @@ export default {
   },
   mounted(){
   	API.FIND(`admin/config`).then(res=>{
-  		console.log(res.data.data)
   		this.tableData = res.data.data.filter((item,index)=>{
   			if(item.type == 1){
   				return item

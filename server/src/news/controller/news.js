@@ -9,26 +9,50 @@ export default class extends think.controller.base {
     let promise = [];
     
     news.forEach(async (item,index)=>{          
-      promise.push(new Promise(async (resolve,reject)=>{    
-        let link = await __this.model(`news_cate`).where({news_id:item.id}).select();
+      
+      promise.push(new Promise(async (resolve,reject)=>{            
+        // 查找评论
+        let cmt = await __this.model(`comments`).where({newsid:item.id}).select();
+
+        cmt.forEach(async (item,index)=>{
+          let user = `user`
+          let cmtuser = await __this.model(`user`).where({id:item.userid}).select();
+              cmt[index][user] = cmtuser[0];                 
+        })
+
+        //查找分类    
+        let link = await __this.model(`news_cate`).where({news_id:item.id}).select()
         link.forEach(async (item,index)=>{
           let cate = "cate";          
           let data = await __this.model(`category`).where({id:item.cate_id}).select()          
               link[index][cate] = data[0]; 
         })
-        let user =await __this.model(`user`).where({id:item.author_id}).select();
+
+        
+        // 查找作者
+        let user =await __this.model(`user`).where({id:item.author_id}).select(); 
+        
+
         let res = {
           cate:link,
-          user: user[0]
+          user: user[0],
+          comment: cmt
         }
         resolve(res)
       }))
     });    
+    
     let results = await Promise.all(promise);
+
+
     news.map((item,index)=>{
       let extra = 'extra';
       return item[extra] = results[index]
     })
+
+
+
+
   	return this.success(news);
   }
   // 删除分类

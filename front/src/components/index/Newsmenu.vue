@@ -1,19 +1,24 @@
 <template>
   <div class="menu-list" :class="{'trans-right':showList}">
-  	全部
-   <div v-for="category in categories">
-   	{{category.name}}
-   </div >
+  	<div class="sign-icon phv-center">
+  		<i class="fa fa-sign-in icon" aria-hidden="true"></i>
+  		<span class="txt-info">登录</span>
+  	</div>   	
+   	<dl >
+		<dt v-for="category in categories" class="tag">
+			<span @click="goCategory(category.id)">{{category.name}}</span>
+		</dt>
+   	</dl>
   </div>
 </template>
 <script>
 import API from '../../api/api.js'
 export default{
 	props:['showList'],
+	name:"Menus",
 	mounted(){
 		API.FIND(`admin/category`).then(res=>{
 			this.$set(this,"categories",res.data.data)
-			console.log(res.data.data)
 		})
 	},
 	data(){
@@ -21,11 +26,16 @@ export default{
 			categories:[]
 		}
 	},
+	methods:{
+		goCategory(id){
+			let res = this.$emit("hideMenus",id);
+		}
+	}
 }
 </script>
 <style lang="less" scoped>
 @import url('../../assets/less/CV.less');
-.menu-list{
+.menu-list {
 	width: 300px;
 	background: @ColorF;
 	position: absolute;
@@ -34,5 +44,23 @@ export default{
 	left: -300px;
 	transition: all .3s ease;
 	bottom: 0;
+}
+.sign-icon {
+	color:@Tipred;
+	height: 60px;
+	border-bottom: 1px solid @Gray;
+	padding: 0 20px;
+	.txt-info{
+		color:black;
+	}
+}
+.tag{
+	display: inline-block;
+	padding: 0 9px;
+	margin: 0 4px;
+	overflow: hidden;
+}
+.tag:nth-child(2){
+	border:1px solid black;
 }
 </style>

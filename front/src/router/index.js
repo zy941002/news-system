@@ -14,8 +14,18 @@ export default new Router({
     },
     {
       path: '/index',
-      component: resolve => require(['../components/index/Index.vue'],resolve)
-    },
+      component: resolve => require(['../components/index/Index.vue'],resolve),
+      children: [
+        {
+          path: 'category',
+          component: resolve => require(['../components/index/Category.vue'],resolve)
+        },
+        {
+          path: 'newsdetail',
+          component: resolve=>require(['../components/index/Newsdetail.vue'],resolve)
+        }
+      ]
+    },    
     {
       path: "/login",
       component: Login

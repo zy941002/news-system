@@ -1,9 +1,4 @@
 'use strict';
-/**
- * logic
- * @param  {} []
- * @return {}     []
- */
 
 exports.__esModule = true;
 
@@ -29,10 +24,6 @@ var _class = function (_think$logic$base) {
     return (0, _possibleConstructorReturn3.default)(this, _think$logic$base.apply(this, arguments));
   }
 
-  /**
-   * index action logic
-   * @return {} []
-   */
   _class.prototype.indexAction = function indexAction() {};
 
   return _class;

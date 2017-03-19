@@ -1,57 +1,18 @@
 <template>
-  <div class="news-index">
-    <newsmenu :showList='showList'></newsmenu>    
-    
-    <div :class="{'trans-left':showAccess,'trans-right':showList}" class="news-title pv-center"> 
-      <i class="fa fa-list icon list-icon her-center"  aria-hidden="true" @click="showLists"></i>
-        <h1>Incredible</h1>
-        <i class="fa fa-user-o icon access-icon her-center"  aria-hidden="true" @click="access"></i>
-    </div>
-
-    <access :showAccess="showAccess"></access>    
-    
-    <div :class="{'cover':coverFlag}" @click="showCover"></div>
-
+  <div>
+    <newsheader></newsheader>
+    <router-view></router-view>
+    <backbutton></backbutton>
   </div>
-
 </template>
 <script>
 import API from '../../api/api.js'
 import newsheader from './Newsheader.vue'
-import access from './Access.vue' 
-import newsmenu from './Newsmenu.vue'
+import backbutton from './Backbutton.vue'
 export default{
-  data(){
-    return {
-      showAccess: false,
-      showList: false,      
-      coverFlag: false,
-      active: "first",
-    }
-  },
-  methods:{
-    access(){
-      this.showAccess = !this.showAccess
-      this.coverFlag = true;
-    },
-    showCover(){
-      this.coverFlag =!this.coverFlag      
-      if(this.showAccess){
-        this.showAccess = !this.showAccess        
-      }
-      if(this.showLists){
-        this.showList = !this.showLists
-      }
-    },
-    showLists(){
-      this.showList = !this.showList
-      this.coverFlag = true;
-    }
-  },
   components:{
     newsheader,
-    access,
-    newsmenu
+    backbutton
   }
 }
 </script>

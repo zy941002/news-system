@@ -23,24 +23,24 @@ export default {
         }
     },
     getters:{
-    	[GET_CATEGORY](state) {
-    		return state.category
-    	},    	
+        [GET_CATEGORY](state) {
+            return state.category
+        },      
         [GET_CATEGORIES](state) {
             return state.categories
         }
     },
     actions:{
-	    async [SET_CATEGORY]({ state, commit, rootState }){
-	    	await API.FIND(`news/news/getcate`).then(res => {
-				commit('SET_CATEGORY',res.data.data);
-			},err=>{
-				console.log(res)
-			})
-	    },
-	    [GET_CATEGORY](state,category){
-	    	return state.category
-	    },
+        async [SET_CATEGORY]({ state, commit, rootState }){
+            await API.FIND(`news/news/getcate`).then(res => {
+                commit('SET_CATEGORY',res.data.data);
+            },err=>{
+                console.log(res)
+            })
+        },
+        [GET_CATEGORY](state,category){
+            return state.category
+        },
         async [SET_CATEGORIES]({ state, commit, rootState }){
             await API.FIND(`admin/category`).then(res => {
                 commit(`SET_CATEGORIES`,res.data.data)

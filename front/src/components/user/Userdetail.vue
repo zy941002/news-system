@@ -81,11 +81,11 @@ import * as Util from '../../assets/js/util.js'
         user:null,
         imageUrl: '',
         ruleForm:{
-          name:"",
-          nickname:"",
-          address:"",
-          email:"",
-          type:"",          
+          name: "",
+          nickname: "",
+          address: "",
+          email: "",
+          type: 0,          
         },
         fileList: [],
         rules: {
