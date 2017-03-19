@@ -78,6 +78,7 @@
     "shelljs": "^0.7.6",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
+    "thinkjs": "^2.2.17",
     "url-loader": "^0.5.7",
     "vue-loader": "^10.3.0",
     "vue-style-loader": "^2.0.0",
