@@ -1,7 +1,4 @@
 'use strict';
-/**
- * model
- */
 
 exports.__esModule = true;
 
@@ -37,17 +34,20 @@ var _class = function (_think$model$base) {
 
 	_class.prototype.fetchNews = function () {
 		var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(where) {
+			var pageNum, data;
 			return _regenerator2.default.wrap(function _callee$(_context) {
 				while (1) {
 					switch (_context.prev = _context.next) {
 						case 0:
-							_context.next = 2;
-							return this.model('news').where(where).select();
-
-						case 2:
-							return _context.abrupt('return', _context.sent);
+							pageNum = where.pageNum;
+							_context.next = 3;
+							return this.model('news').page([pageNum, 10]).countSelect();
 
 						case 3:
+							data = _context.sent;
+							return _context.abrupt('return', data);
+
+						case 5:
 						case 'end':
 							return _context.stop();
 					}

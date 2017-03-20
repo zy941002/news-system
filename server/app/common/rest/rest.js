@@ -1,10 +1,4 @@
-// +----------------------------------------------------------------------
-// | NEWS [ 新闻网站管理系统 ]
-// +----------------------------------------------------------------------
-// | Copyright (c) inkzhou@gmail.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: zhouying <inkzhou@gmail.com>
-// +----------------------------------------------------------------------
+
 'use strict';
 
 exports.__esModule = true;
@@ -35,14 +29,9 @@ var _class = function (_think$controller$res) {
     return (0, _possibleConstructorReturn3.default)(this, _think$controller$res.apply(this, arguments));
   }
 
-  /**
-   * index action logic
-   * @return {} []
-   */
   _class.prototype.init = function init(http) {
     _think$controller$res.prototype.init.call(this, http);
-    //设置 _method，表示从 GET 参数获取 _method 字段的值
-    //如果没有取到，则从 http method 中获取
+
     this._method = "_method";
   };
 
@@ -100,24 +89,25 @@ var _class = function (_think$controller$res) {
             pk = _context2.sent;
             data = this.post();
 
+            console.log(data);
             delete data[pk];
 
             if (!think.isEmpty(data)) {
-              _context2.next = 7;
+              _context2.next = 8;
               break;
             }
 
             return _context2.abrupt("return", this.fail("data is empty"));
 
-          case 7:
-            _context2.next = 9;
+          case 8:
+            _context2.next = 10;
             return this.modelInstance.add(data);
 
-          case 9:
+          case 10:
             insertId = _context2.sent;
             return _context2.abrupt("return", this.success({ id: insertId }));
 
-          case 11:
+          case 12:
           case "end":
             return _context2.stop();
         }
@@ -207,8 +197,6 @@ var _class = function (_think$controller$res) {
       }
     }, putAction, this);
   });
-
-  // 找不到方法时调用
 
   _class.prototype.__before = function __before() {
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");

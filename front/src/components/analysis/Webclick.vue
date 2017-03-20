@@ -8,7 +8,6 @@
 let ECharts = require('vue-echarts/components/ECharts.vue') 
 import Vue from 'vue'
 Vue.component('chart',ECharts)
-import * as TOOLS from '../../../src/js/tool.js'
 import API from '../../api/api.js'
 export default {
   data: function () {

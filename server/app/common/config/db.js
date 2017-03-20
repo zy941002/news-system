@@ -1,15 +1,11 @@
 'use strict';
-/**
- * db config
- * @type {Object}
- */
 
 exports.__esModule = true;
 exports.default = {
   type: 'mysql',
   adapter: {
     mysql: {
-      host: '127.0.0.1',
+      host: 'localhost',
       port: '3306',
       database: 'news',
       user: 'root',

@@ -22,12 +22,6 @@ import newsheader from './Newsheader.vue'
 import access from './Access.vue' 
 import newsmenu from './Newsmenu.vue'
 export default{
-  created(){
-    this.$on("hideMenus",(arg)=>{
-      // console.log()
-      console.log(arg)
-    })
-  },
   data(){
     return {
       showAccess: false,

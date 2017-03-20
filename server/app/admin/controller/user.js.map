@@ -20,37 +20,32 @@
         "get",
         "fetchuser",
         "json",
-        "loginAction",
-        "post",
-        "think",
-        "isEmpty",
-        "fail",
-        "errorno",
         "addAction",
         "method",
         "http",
         "toLowerCase",
         "end",
         "params",
+        "post",
         "id",
         "file",
         "user",
         "now",
         "Date",
         "format",
+        "think",
+        "isEmpty",
         "update",
         "createTime",
         "affectedRows",
         "add",
         "removeAction",
         "delete",
-        "header",
-        "controller",
-        "base"
+        "header"
     ],
-    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAEA,IAAIA,KAAKC,QAAQ,IAAR,CAAT;AACA,IAAIC,OAAOD,QAAQ,MAAR,CAAX;AACA,IAAIE,SAASF,QAAQ,QAAR,CAAb;AACA,IAAIG,OAAOH,QAAQ,MAAR,CAAX;;;;;;;;;;mBAGQI,W;;;;;;;AACJ,mBAAKC,aAAL;;qBACiB,KAAKC,KAAL,SAAmBC,MAAnB,E;;;AAAbC,kB;+CACG,KAAKC,OAAL,CAAaD,IAAb,C;;;;;;;;;;;;;;;;;mBAEHE,e;;;;;;;AACJ,mBAAKL,aAAL;AACIM,mB,GAAQ,KAAKC,GAAL,E;;qBACK,KAAKN,KAAL,SAAmBO,SAAnB,CAA6BF,KAA7B,C;;;AAAbH,kB;gDACG,KAAKM,IAAL,CAAU,EAACN,MAAKA,IAAN,EAAV,C;;;;;;;;;;;;;;;;;mBAEHO,W;;;;;;;AACF,mBAAKV,aAAL;AACIM,mB,GAAQ,KAAKK,IAAL,E;;qBACI,KAAKV,KAAL,SAAmBK,KAAnB,CAAyBA,KAAzB,EAAgCJ,MAAhC,E;;;AAAZC,kB;;mBACDS,MAAMC,OAAN,CAAcV,IAAd,C;;;;;gDACM,KAAKW,IAAL,CAAU,EAACC,SAAQ,CAAC,CAAV,EAAV,EAAuB,UAAvB,C;;;gDAGA,KAAKX,OAAL,CAAaD,IAAb,C;;;;;;;;;;;;;;;;;mBAGPa,S;;;;;;;;AACAC,oB,GAAS,KAAKC,IAAL,CAAUD,MAAV,CAAiBE,WAAjB,E;;oBACVF,WAAW,S;;;;;AACZ,mBAAKjB,aAAL;AACA,mBAAKoB,GAAL;;;;;AAGIC,oB,GAAS,KAAKV,IAAL,E;AACRW,gB,GAAKD,M,CAALC,E;AACDC,kB,GAAO,yBAAe,KAAKZ,IAAL,QAAf,C;AACPa,kB,GAAO,KAAKvB,KAAL,Q;AACPwB,iB,GAAO5B,OAAO,IAAI6B,IAAJ,EAAP,EAAmBC,MAAnB,CAA0B,qBAA1B,C;;AACX,mBAAK3B,aAAL;;kBACIY,MAAMC,OAAN,CAAcS,EAAd,C;;;;;;qBACuBE,KAAKlB,KAAL,CAAW,EAACgB,IAAGA,EAAJ,EAAX,EAAoBM,MAApB,CAA2B,sBAAcP,MAAd,EAAqB,EAACE,MAAKA,IAAN,EAArB,EAAiC,EAACM,YAAWJ,GAAZ,EAAjC,CAA3B,C;;;AAArBK,0B;gDACG,KAAK1B,OAAL,CAAa0B,YAAb,C;;;;qBAGkBN,KAAKO,GAAL,CAAS,sBAAcV,MAAd,EAAqB,EAACE,MAAKA,IAAN,EAArB,EAAiC,EAACM,YAAWJ,GAAZ,EAAjC,CAAT,C;;;AAArBK,2B;gDACG,KAAK1B,OAAL,CAAa0B,aAAb,C;;;;;;;;;;;;;;;;;mBAIPE,Y;;;;;;;;AACJ,mBAAKhC,aAAL;qBACW,KAAKO,GAAL,E,EAANe,E,QAAAA,E;AACDrB,mB,GAAO,KAAKA,KAAL,Q;;qBACcA,MAAMK,KAAN,CAAY,EAACgB,IAAGA,EAAJ,EAAZ,EAAqBW,MAArB,E;;;AAArBH,0B;gDACG,KAAK1B,OAAL,CAAa0B,YAAb,C;;;;;;;;;;;;;;;;;mBAET9B,a,4BAAe;AACb,SAAKkC,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EA1D0BtB,MAAMuB,UAAN,CAAiBC,I",
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAMA;;;;;;AAJA,IAAIA,KAAKC,QAAQ,IAAR,CAAT;AACA,IAAIC,OAAOD,QAAQ,MAAR,CAAX;AACA,IAAIE,SAASF,QAAQ,QAAR,CAAb;AACA,IAAIG,OAAOH,QAAQ,MAAR,CAAX;;;;;;;;;;mBAIQI,W;;;;;;;AACJ,mBAAKC,aAAL;;qBACiB,KAAKC,KAAL,SAAmBC,MAAnB,E;;;AAAbC,kB;+CACG,KAAKC,OAAL,CAAaD,IAAb,C;;;;;;;;;;;;;;;;;mBAEHE,e;;;;;;;AACJ,mBAAKL,aAAL;AACIM,mB,GAAQ,KAAKC,GAAL,E;;qBACK,KAAKN,KAAL,SAAmBO,SAAnB,CAA6BF,KAA7B,C;;;AAAbH,kB;gDACG,KAAKM,IAAL,CAAU,EAACN,MAAKA,IAAN,EAAV,C;;;;;;;;;;;;;;;;;mBAEHO,S;;;;;;;;AACAC,oB,GAAS,KAAKC,IAAL,CAAUD,MAAV,CAAiBE,WAAjB,E;;oBACVF,WAAW,S;;;;;AACZ,mBAAKX,aAAL;AACA,mBAAKc,GAAL;;;;;AAGIC,oB,GAAS,KAAKC,IAAL,E;AACRC,gB,GAAKF,M,CAALE,E;AACDC,kB,GAAO,yBAAe,KAAKF,IAAL,QAAf,C;AACPG,kB,GAAO,KAAKlB,KAAL,Q;AACPmB,iB,GAAOvB,OAAO,IAAIwB,IAAJ,EAAP,EAAmBC,MAAnB,CAA0B,qBAA1B,C;;AACX,mBAAKtB,aAAL;;kBACIuB,MAAMC,OAAN,CAAcP,EAAd,C;;;;;;qBACuBE,KAAKb,KAAL,CAAW,EAACW,IAAGA,EAAJ,EAAX,EAAoBQ,MAApB,CAA2B,sBAAcV,MAAd,EAAqB,EAACG,MAAKA,IAAN,EAArB,EAAiC,EAACQ,YAAWN,GAAZ,EAAjC,CAA3B,C;;;AAArBO,0B;gDACG,KAAKvB,OAAL,CAAauB,YAAb,C;;;;qBAGkBR,KAAKS,GAAL,CAAS,sBAAcb,MAAd,EAAqB,EAACG,MAAKA,IAAN,EAArB,EAAiC,EAACQ,YAAWN,GAAZ,EAAjC,CAAT,C;;;AAArBO,2B;gDACG,KAAKvB,OAAL,CAAauB,aAAb,C;;;;;;;;;;;;;;;;;mBAIPE,Y;;;;;;;;AACJ,mBAAK7B,aAAL;qBACW,KAAKO,GAAL,E,EAANU,E,QAAAA,E;AACDhB,mB,GAAO,KAAKA,KAAL,Q;;qBACcA,MAAMK,KAAN,CAAY,EAACW,IAAGA,EAAJ,EAAZ,EAAqBa,MAArB,E;;;AAArBH,0B;gDACG,KAAKvB,OAAL,CAAauB,YAAb,C;;;;;;;;;;;;;;;;;mBAET3B,a,4BAAe;AACb,SAAK+B,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G",
     "file": "../../../src/admin/controller/user.js",
     "sourcesContent": [
-        "'use strict';\n\nvar fs = require('fs');\nvar path = require('path');\nlet moment = require('moment')\nlet util = require('util')\n\nexport default class extends think.controller.base {\n  async indexAction() {\n    this.setCorsHeader()\n    let data = await this.model(`user`).select();\n    return this.success(data)\n  }\n  async fetchuserAction(){\n    this.setCorsHeader();\n    let where = this.get();\n    let data = await this.model(`user`).fetchuser(where);\n    return this.json({data:data})\n  }\n  async loginAction() {  \n      this.setCorsHeader();\n      let where = this.post();      \n      let data =await this.model(`user`).where(where).select();\n      if(think.isEmpty(data)){\n        return this.fail({errorno:-1},\"用户名或密码错误\")  \n      }\n      else{\n        return this.success(data)\n      }\n  }\n  async addAction(){\n    let method = this.http.method.toLowerCase();\n    if(method === 'options'){\n      this.setCorsHeader()\n      this.end();\n    }\n    else{  \n      let params = this.post();\n      let {id}= params;\n      let file = JSON.stringify(this.post(`file`));\n      let user = this.model(`user`);\n      let now =  moment(new Date()).format(\"YYYY-MM-DD HH:mm:ss\");\n      this.setCorsHeader();\n      if(!think.isEmpty(id)){\n        let affectedRows = await user.where({id:id}).update(Object.assign(params,{file:file},{createTime:now}));\n        return this.success(affectedRows);\n      }\n      else{\n        let affectedRows = await user.add(Object.assign(params,{file:file},{createTime:now}));\n        return this.success(affectedRows);\n      }\n    }\n  }\n  async removeAction(){\n    this.setCorsHeader();\n    let {id} = this.get();\n    let model= this.model(`user`);\n    let affectedRows = await model.where({id:id}).delete()\n    return this.success(affectedRows);\n  }\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}"
+        "'use strict';\n\nvar fs = require('fs');\nvar path = require('path');\nlet moment = require('moment')\nlet util = require('util')\nimport Base from './base.js';\n\nexport default class extends Base{\n  async indexAction() {\n    this.setCorsHeader()\n    let data = await this.model(`user`).select();\n    return this.success(data)\n  }\n  async fetchuserAction(){\n    this.setCorsHeader();\n    let where = this.get();\n    let data = await this.model(`user`).fetchuser(where);\n    return this.json({data:data})\n  }\n  async addAction(){\n    let method = this.http.method.toLowerCase();\n    if(method === 'options'){\n      this.setCorsHeader()\n      this.end();\n    }\n    else{  \n      let params = this.post();\n      let {id}= params;\n      let file = JSON.stringify(this.post(`file`));\n      let user = this.model(`user`);\n      let now =  moment(new Date()).format(\"YYYY-MM-DD HH:mm:ss\");\n      this.setCorsHeader();\n      if(!think.isEmpty(id)){\n        let affectedRows = await user.where({id:id}).update(Object.assign(params,{file:file},{createTime:now}));\n        return this.success(affectedRows);\n      }\n      else{\n        let affectedRows = await user.add(Object.assign(params,{file:file},{createTime:now}));\n        return this.success(affectedRows);\n      }\n    }\n  }\n  async removeAction(){\n    this.setCorsHeader();\n    let {id} = this.get();\n    let model= this.model(`user`);\n    let affectedRows = await model.where({id:id}).delete()\n    return this.success(affectedRows);\n  }\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}"
     ]
 }

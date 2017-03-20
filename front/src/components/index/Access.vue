@@ -30,7 +30,6 @@ export default{
 			this.showList = !this.showList
 		},
 		hideAccess(){
-			console.log("-------------")
 			let res = this.$emit("hideAccess");
 		}
 

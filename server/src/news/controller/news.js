@@ -4,11 +4,12 @@ export default class extends think.controller.base {
   async fetchAction(){
   	this.setCorsHeader();
     let where = this.get();
+    
   	let news = await this.model(`news`).fetchNews(where);
     let __this = this;
     let promise = [];
     
-    news.forEach(async (item,index)=>{          
+    news.data.forEach(async (item,index)=>{          
       
       promise.push(new Promise(async (resolve,reject)=>{            
         // 查找评论
@@ -23,7 +24,7 @@ export default class extends think.controller.base {
         //查找分类    
         let link = await __this.model(`news_cate`).where({news_id:item.id}).select()
         link.forEach(async (item,index)=>{
-          let cate = "cate";          
+          let cate = "cate";     
           let data = await __this.model(`category`).where({id:item.cate_id}).select()          
               link[index][cate] = data[0]; 
         })
@@ -45,7 +46,7 @@ export default class extends think.controller.base {
     let results = await Promise.all(promise);
 
 
-    news.map((item,index)=>{
+    news.data.map((item,index)=>{
       let extra = 'extra';
       return item[extra] = results[index]
     })
@@ -87,20 +88,19 @@ export default class extends think.controller.base {
       extra.cate.forEach(async (item,index)=>{
         let affectedRows = await cate.thenAdd({news_id:id,cate_id:item.cate.id},{news_id:id,cate_id:item.cate.id})
       })
-
       let affectedRows = await model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : Number(pass)});
 
     }else{
-
-        let resid = await model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id})  
-        extra.cate.forEach(async (item,index)=>{
-          let affectedRows = await cate.add({news_id:resid,cate_id:item.cate.id})
-        })
-
-    }
-
-    return this.success('addnews')
-
+        try{
+           await model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id});
+            extra.cate.forEach(async (item,index)=>{
+              let affectedRows = await cate.add({news_id:resid,cate_id:item.cate.id})
+            }) 
+           return this.success(`添加新闻成功`)
+        }catch(err){
+            return this.fail(err)
+        } 
+      }
   }
   async categorylistAction(){
     this.setCorsHeader();

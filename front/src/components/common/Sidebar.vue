@@ -6,12 +6,12 @@
         	<Usericon></Usericon>
           <el-menu-item index="analysis"><i class="el-icon-star-on"></i>走势分析  </el-menu-item>
         	<el-menu-item index="userlist"><i class="el-icon-star-on"></i>用户管理</el-menu-item>
-          <el-menu-item index="newslist"><i class="el-icon-menu"></i>新闻管理</el-menu-item>
+          <el-menu-item index="newspanle"><i class="el-icon-menu"></i>新闻管理</el-menu-item>
           <el-menu-item index="category"><i class="el-icon-setting"></i>分类管理</el-menu-item>
           <el-menu-item index="setting" ><i class="el-icon-setting"></i>系统设置</el-menu-item>
         </el-menu>
       </el-col>
-      <div> LOG OUT</div>
+      <div><el-button type="primary" @click="logout"><i class="fa fa-sign-out" aria-hidden="true"></i></el-button></div>
     </el-row>
     <router-view></router-view>
   </div>
@@ -35,6 +35,10 @@
       },
       goDetail(){
         this.$router.push({path:'userdetail',query:{id:JSON.parse(Storage.get('userInfo').id)}})
+      },
+      logout(){
+        Storage.delete(`userInfo`);
+        this.$router.push({path:'/login'})
       }
     }
   }

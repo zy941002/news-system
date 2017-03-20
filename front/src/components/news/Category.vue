@@ -14,9 +14,7 @@
     <el-tab-pane label="列表查询" name="second">
       <categorylist></categorylist>
     </el-tab-pane>
-  </el-tabs>
-  
-  
+   </el-tabs>
   </div>
 </template>
 
@@ -35,11 +33,6 @@ export default {
 	mounted(){
     this.$store.dispatch('SET_CATEGORIES')
 	},
-  // computed: {
-  //   ...mapGetters({
-  //     tableData: 'GET_CATEGORIES'
-  //   })
-  // },
   components:{
     newcategoy,
     categorylist,

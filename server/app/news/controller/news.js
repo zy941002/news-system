@@ -59,7 +59,7 @@ var _class = function (_think$controller$bas) {
               promise = [];
 
 
-              news.forEach(function () {
+              news.data.forEach(function () {
                 var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(item, index) {
                   return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -190,7 +190,7 @@ var _class = function (_think$controller$bas) {
               results = _context5.sent;
 
 
-              news.map(function (item, index) {
+              news.data.map(function (item, index) {
                 var extra = 'extra';
                 return item[extra] = results[index];
               });
@@ -305,7 +305,7 @@ var _class = function (_think$controller$bas) {
     var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
       var _this3 = this;
 
-      var model, where, now, id, title, content, pass, extra, cate, affectedRows, resid;
+      var model, where, now, id, title, content, pass, extra, cate, affectedRows;
       return _regenerator2.default.wrap(function _callee11$(_context11) {
         while (1) {
           switch (_context11.prev = _context11.next) {
@@ -347,22 +347,20 @@ var _class = function (_think$controller$bas) {
                   return _ref10.apply(this, arguments);
                 };
               }());
-
               _context11.next = 10;
               return model.where({ id: id }).update({ title: title, timeflag: now, content: content, pass: Number(pass) });
 
             case 10:
               affectedRows = _context11.sent;
-              _context11.next = 17;
+              _context11.next = 23;
               break;
 
             case 13:
-              _context11.next = 15;
+              _context11.prev = 13;
+              _context11.next = 16;
               return model.add({ title: title, timeflag: now, content: content, pass: parseInt(pass), author_id: extra.user.id });
 
-            case 15:
-              resid = _context11.sent;
-
+            case 16:
               extra.cate.forEach(function () {
                 var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(item, index) {
                   var affectedRows;
@@ -388,16 +386,19 @@ var _class = function (_think$controller$bas) {
                   return _ref11.apply(this, arguments);
                 };
               }());
+              return _context11.abrupt('return', this.success('\u6DFB\u52A0\u65B0\u95FB\u6210\u529F'));
 
-            case 17:
-              return _context11.abrupt('return', this.success('addnews'));
+            case 20:
+              _context11.prev = 20;
+              _context11.t0 = _context11['catch'](13);
+              return _context11.abrupt('return', this.fail(_context11.t0));
 
-            case 18:
+            case 23:
             case 'end':
               return _context11.stop();
           }
         }
-      }, _callee11, this);
+      }, _callee11, this, [[13, 20]]);
     }));
 
     function addnewsAction() {

@@ -1,8 +1,11 @@
 export default {
   set: (key, data) => {
-    localStorage.setItem(key, data);
+    window.sessionStorage.setItem(key, data);
   },
-  get: (key) => {
-    return localStorage.getItem(key);
+  get: (key) =>	{
+    return window.sessionStorage.getItem(key);
+  },
+  delete:(key)=>{
+  	window.sessionStorage.removeItem(key)
   }
 }

@@ -18,6 +18,7 @@
 </template>
 <script>
 import Storage from '../../assets/js/storage.js'
+import API from '../../api/api.js'
   export default{
     name:"login",
     data(){
@@ -57,20 +58,34 @@ import Storage from '../../assets/js/storage.js'
       submitForm(formName){
         this.$refs[formName].validate((valid)=>{
           if (valid){
-            this.$http.post(`http://localhost:8360/admin/user/login`,{
+            API.POST(`admin/user/login`,{
               name : this.ruleForm.username,
               password: this.ruleForm.password
-            }).then( (res)=> {
+            }).then(res=>{
               if(res.data.errorno<0 ){
                 this.$message.error('用户名或密码错误')
                 return;
-              }
-              else if(res.data.data[0][`type`]===1){
-
+              }else if(res.data.data[0][`type`]===1){
                 this.$message.success("欢迎登录本系统");
                 let res = this.$emit("hideAccess");
               }
             })
+
+
+            // this.$http.post(`http://localhost:8360/admin/user/login`,{
+            //   name : this.ruleForm.username,
+            //   password: this.ruleForm.password
+            // }).then( (res)=> {
+            //   if(res.data.errorno<0 ){
+            //     this.$message.error('用户名或密码错误')
+            //     return;
+            //   }
+            //   else if(res.data.data[0][`type`]===1){
+
+            //     this.$message.success("欢迎登录本系统");
+            //     let res = this.$emit("hideAccess");
+            //   }
+            // })
           }
           else{
             this.$message.error('请正确填写表单信息');

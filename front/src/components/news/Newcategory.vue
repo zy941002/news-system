@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import API from '../../api/api.js'
 export default {
   name: 'newcategory',
    data() {
@@ -28,15 +29,27 @@ export default {
     },
     methods: {
     	addNew: function() {
-    		this.$http.post(`http://localhost:8360/admin/category`,{
-    			name:this.form.name
-    		}).then((res=>{
-    			if(res.data.errno==0) {
+        API.POST(`admin/category`,{
+          name:this.form.name
+        }).then(res=>{
+          if(res.data.errno==0) {
             this.$message.success(`分类${this.form.name}增添成功`);
             this.$store.dispatch(`SET_CATEGORIES`);
             this.dialogFormVisible = false;
           }
-    		}))
+
+        })
+
+    		// this.$http.post(`http://localhost:8360/admin/category`,{
+    		// 	name:this.form.name
+    		// }).then((res=>{
+    		// 	if(res.data.errno==0) {
+      //       this.$message.success(`分类${this.form.name}增添成功`);
+      //       this.$store.dispatch(`SET_CATEGORIES`);
+      //       this.dialogFormVisible = false;
+      //     }
+    		// }))
+
     	}
     }
 }

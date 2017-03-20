@@ -7,6 +7,7 @@ import Login from '../components/admin/Login.vue'
 
 Vue.use(Router)
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/init',
@@ -18,11 +19,11 @@ export default new Router({
       children: [
         {
           path: 'category',
-          component: resolve => require(['../components/index/Category.vue'],resolve)
+          component: resolve => require(['../components/index/Category.vue'],resolve),
         },
         {
           path: 'newsdetail',
-          component: resolve=>require(['../components/index/Newsdetail.vue'],resolve)
+          component: resolve=>require(['../components/index/Newsdetail.vue'],resolve),
         }
       ]
     },    
@@ -34,41 +35,56 @@ export default new Router({
       path: '/admin/',
       name: 'Admin',
       component: Admin,
+      meta: { requiresAuth: true },
       children: [
         {
           path: 'userdetail',
           name: 'userdetail',   
-          component: resolve => require(['../components/user/Userdetail.vue'], resolve)
+          component: resolve => require(['../components/user/Userdetail.vue'], resolve),
+          meta: { requiresAuth: true }
         },
         {
           path: 'userlist',
           name: 'userlist',   
-          component: resolve => require(['../components/user/Userlist.vue'], resolve)
+          component: resolve => require(['../components/user/Userlist.vue'], resolve),
+          meta: { requiresAuth: true }
         },
         {
           path: 'newslist',
           name: 'newslist',   
-          component: resolve => require(['../components/news/Newslist.vue'], resolve)
+          component: resolve => require(['../components/news/Newslist.vue'], resolve),
+          meta: { requiresAuth: true }
+        },
+        {
+          path:'newspanle',
+          name: 'newspanle',   
+          component: resolve => require(['../components/news/Newspanle.vue'], resolve),
+          meta: { requiresAuth: true }
+
         },
         {
           path: 'category',
           name: 'category',   
-          component: resolve => require(['../components/news/Category.vue'], resolve)
+          component: resolve => require(['../components/news/Category.vue'], resolve),
+          meta: { requiresAuth: true }
         },
         {
           path: 'setting',
           name: 'setting',   
-          component: resolve => require(['../components/system/Setting.vue'], resolve)
+          component: resolve => require(['../components/system/Setting.vue'], resolve),
+           meta: { requiresAuth: true }
         },
         {
           path: 'newsdetail',
           name: 'newsdetail',
-          component: resolve => require(['../components/news/Newsdetail.vue'], resolve)
+          component: resolve => require(['../components/news/Newsdetail.vue'], resolve),
+          meta: { requiresAuth: true }
         },
         {
           path:'analysis',
           name:'analysis',
-          component: resolve => require(['../components/analysis/Analysis.vue'], resolve)
+          component: resolve => require(['../components/analysis/Analysis.vue'], resolve),
+           meta: { requiresAuth: true }
         },
         {
           path: '*',

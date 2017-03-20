@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="main">    
     <el-breadcrumb separator="/" class="bread-crumb">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>

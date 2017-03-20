@@ -16,9 +16,9 @@
         "encoding",
         "mongo"
     ],
-    "mappings": "AAAA;AACA;;;;;;kBAIe;AACbA,QAAM,OADO;AAEbC,WAAS;AACPC,WAAO;AACLC,YAAM,WADD;AAELC,YAAM,MAFD;AAGLC,gBAAU,MAHL;AAILC,YAAM,MAJD;AAKLC,gBAAU,QALL;AAMLC,cAAQ,EANH;AAOLC,gBAAU;AAPL,KADA;AAUPC,WAAO;AAVA;AAFI,C",
+    "mappings": "AAAA;;;kBAKe;AACbA,QAAM,OADO;AAEbC,WAAS;AACPC,WAAO;AACLC,YAAM,WADD;AAELC,YAAM,MAFD;AAGLC,gBAAU,MAHL;AAILC,YAAM,MAJD;AAKLC,gBAAU,QALL;AAMLC,cAAQ,EANH;AAOLC,gBAAU;AAPL,KADA;AAUPC,WAAO;AAVA;AAFI,C",
     "file": "../../../src/common/config/db.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * db config\n * @type {Object}\n */\nexport default {\n  type: 'mysql',\n  adapter: {\n    mysql: {\n      host: '127.0.0.1',\n      port: '3306',\n      database: 'news',\n      user: 'root',\n      password: '1q2w3e',\n      prefix: '',\n      encoding: 'utf8'\n    },\n    mongo: {\n\n    }\n  }\n};"
+        "'use strict';\n/**\n * db config\n * @type {Object}\n */\nexport default {\n  type: 'mysql',\n  adapter: {\n    mysql: {\n      host: 'localhost',\n      port: '3306',\n      database: 'news',\n      user: 'root',\n      password: '1q2w3e',\n      prefix: '',\n      encoding: 'utf8'\n    },\n    mongo: {\n\n    }\n  }\n};"
     ]
 }

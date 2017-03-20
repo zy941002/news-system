@@ -4,8 +4,9 @@ var fs = require('fs');
 var path = require('path');
 let moment = require('moment')
 let util = require('util')
+import Base from './base.js';
 
-export default class extends think.controller.base {
+export default class extends Base{
   async indexAction() {
     this.setCorsHeader()
     let data = await this.model(`user`).select();
@@ -16,17 +17,6 @@ export default class extends think.controller.base {
     let where = this.get();
     let data = await this.model(`user`).fetchuser(where);
     return this.json({data:data})
-  }
-  async loginAction() {  
-      this.setCorsHeader();
-      let where = this.post();      
-      let data =await this.model(`user`).where(where).select();
-      if(think.isEmpty(data)){
-        return this.fail({errorno:-1},"用户名或密码错误")  
-      }
-      else{
-        return this.success(data)
-      }
   }
   async addAction(){
     let method = this.http.method.toLowerCase();

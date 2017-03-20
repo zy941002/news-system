@@ -8,6 +8,9 @@
 // +----------------------------------------------------------------------
 'use strict';
 export default class extends think.controller.base {
+  init(http) {
+    super.init(http);
+  }
   async __before(){
     let method = this.http.method.toLowerCase();
     if(method === 'options'){

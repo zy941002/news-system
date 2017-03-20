@@ -2,7 +2,7 @@
   <div class="main">
     <el-breadcrumb separator="/" class="bread-crumb">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/admin/newslist' }">新闻列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/newspanle' }">新闻列表</el-breadcrumb-item>
       <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -49,7 +49,7 @@
         <el-input type="textarea" id="editor"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')">{{status}}</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -61,7 +61,7 @@ import { mapGetters } from 'vuex'
 import getters from '../../vux/news.js'
 import API from '../../api/api.js'
 import wangEditor from 'wangeditor'
-import storage from '../../js/storage.js'
+import storage from '../../assets/js/storage.js'
 export default {
   computed:{
       status(){
@@ -157,10 +157,16 @@ export default {
             this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
             console.log(this.ruleForm.extra.cate.cate)
             API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
-              
+              console.log(res)
+              if(res.body.errno==0){
+                this.$message.success(`${this.status}成功`)
+                this.$router.push({path:`/admin/newslist`})
+              }else if(res.body.errno>0){
+                this.$message.error(`后台出错，请将错误码${res.body.errmsg.code}发送给客服`)
+              }
             })
           } else {
-            console.log('error submit!!');
+            this.$message.error(`请正确填写表单`)
             return false;
           }
         });

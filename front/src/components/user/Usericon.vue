@@ -13,14 +13,14 @@
   	data(){
   		return{
   			user:{},
-        file:{}
+        file:{
+          url:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1489927021733&di=4270db9a6def0a9a10e18cbd8f856ac9&imgtype=0&src=http%3A%2F%2Ffb.topit.me%2Fb%2F68%2Fec%2F1196527923131ec68bl.jpg"
+        }
   		}
   	},
     created(){
-
       this.user = JSON.parse(Storage.get("userInfo"));
       this.file = JSON.parse(this.user.file)
-    
     },
     mounted(){
       

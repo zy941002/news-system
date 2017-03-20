@@ -58,7 +58,7 @@ import Storage from '../../assets/js/storage.js'
       submitForm(formName){
         this.$refs[formName].validate((valid)=>{
           if (valid){
-            this.$http.post(`http://localhost:8360/admin/user/login`,{
+            this.$http.post(`http://localhost:8360/admin/auth/login`,{
               name : this.ruleForm.username,
               password: this.ruleForm.password
             }).then( (res)=> {
@@ -71,8 +71,8 @@ import Storage from '../../assets/js/storage.js'
               }
               else{
                 Storage.set('userInfo',JSON.stringify(res.data.data[0]));
-                this.$store.dispatch('SET_USER');
-                this.$router.replace({path:"/admin/"});
+                this.$store.commit('SET_USER',res.data.data[0]);
+                this.$router.push({path:"/admin/"});
               }
             })
           }

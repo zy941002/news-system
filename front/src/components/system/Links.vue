@@ -10,12 +10,14 @@
 		    <el-input  v-model="curLink.url"placeholder="网站链接"></el-input>
 		  </el-form-item>
  			
- 			<el-button type="primary" @click="addLink">保存</el-button>
+ 			<el-button type="primary" @click="addLink">{{status}}</el-button>
  			<el-button type="gray" @click="cancelLink">取消</el-button>
 		  
 		  </el-form>
 		</el-dialog>
-		<el-button type="primary" @click="addLink">新增</el-button>
+
+
+		<el-button type="primary" @click="openNew">新增</el-button>
 		<el-table
     		:data="tableData"
     		border
@@ -88,6 +90,10 @@ export default {
   	})
   },
   methods:{
+    openNew(){
+      this.dialogTableVisible = true;
+      this.curLink={}
+    },
   	handleEdit:function(item,index){
   		this.curLink = item;
   		this.dialogTableVisible  = true
@@ -96,6 +102,7 @@ export default {
   		this.dialogTableVisible = true
   		if(this.curLink.id){
   			API.PUT(`admin/config/config/name/${this.curLink.name}/url/${this.curLink.url}/${this.curLink.id}/`).then(res=>{
+          console.log(res.body)
   				if(res.body.errmsg==0){
   					this.$message({
   						message:`${this.status}成功`,
@@ -105,14 +112,35 @@ export default {
   				 this.dialogTableVisible = false
   				}
   			})
-  		}
+  		}else{
+        let config ={
+          name:this.curLink.name,
+          url:this.curLink.url,
+          type:1
+        }
+        API.POST(`admin/config/config/`,config).then(res=>{
+          if(res.body.errmsg==0){
+            this.$message({
+              message:`${this.status}成功`,
+              type:"success"
+            },
+            )
+           this.dialogTableVisible = false;
+           this.tableData.push(config)
+          }
+        })
+
+      }
   	},
   	cancelLink:function(){
-		this.dialogTableVisible = false
+		  this.dialogTableVisible = false
   	},
   	handleDelete:function(item,index){
   		API.DELETE(`admin/config/${item.id}`).then(res=>{
-  			console.log(res)
+  			if(res.body.errmsg==0){
+          this.$message.success(`删除成功`)
+          this.tableData.splice(index,1)
+        }
   		})
   	}	
   }

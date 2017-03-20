@@ -4,6 +4,8 @@
  */
 export default class extends think.model.base {
 	async fetchNews(where){
-		return await this.model(`news`).where(where).select();
+		let {pageNum} = where;
+		let data = await this.model(`news`).page([pageNum, 10]).countSelect();
+		return data;
 	}
 }

@@ -1,11 +1,4 @@
 
-// +----------------------------------------------------------------------
-// | NEWS [ 新闻网站管理系统 ]
-// +----------------------------------------------------------------------
-// | Copyright (c) inkzhou@gmail.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: zhouying <inkzhou@gmail.com>
-// +----------------------------------------------------------------------
 'use strict';
 
 exports.__esModule = true;
@@ -40,6 +33,10 @@ var _class = function (_think$controller$bas) {
     return (0, _possibleConstructorReturn3.default)(this, _think$controller$bas.apply(this, arguments));
   }
 
+  _class.prototype.init = function init(http) {
+    _think$controller$bas.prototype.init.call(this, http);
+  };
+
   _class.prototype.__before = function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
       var method;
@@ -70,8 +67,6 @@ var _class = function (_think$controller$bas) {
 
     return __before;
   }();
-  //-----end of before
-
 
   _class.prototype.setCorsHeader = function setCorsHeader() {
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");

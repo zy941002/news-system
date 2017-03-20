@@ -30,6 +30,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _base = require('./base.js');
+
+var _base2 = _interopRequireDefault(_base);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fs = require('fs');
@@ -37,12 +41,12 @@ var path = require('path');
 var moment = require('moment');
 var util = require('util');
 
-var _class = function (_think$controller$bas) {
-  (0, _inherits3.default)(_class, _think$controller$bas);
+var _class = function (_Base) {
+  (0, _inherits3.default)(_class, _Base);
 
   function _class() {
     (0, _classCallCheck3.default)(this, _class);
-    return (0, _possibleConstructorReturn3.default)(this, _think$controller$bas.apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, _Base.apply(this, arguments));
   }
 
   _class.prototype.indexAction = function () {
@@ -106,64 +110,24 @@ var _class = function (_think$controller$bas) {
     return fetchuserAction;
   }();
 
-  _class.prototype.loginAction = function () {
+  _class.prototype.addAction = function () {
     var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-      var where, data;
+      var method, params, id, file, user, now, affectedRows, _affectedRows;
+
       return _regenerator2.default.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              this.setCorsHeader();
-              where = this.post();
-              _context3.next = 4;
-              return this.model('user').where(where).select();
-
-            case 4:
-              data = _context3.sent;
-
-              if (!think.isEmpty(data)) {
-                _context3.next = 9;
-                break;
-              }
-
-              return _context3.abrupt('return', this.fail({ errorno: -1 }, "用户名或密码错误"));
-
-            case 9:
-              return _context3.abrupt('return', this.success(data));
-
-            case 10:
-            case 'end':
-              return _context3.stop();
-          }
-        }
-      }, _callee3, this);
-    }));
-
-    function loginAction() {
-      return _ref3.apply(this, arguments);
-    }
-
-    return loginAction;
-  }();
-
-  _class.prototype.addAction = function () {
-    var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-      var method, params, id, file, user, now, affectedRows, _affectedRows;
-
-      return _regenerator2.default.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
               method = this.http.method.toLowerCase();
 
               if (!(method === 'options')) {
-                _context4.next = 6;
+                _context3.next = 6;
                 break;
               }
 
               this.setCorsHeader();
               this.end();
-              _context4.next = 23;
+              _context3.next = 23;
               break;
 
             case 6:
@@ -176,26 +140,59 @@ var _class = function (_think$controller$bas) {
               this.setCorsHeader();
 
               if (think.isEmpty(id)) {
-                _context4.next = 19;
+                _context3.next = 19;
                 break;
               }
 
-              _context4.next = 15;
+              _context3.next = 15;
               return user.where({ id: id }).update((0, _assign2.default)(params, { file: file }, { createTime: now }));
 
             case 15:
-              affectedRows = _context4.sent;
-              return _context4.abrupt('return', this.success(affectedRows));
+              affectedRows = _context3.sent;
+              return _context3.abrupt('return', this.success(affectedRows));
 
             case 19:
-              _context4.next = 21;
+              _context3.next = 21;
               return user.add((0, _assign2.default)(params, { file: file }, { createTime: now }));
 
             case 21:
-              _affectedRows = _context4.sent;
-              return _context4.abrupt('return', this.success(_affectedRows));
+              _affectedRows = _context3.sent;
+              return _context3.abrupt('return', this.success(_affectedRows));
 
             case 23:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    }));
+
+    function addAction() {
+      return _ref3.apply(this, arguments);
+    }
+
+    return addAction;
+  }();
+
+  _class.prototype.removeAction = function () {
+    var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _get, id, model, affectedRows;
+
+      return _regenerator2.default.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              this.setCorsHeader();
+              _get = this.get(), id = _get.id;
+              model = this.model('user');
+              _context4.next = 5;
+              return model.where({ id: id }).delete();
+
+            case 5:
+              affectedRows = _context4.sent;
+              return _context4.abrupt('return', this.success(affectedRows));
+
+            case 7:
             case 'end':
               return _context4.stop();
           }
@@ -203,41 +200,8 @@ var _class = function (_think$controller$bas) {
       }, _callee4, this);
     }));
 
-    function addAction() {
-      return _ref4.apply(this, arguments);
-    }
-
-    return addAction;
-  }();
-
-  _class.prototype.removeAction = function () {
-    var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-      var _get, id, model, affectedRows;
-
-      return _regenerator2.default.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              this.setCorsHeader();
-              _get = this.get(), id = _get.id;
-              model = this.model('user');
-              _context5.next = 5;
-              return model.where({ id: id }).delete();
-
-            case 5:
-              affectedRows = _context5.sent;
-              return _context5.abrupt('return', this.success(affectedRows));
-
-            case 7:
-            case 'end':
-              return _context5.stop();
-          }
-        }
-      }, _callee5, this);
-    }));
-
     function removeAction() {
-      return _ref5.apply(this, arguments);
+      return _ref4.apply(this, arguments);
     }
 
     return removeAction;
@@ -251,7 +215,7 @@ var _class = function (_think$controller$bas) {
   };
 
   return _class;
-}(think.controller.base);
+}(_base2.default);
 
 exports.default = _class;
 //# sourceMappingURL=user.js.map

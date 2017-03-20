@@ -4,9 +4,10 @@
         "../../../src/common/base/base.js"
     ],
     "names": [
+        "init",
+        "http",
         "__before",
         "method",
-        "http",
         "toLowerCase",
         "setCorsHeader",
         "end",
@@ -15,9 +16,9 @@
         "controller",
         "base"
     ],
-    "mappings": ";AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mBAEQA,Q;;;;;;;AACAC,oB,GAAS,KAAKC,IAAL,CAAUD,MAAV,CAAiBE,WAAjB,E;;AACb,kBAAGF,WAAW,SAAd,EAAwB;AACtB,qBAAKG,aAAL;AACA,qBAAKC,GAAL;AACD;AACD,mBAAKD,aAAL;;;;;;;;;;;;;;;;;AAGF;;;mBACAA,a,4BAAe;AACb,SAAKE,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EAhB0BC,MAAMC,UAAN,CAAiBC,I",
+    "mappings": ";AAQA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mBAEEA,I,iBAAKC,I,EAAM;AACT,oCAAMD,IAAN,YAAWC,IAAX;AACD,G;;mBACKC,Q;;;;;;;AACAC,oB,GAAS,KAAKF,IAAL,CAAUE,MAAV,CAAiBC,WAAjB,E;;AACb,kBAAGD,WAAW,SAAd,EAAwB;AACtB,qBAAKE,aAAL;AACA,qBAAKC,GAAL;AACD;AACD,mBAAKD,aAAL;;;;;;;;;;;;;;;;;;mBAIFA,a,4BAAe;AACb,SAAKE,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EAnB0BC,MAAMC,UAAN,CAAiBC,I",
     "file": "../../../src/common/base/base.js",
     "sourcesContent": [
-        "\n// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\nexport default class extends think.controller.base {\n  async __before(){\n    let method = this.http.method.toLowerCase();\n    if(method === 'options'){\n      this.setCorsHeader();\n      this.end();\n    }\n    this.setCorsHeader();\n    return;\n  }  \n  //-----end of before\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}\n"
+        "\n// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\nexport default class extends think.controller.base {\n  init(http) {\n    super.init(http);\n  }\n  async __before(){\n    let method = this.http.method.toLowerCase();\n    if(method === 'options'){\n      this.setCorsHeader();\n      this.end();\n    }\n    this.setCorsHeader();\n    return;\n  }  \n  //-----end of before\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}\n"
     ]
 }

@@ -63,7 +63,7 @@
 </template>
 <script>
 
-import * as TOOLS from '../../../src/js/tool.js'
+import * as TOOLS from '../../assets/js/util.js'
 import API from '../../api/api.js'
   export default{
   	name:"userlist",
@@ -103,9 +103,9 @@ import API from '../../api/api.js'
   		}
   	},
   	mounted(){
-  		this.$http.get(`http://localhost:8360/admin/user`).then((res)=> {
-        this.$set(this,"users",res.data.data)		
-  		})
+      API.FIND(`admin/user`).then(res=>{
+        this.$set(this,"users",res.data.data)
+      })
   	},
 }
 </script>
