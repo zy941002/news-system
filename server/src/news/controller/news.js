@@ -81,14 +81,20 @@ export default class extends think.controller.base {
     this.setCorsHeader();
     let model = this.model(`news`);    
     let where =  this.post();
-    let now =  moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    let {id,title,content,pass,extra} =where;
+    let now =  moment.utc(new Date()).format("YYYY-MM-DD");
+    let {id,title,content,pass,extra,top} = where;
     let cate = this.model(`news_cate`);
     if(!think.isEmpty(id)){
       extra.cate.forEach(async (item,index)=>{
         let affectedRows = await cate.thenAdd({news_id:id,cate_id:item.cate.id},{news_id:id,cate_id:item.cate.id})
       })
-      let affectedRows = await model.where({id:id,}).update({title:title,timeflag:now,content: content,pass : Number(pass)});
+      let affectedRows = await model.where({id:id,}).update({
+        title: title,
+        timeflag: now,
+        content: content,
+        pass : Number(pass),
+        top : Number(top),
+      });
 
     }else{
         try{
@@ -102,20 +108,28 @@ export default class extends think.controller.base {
         } 
       }
   }
+  async topAction(){
+    this.setCorsHeader();
+    let news = this.model(`news`);
+    // console.log(moment(new Date()).format("YYYY-MM-DD")+"----moment---server now--------");
+    // console.log(new Date()+"Date-----------------NOW-----------")
+    let datime = moment.utc(this.get(`date`)).format(`YYYY-MM-DD`)
+    // console.log(datime+"-----------------"+this.get(`date`))
+    let res = await news.where({timeflag:datime,top:1}).select();
+        return this.success(res)
+  }
   async categorylistAction(){
     this.setCorsHeader();
-    let {id} = this.get();
-    let news = this.model(`news`);
-    let cate = this.model(`category`);
-    let cates = [],promise = [];    
-    let where = {}
+    let {id} = this.get(),
+        news = this.model(`news`),
+        cate = this.model(`category`),
+        cates = [],promise = [],where = {}
     if(id){
       where = {
         cate_id:id
       }
     }
     cates = await this.model(`news_cate`).where(where).select();  
-    
     cates.forEach((item,index)=>{
       promise.push(new Promise(async (resolve,reject)=>{
         let cateitem = await cate.where({id:item.cate_id}).select();

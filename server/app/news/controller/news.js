@@ -305,7 +305,7 @@ var _class = function (_think$controller$bas) {
     var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
       var _this3 = this;
 
-      var model, where, now, id, title, content, pass, extra, cate, affectedRows;
+      var model, where, now, id, title, content, pass, extra, top, cate, affectedRows;
       return _regenerator2.default.wrap(function _callee11$(_context11) {
         while (1) {
           switch (_context11.prev = _context11.next) {
@@ -313,8 +313,8 @@ var _class = function (_think$controller$bas) {
               this.setCorsHeader();
               model = this.model('news');
               where = this.post();
-              now = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-              id = where.id, title = where.title, content = where.content, pass = where.pass, extra = where.extra;
+              now = moment.utc(new Date()).format("YYYY-MM-DD");
+              id = where.id, title = where.title, content = where.content, pass = where.pass, extra = where.extra, top = where.top;
               cate = this.model('news_cate');
 
               if (think.isEmpty(id)) {
@@ -348,7 +348,13 @@ var _class = function (_think$controller$bas) {
                 };
               }());
               _context11.next = 10;
-              return model.where({ id: id }).update({ title: title, timeflag: now, content: content, pass: Number(pass) });
+              return model.where({ id: id }).update({
+                title: title,
+                timeflag: now,
+                content: content,
+                pass: Number(pass),
+                top: Number(top)
+              });
 
             case 10:
               affectedRows = _context11.sent;
@@ -408,53 +414,80 @@ var _class = function (_think$controller$bas) {
     return addnewsAction;
   }();
 
+  _class.prototype.topAction = function () {
+    var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+      var news, datime, res;
+      return _regenerator2.default.wrap(function _callee12$(_context12) {
+        while (1) {
+          switch (_context12.prev = _context12.next) {
+            case 0:
+              this.setCorsHeader();
+              news = this.model('news');
+              datime = moment.utc(this.get('date')).format('YYYY-MM-DD');
+              _context12.next = 5;
+              return news.where({ timeflag: datime, top: 1 }).select();
+
+            case 5:
+              res = _context12.sent;
+              return _context12.abrupt('return', this.success(res));
+
+            case 7:
+            case 'end':
+              return _context12.stop();
+          }
+        }
+      }, _callee12, this);
+    }));
+
+    function topAction() {
+      return _ref12.apply(this, arguments);
+    }
+
+    return topAction;
+  }();
+
   _class.prototype.categorylistAction = function () {
-    var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
+    var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
       var _this4 = this;
 
       var _get, id, news, cate, cates, promise, where, data;
 
-      return _regenerator2.default.wrap(function _callee13$(_context13) {
+      return _regenerator2.default.wrap(function _callee14$(_context14) {
         while (1) {
-          switch (_context13.prev = _context13.next) {
+          switch (_context14.prev = _context14.next) {
             case 0:
               this.setCorsHeader();
-              _get = this.get(), id = _get.id;
-              news = this.model('news');
-              cate = this.model('category');
-              cates = [], promise = [];
-              where = {};
+              _get = this.get(), id = _get.id, news = this.model('news'), cate = this.model('category'), cates = [], promise = [], where = {};
 
               if (id) {
                 where = {
                   cate_id: id
                 };
               }
-              _context13.next = 9;
+              _context14.next = 5;
               return this.model('news_cate').where(where).select();
 
-            case 9:
-              cates = _context13.sent;
-
+            case 5:
+              cates = _context14.sent;
 
               cates.forEach(function (item, index) {
                 promise.push(new _promise2.default(function () {
-                  var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12(resolve, reject) {
+                  var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(resolve, reject) {
                     var cateitem, newsitem, res;
-                    return _regenerator2.default.wrap(function _callee12$(_context12) {
+                    return _regenerator2.default.wrap(function _callee13$(_context13) {
                       while (1) {
-                        switch (_context12.prev = _context12.next) {
+                        switch (_context13.prev = _context13.next) {
                           case 0:
-                            _context12.next = 2;
+                            _context13.next = 2;
                             return cate.where({ id: item.cate_id }).select();
 
                           case 2:
-                            cateitem = _context12.sent;
-                            _context12.next = 5;
+                            cateitem = _context13.sent;
+                            _context13.next = 5;
                             return news.where({ id: item.news_id }).select();
 
                           case 5:
-                            newsitem = _context12.sent;
+                            newsitem = _context13.sent;
                             res = {
                               cate: cateitem[0],
                               news: newsitem[0]
@@ -464,35 +497,35 @@ var _class = function (_think$controller$bas) {
 
                           case 8:
                           case 'end':
-                            return _context12.stop();
+                            return _context13.stop();
                         }
                       }
-                    }, _callee12, _this4);
+                    }, _callee13, _this4);
                   }));
 
                   return function (_x13, _x14) {
-                    return _ref13.apply(this, arguments);
+                    return _ref14.apply(this, arguments);
                   };
                 }()));
               });
 
-              _context13.next = 13;
+              _context14.next = 9;
               return _promise2.default.all(promise);
 
-            case 13:
-              data = _context13.sent;
-              return _context13.abrupt('return', this.success(data));
+            case 9:
+              data = _context14.sent;
+              return _context14.abrupt('return', this.success(data));
 
-            case 15:
+            case 11:
             case 'end':
-              return _context13.stop();
+              return _context14.stop();
           }
         }
-      }, _callee13, this);
+      }, _callee14, this);
     }));
 
     function categorylistAction() {
-      return _ref12.apply(this, arguments);
+      return _ref13.apply(this, arguments);
     }
 
     return categorylistAction;

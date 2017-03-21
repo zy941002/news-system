@@ -34,20 +34,27 @@ var _class = function (_think$model$base) {
 
 	_class.prototype.fetchNews = function () {
 		var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(where) {
-			var pageNum, data;
+			var pageNum, id, option, data;
 			return _regenerator2.default.wrap(function _callee$(_context) {
 				while (1) {
 					switch (_context.prev = _context.next) {
 						case 0:
-							pageNum = where.pageNum;
-							_context.next = 3;
-							return this.model('news').page([pageNum, 10]).countSelect();
+							pageNum = where.pageNum, id = where.id;
+							option = {};
 
-						case 3:
+							if (id) {
+								option = {
+									id: id
+								};
+							}
+							_context.next = 5;
+							return this.model('news').page([pageNum, 10]).where(option).countSelect();
+
+						case 5:
 							data = _context.sent;
 							return _context.abrupt('return', data);
 
-						case 5:
+						case 7:
 						case 'end':
 							return _context.stop();
 					}

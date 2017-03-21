@@ -107,7 +107,14 @@ import * as Util from '../../assets/js/util.js'
       this.$route.query.id?params ={id:this.$route.query.id}:params={id:0}
       API.FIND(`admin/user/fetchuser`,params).then(res=>{
         if(res.data.data[0]){
-          this.$set(this,'imageUrl',JSON.parse(res.data.data[0].file).url)
+          console.log(JSON.parse(res.data.data[0].file))
+          if(JSON.parse(res.data.data[0].file)){
+            console.log(JSON.parse(res.data.data[0].file).urll)
+            this.$set(this,'imageUrl',JSON.parse(res.data.data[0].file).url)  
+          }else{
+            this.$set(this,'imageUrl',"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1490099421&di=7e2596e95a1374e5da277896882ffb4c&src=http://n1.itc.cn/img8/wb/recom/2015/12/10/144970265150133679.jpeg") 
+          }
+          
           this.$set(this,`ruleForm`,res.data.data[0])  
         }        
       })

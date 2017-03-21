@@ -1,13 +1,11 @@
 <template>
   <div>
- 
-
     <el-button type="primary" @click="goNew">添加新闻</el-button>    
   	<el-table
     :data="pageInfo.data"
     border
     style="width: 100%"
-    @selection-change="handleSelectionChange"
+    @selection-change="handleSelectionChange">
     >
       <el-table-column
         label="新闻ID"
@@ -35,7 +33,13 @@
         label="审核状态"
         width="90">
         <template scope='scope'>
-        	{{ scope.row.pass }} 
+        <el-switch
+          v-model="scope.row.pass"
+          on-text="通过"
+          @change="handleStatus(scope.$index, scope.row)"
+          off-text="不通过">
+        </el-switch>
+        <!-- {{Boolean(scope.row.pass)}} -->
         </template>		
       </el-table-column>
 
@@ -54,8 +58,16 @@
             @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
+
       <el-table-column  label="置顶" width="120">
-        <el-table-column type="selection"></el-table-column>
+        <template scope='scope'>
+        <el-switch
+          v-model="scope.row.top"
+          on-text="置顶"
+          @change="handleStatus(scope.$index, scope.row)"
+          off-text="不置顶">
+        </el-switch>
+        </template>
       </el-table-column>
     </el-table>
   <div class="block">
@@ -74,9 +86,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import API from '../../api/api.js'
+
 export default {
 	mounted(){
 		API.FIND(`news/news/fetch`,{pageNum:1}).then((res)=>{
+      console.log(res.data.data)
+      res.data.data.data.map((item,index)=>{
+        item.pass = Boolean(item.pass)
+        item.top = Boolean(item.top)
+      })
       this.$set(this,'pageInfo',res.data.data)
     })
 	},
@@ -92,20 +110,23 @@ export default {
       multipleSelection: [],
     }
   },
-  watch:{
-    multipleSelection:function(newTop){
-      if(newTop.length>=10){
-          this.$alert("最多置顶十条热门新闻")
-      }
-    }
-  },
   methods: {
+    handleStatus(index,item){
+      console.log(item.pass,item.top)
+      API.POST(`news/news/addnews`,item).then((res)=>{
+        console.log(res)
+      })
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.currentPage = val;
         API.FIND(`news/news/fetch`,{pageNum:val}).then((res)=>{
+          res.data.data.data.map((item,index)=>{
+            item.pass = Boolean(item.pass)
+            item.top = Boolean(item.top)
+          })
         this.$set(this,'pageInfo',res.data.data)
       })
     },
@@ -114,6 +135,7 @@ export default {
     },
     handleSelectionChange(val) {
         this.multipleSelection = val;
+        // console.log(this.multipleSelection)
     },
     handleEdit(index, data) {
       this.$router.push({name:"newsdetail",query:{id:data.id}});
@@ -125,7 +147,7 @@ export default {
           type: 'warning'
         }).then(() => {
           API.DELETE(`news/news/remove`,{id:row.id}).then((res)=>{
-            this.tableData.splice(index,1);
+            this.pageInfo.data.splice(index,1);
             // this.$store.dispatch('SET_NEWS')
             this.$message({
               type: 'success',

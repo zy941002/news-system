@@ -7,6 +7,8 @@
         "fetchNews",
         "where",
         "pageNum",
+        "id",
+        "option",
         "model",
         "page",
         "countSelect",
@@ -14,9 +16,9 @@
         "think",
         "base"
     ],
-    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;kBAKOA,S;yFAAUC,K;;;;;;AACVC,c,GAAWD,K,CAAXC,O;;cACY,KAAKC,KAAL,SAAmBC,IAAnB,CAAwB,CAACF,OAAD,EAAU,EAAV,CAAxB,EAAuCG,WAAvC,E;;;AAAbC,W;wCACGA,I;;;;;;;;;;;;;;;;;;EAJoBC,MAAMJ,KAAN,CAAYK,I",
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;kBAKOA,S;yFAAUC,K;;;;;;AACVC,c,GAAcD,K,CAAdC,O,EAAQC,E,GAAMF,K,CAANE,E;AACTC,a,GAAS,E;;AACb,WAAGD,EAAH,EAAM;AACLC,iBAAS;AACRD,aAAIA;AADI,SAAT;AAGA;;cACgB,KAAKE,KAAL,SAAmBC,IAAnB,CAAwB,CAACJ,OAAD,EAAU,EAAV,CAAxB,EAAuCD,KAAvC,CAA6CG,MAA7C,EAAqDG,WAArD,E;;;AAAbC,W;wCACGA,I;;;;;;;;;;;;;;;;;;EAVoBC,MAAMJ,KAAN,CAAYK,I",
     "file": "../../../src/news/model/news.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\tasync fetchNews(where){\n\t\tlet {pageNum} = where;\n\t\tlet data = await this.model(`news`).page([pageNum, 10]).countSelect();\n\t\treturn data;\n\t}\n}"
+        "'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\tasync fetchNews(where){\n\t\tlet {pageNum,id} = where;\n\t\tlet option = {}\n\t\tif(id){\n\t\t\toption = {\n\t\t\t\tid: id\n\t\t\t}\n\t\t}\n\t\tlet data = await this.model(`news`).page([pageNum, 10]).where(option).countSelect();\n\t\treturn data;\n\t}\n}"
     ]
 }

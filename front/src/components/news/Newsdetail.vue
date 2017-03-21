@@ -77,9 +77,10 @@ export default {
     let __this = this;
 
     API.FIND(`news/news/fetch`,{id:id}).then((res)=>{
-      if(res.data.data.length>0){
-        res.data.data[0].pass =   Boolean(res.data.data[0].pass);  
-        __this.$set(__this,'ruleForm',res.data.data[0])
+      console.log(res.data.data.data[0])
+      if(res.data.data.data.length>0){
+        res.data.data.data[0].pass =   Boolean(res.data.data.data[0].pass);  
+        __this.$set(__this,'ruleForm',res.data.data.data[0])
       }
       
     
