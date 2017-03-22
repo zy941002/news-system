@@ -31,7 +31,6 @@ export default class extends think.controller.rest {
   * postAction(){
     let pk = yield this.modelInstance.getPk();
     let data = this.post();
-    console.log(data)
     delete data[pk];
     if(think.isEmpty(data)){
       return this.fail("data is empty");
@@ -52,13 +51,14 @@ export default class extends think.controller.rest {
       return this.fail(-1,  "params error");
     }
     let pk = yield this.modelInstance.getPk();
+    console.log(this.id+"---------id")
     let data = this.get();
     console.log(data)
     delete data[pk];
     if (think.isEmpty(data)) {
       return this.fail("data is empty");
     }
-    let rows = yield this.modelInstance.where({[pk]: this.id}).update(data);
+    let rows = yield this.modelInstance.where({[pk]: this.id,url: ['EXP', "=\"url\""]}).update(data);
     return this.success({affectedRows: rows});
   }
 

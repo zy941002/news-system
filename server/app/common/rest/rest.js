@@ -89,25 +89,24 @@ var _class = function (_think$controller$res) {
             pk = _context2.sent;
             data = this.post();
 
-            console.log(data);
             delete data[pk];
 
             if (!think.isEmpty(data)) {
-              _context2.next = 8;
+              _context2.next = 7;
               break;
             }
 
             return _context2.abrupt("return", this.fail("data is empty"));
 
-          case 8:
-            _context2.next = 10;
+          case 7:
+            _context2.next = 9;
             return this.modelInstance.add(data);
 
-          case 10:
+          case 9:
             insertId = _context2.sent;
             return _context2.abrupt("return", this.success({ id: insertId }));
 
-          case 12:
+          case 11:
           case "end":
             return _context2.stop();
         }
@@ -170,27 +169,29 @@ var _class = function (_think$controller$res) {
 
           case 4:
             pk = _context4.sent;
+
+            console.log(this.id + "---------id");
             data = this.get();
 
             console.log(data);
             delete data[pk];
 
             if (!think.isEmpty(data)) {
-              _context4.next = 10;
+              _context4.next = 11;
               break;
             }
 
             return _context4.abrupt("return", this.fail("data is empty"));
 
-          case 10:
-            _context4.next = 12;
-            return this.modelInstance.where((_modelInstance$where3 = {}, _modelInstance$where3[pk] = this.id, _modelInstance$where3)).update(data);
+          case 11:
+            _context4.next = 13;
+            return this.modelInstance.where((_modelInstance$where3 = {}, _modelInstance$where3[pk] = this.id, _modelInstance$where3.url = ['EXP', "=\"url\""], _modelInstance$where3)).update(data);
 
-          case 12:
+          case 13:
             rows = _context4.sent;
             return _context4.abrupt("return", this.success({ affectedRows: rows }));
 
-          case 14:
+          case 15:
           case "end":
             return _context4.stop();
         }

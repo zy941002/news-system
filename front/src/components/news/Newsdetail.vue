@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-breadcrumb separator="/" class="bread-crumb">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/newspanle' }">新闻列表</el-breadcrumb-item>
       <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
     </el-breadcrumb>
@@ -25,11 +25,8 @@
             :closable="true"
             :key='tag'
             @close="handleClose(tag)"
-          >
-            {{tag.cate.name}}
-          </el-tag>
+          >{{tag.cate.name}}</el-tag>
         </div>
-
         <div v-else>
           <el-tag>暂无分类</el-tag>
         </div>        
@@ -45,14 +42,17 @@
           </el-option>
         </el-select>
       </el-form-item>
+
       <el-form-item label="新闻内容">
-        <el-input type="textarea" id="editor"></el-input>
+          <div  id="editor"></div>
       </el-form-item>
+      
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">{{status}}</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
@@ -77,7 +77,6 @@ export default {
     let __this = this;
 
     API.FIND(`news/news/fetch`,{id:id}).then((res)=>{
-      console.log(res.data.data.data[0])
       if(res.data.data.data.length>0){
         res.data.data.data[0].pass =   Boolean(res.data.data.data[0].pass);  
         __this.$set(__this,'ruleForm',res.data.data.data[0])
@@ -87,6 +86,7 @@ export default {
       let editor = new wangEditor('editor');
         editor.config.uploadImgUrl = 'http://localhost:8360/admin/upload';
         editor.config.uploadImgFileName = 'image';
+        editor.config.printLog = false;
       
       editor.config.uploadImgFns.onload = function (resultText, xhr) {
         var originalName = editor.uploadImgOriginalName || '';  
@@ -105,6 +105,7 @@ export default {
       
       editor.onchange = function () {
         __this.ruleForm.content = this.$txt.html();
+        console.log(__this.ruleForm.content)
       };
       
       editor.$txt.html(__this.ruleForm.content);
@@ -156,12 +157,11 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
-            console.log(this.ruleForm.extra.cate.cate)
             API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
               console.log(res)
               if(res.body.errno==0){
                 this.$message.success(`${this.status}成功`)
-                this.$router.push({path:`/admin/newslist`})
+                this.$router.push({path:`/admin/newspanle`})
               }else if(res.body.errno>0){
                 this.$message.error(`后台出错，请将错误码${res.body.errmsg.code}发送给客服`)
               }

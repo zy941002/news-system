@@ -4,17 +4,21 @@
         "../../../src/admin/model/user.js"
     ],
     "names": [
-        "fetchuser",
+        "fetchUser",
         "where",
+        "pageNum",
+        "id",
+        "option",
         "model",
-        "select",
+        "page",
+        "countSelect",
         "data",
         "think",
         "base"
     ],
-    "mappings": "AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;kBAIOA,S;yFAAUC,K;;;;;;;cACE,KAAKC,KAAL,CAAW,MAAX,EAAmBD,KAAnB,CAAyBA,KAAzB,EAAgCE,MAAhC,E;;;AAAbC,W;wCACGA,I;;;;;;;;;;;;;;;;;;EAHoBC,MAAMH,KAAN,CAAYI,I",
+    "mappings": "AAAA;;;AAWA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;kBAKOA,S;yFAAUC,K;;;;;;AACVC,c,GAAcD,K,CAAdC,O,EAAQC,E,GAAMF,K,CAANE,E;AACTC,a,GAAS,E;;AACb,WAAGD,EAAH,EAAM;AACLC,iBAAS;AACRD,aAAIA;AADI,SAAT;AAGA;;cACgB,KAAKE,KAAL,SAAmBC,IAAnB,CAAwB,CAACJ,OAAD,EAAU,EAAV,CAAxB,EAAuCD,KAAvC,CAA6CG,MAA7C,EAAqDG,WAArD,E;;;AAAbC,W;wCACGA,I;;;;;;;;;;;;;;;;;;EAVoBC,MAAMJ,KAAN,CAAYK,I",
     "file": "../../../src/admin/model/user.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\tasync fetchuser(where){\n\t\tlet data = await this.model('user').where(where).select();\n\t\treturn data;\n\t}\n}"
+        "'use strict';\n/**\n * model\n */\n// export default class extends think.model.base {\n// \tasync fetchuser(where){\n// \t\tlet data = await this.model('user').where(where).select();\n// \t\treturn data;\n// \t}\n// }\n\n'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\tasync fetchUser(where){\n\t\tlet {pageNum,id} = where;\n\t\tlet option = {}\n\t\tif(id){\n\t\t\toption = {\n\t\t\t\tid: id\n\t\t\t}\n\t\t}\n\t\tlet data = await this.model(`user`).page([pageNum, 10]).where(option).countSelect();\n\t\treturn data;\n\t}\n}"
     ]
 }

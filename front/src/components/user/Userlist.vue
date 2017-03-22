@@ -7,7 +7,7 @@
     
     <el-button type="primary" @click="goNew">添加用户</el-button>
     <el-table
-      :data="users"
+      :data="pageInfo.data"
       border
       style="width: 100%">
       <el-table-column
@@ -59,6 +59,17 @@
       </el-table-column>
 
     </el-table>
+
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageInfo.currentPage"
+        layout="prev, pager, next, jumper"
+        :page-count="pageInfo.totalPages">
+      </el-pagination>
+    </div>
+
   </div>
 </template>
 <script>
@@ -69,7 +80,6 @@ import API from '../../api/api.js'
   	name:"userlist",
   	 methods:{
       edit(index,row){
-        this.$store.dispatch('SET_USER',{id:row.id})
         this.$router.push({ name: 'userdetail', query: { id: row.id }})
       },
       deleteUser(index,row){
@@ -79,13 +89,18 @@ import API from '../../api/api.js'
           type: 'warning'
         }).then(()=>{
           API.DELETE(`admin/user/remove`,{id:row.id}).then((res)=>{
-            this.users.splice(row.index,1);
+            if(res.data.errmsg.errno>0){
+              this.$message.error(`后台出错, 请将错误码${res.data.errmsg.code}给客服`)
+            }
+            else{
+              this.pageInfo.data.splice(index,1);
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+            }
+            
           })
-
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
         }).catch(()=>{
             this.$message({
               type: 'info',
@@ -95,16 +110,30 @@ import API from '../../api/api.js'
       },
       goNew(){
         this.$router.push({name:'userdetail'})
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        API.FIND(`admin/user`,{pageNum:val}).then(res=>{
+          this.$set(this,"pageInfo",res.data.data)
+        })
       }
     },
   	data(){
   		return{
-  		  users: []
+        pageInfo:{
+          count:0,
+          totalPages:0,
+          numsPerPage:10,
+          currentPage:1,
+          data:[]
+        },
   		}
   	},
   	mounted(){
       API.FIND(`admin/user`).then(res=>{
-        this.$set(this,"users",res.data.data)
+        this.$set(this,"pageInfo",res.data.data)
       })
   	},
 }

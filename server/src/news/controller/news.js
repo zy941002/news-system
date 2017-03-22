@@ -4,7 +4,6 @@ export default class extends think.controller.base {
   async fetchAction(){
   	this.setCorsHeader();
     let where = this.get();
-    
   	let news = await this.model(`news`).fetchNews(where);
     let __this = this;
     let promise = [];
@@ -95,6 +94,7 @@ export default class extends think.controller.base {
         pass : Number(pass),
         top : Number(top),
       });
+      return this.success(`更新新闻成功`)
 
     }else{
         try{

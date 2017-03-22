@@ -1,7 +1,8 @@
 <template>
   <div>
-    <newsheader></newsheader>
+    <newsheader></newsheader><!-- <topnews></topnews> -->
     <router-view></router-view>
+    <links></links>
     <backbutton></backbutton>
   </div>
 </template>
@@ -9,9 +10,13 @@
 import API from '../../api/api.js'
 import newsheader from './Newsheader.vue'
 import backbutton from './Backbutton.vue'
+import topnews from './Topnews.vue'
+import links from './Links.vue'
 export default{
   components:{
     newsheader,
+    topnews,
+    links,
     backbutton
   }
 }

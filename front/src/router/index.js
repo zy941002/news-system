@@ -24,9 +24,14 @@ export default new Router({
         {
           path: 'newsdetail',
           component: resolve=>require(['../components/index/Newsdetail.vue'],resolve),
+        },
+        {
+          path: '*',
+          component: resolve=>{require(['../components/index/Topnews.vue'],resolve)}
         }
       ]
-    },    
+    },
+        
     {
       path: "/login",
       component: Login

@@ -1,7 +1,7 @@
 'use strict';
-/**
- * model
- */
+
+
+'use strict';
 
 exports.__esModule = true;
 
@@ -35,21 +35,29 @@ var _class = function (_think$model$base) {
 		return (0, _possibleConstructorReturn3.default)(this, _think$model$base.apply(this, arguments));
 	}
 
-	_class.prototype.fetchuser = function () {
+	_class.prototype.fetchUser = function () {
 		var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(where) {
-			var data;
+			var pageNum, id, option, data;
 			return _regenerator2.default.wrap(function _callee$(_context) {
 				while (1) {
 					switch (_context.prev = _context.next) {
 						case 0:
-							_context.next = 2;
-							return this.model('user').where(where).select();
+							pageNum = where.pageNum, id = where.id;
+							option = {};
 
-						case 2:
+							if (id) {
+								option = {
+									id: id
+								};
+							}
+							_context.next = 5;
+							return this.model('user').page([pageNum, 10]).where(option).countSelect();
+
+						case 5:
 							data = _context.sent;
 							return _context.abrupt('return', data);
 
-						case 4:
+						case 7:
 						case 'end':
 							return _context.stop();
 					}
@@ -57,11 +65,11 @@ var _class = function (_think$model$base) {
 			}, _callee, this);
 		}));
 
-		function fetchuser(_x) {
+		function fetchUser(_x) {
 			return _ref.apply(this, arguments);
 		}
 
-		return fetchuser;
+		return fetchUser;
 	}();
 
 	return _class;

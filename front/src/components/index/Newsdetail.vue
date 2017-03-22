@@ -25,7 +25,7 @@ export default{
 	mounted(){
 		if(this.$route.query.id){
 			API.FIND(`news/news/fetch`,{id:this.$route.query.id}).then((res)=>{
-				this.$set(this,'news',res.data.data[0])
+				this.$set(this,'news',res.data.data.data[0])
 			})	
 		}
 		

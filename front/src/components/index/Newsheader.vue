@@ -1,19 +1,13 @@
 <template>
   <div class="news-index">
     <newsmenu :showList='showList' @hideMenus="hideMenus"></newsmenu> 
-    
     <div :class="{'trans-left':showAccess,'trans-right':showList}" class="news-title pv-center"> 
-
       <i class="fa fa-list icon list-icon her-center"  aria-hidden="true" @click="showLists"></i>
-        <h1>Incredible</h1>
+        <h1>Incredible/{{position}}</h1>
       <i class="fa fa-user-o icon access-icon her-center"  aria-hidden="true" @click="access"></i>
-
     </div>
-
     <access :showAccess="showAccess" @hideAccess="hideAccess"></access>    
-    
     <div :class="{'cover':coverFlag}" @click="showCover"></div>
-
   </div>
 </template>
 <script>
@@ -28,6 +22,7 @@ export default{
       showList: false,      
       coverFlag: false,
       active: "first",
+      position:"首页"
     }
   },
   methods:{
@@ -48,10 +43,16 @@ export default{
       this.showList = !this.showList
       this.coverFlag = true;
     },
-    hideMenus(id){
+    hideMenus(id,position){
       this.showList = this.coverFlag = false;
-      this.$store.dispatch('SET_IDXCATEGORY',{id:id})
-      this.$router.push({path:'/index/category',query:{id:id}})     
+      if(id){
+        this.position = position
+        this.$store.dispatch('SET_IDXCATEGORY',{id:id})
+        this.$router.push({path:'/index/category',query:{id:id}})     
+      }else{
+        this.$router.push({path:'/index/'})    
+      }
+
     },
     hideAccess(){
       this.showAccess = this.coverFlag = false;

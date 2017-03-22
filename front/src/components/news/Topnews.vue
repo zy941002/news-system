@@ -1,7 +1,6 @@
 <template>
   <div>
 	  <div class="block">
-	    <span class="demonstration">带快捷选项</span>
 	    <el-date-picker
 	      v-model="topDate"
 	      align="right"
@@ -54,10 +53,6 @@
           <el-button
             size="small"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
 
@@ -72,8 +67,6 @@
         </template>
       </el-table-column>
     </el-table>
-  
-
 
   </div>
 </template>
@@ -84,13 +77,6 @@ export default {
 	data() {
       return {
       	data:[],
-      	pageInfo: {
-        	count: 0,
-        	currentPage:1,
-        	data:[],
-        	numsPerPage: 10,
-        	totalPages: 0
-      	},
         pickerOptions1: {
           shortcuts: [{
             text: '今天',
@@ -118,7 +104,6 @@ export default {
     },
     mounted(){    	
     	this.topDate = new Date().toString()
-    	console.log(this.topDate)
     	API.FIND(`news/news/top?date=${this.topDate}`).then(res=>{
     		res.data.data.forEach((item,index)=>{
     			item.pass = Boolean(item.pass)
@@ -126,6 +111,22 @@ export default {
     		})
     		this.$set(this,"data",res.data.data)
     	})
+    },
+    methods:{
+    	handleEdit(index, data) {
+      		this.$router.push({name:"newsdetail",query:{id:data.id}});
+    	},
+    },
+    watch:{
+    	topDate(newVal){
+    		API.FIND(`news/news/top?date=${this.topDate}`).then(res=>{
+    			res.data.data.forEach((item,index)=>{
+    			item.pass = Boolean(item.pass)
+    			item.top = Boolean(item.top)
+    		})
+    		this.$set(this,"data",res.data.data)
+    		})
+    	}
     }
 }
 </script>

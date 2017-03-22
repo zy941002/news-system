@@ -318,7 +318,7 @@ var _class = function (_think$controller$bas) {
               cate = this.model('news_cate');
 
               if (think.isEmpty(id)) {
-                _context11.next = 13;
+                _context11.next = 14;
                 break;
               }
 
@@ -358,15 +358,14 @@ var _class = function (_think$controller$bas) {
 
             case 10:
               affectedRows = _context11.sent;
-              _context11.next = 23;
-              break;
+              return _context11.abrupt('return', this.success('\u66F4\u65B0\u65B0\u95FB\u6210\u529F'));
 
-            case 13:
-              _context11.prev = 13;
-              _context11.next = 16;
+            case 14:
+              _context11.prev = 14;
+              _context11.next = 17;
               return model.add({ title: title, timeflag: now, content: content, pass: parseInt(pass), author_id: extra.user.id });
 
-            case 16:
+            case 17:
               extra.cate.forEach(function () {
                 var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(item, index) {
                   var affectedRows;
@@ -394,17 +393,17 @@ var _class = function (_think$controller$bas) {
               }());
               return _context11.abrupt('return', this.success('\u6DFB\u52A0\u65B0\u95FB\u6210\u529F'));
 
-            case 20:
-              _context11.prev = 20;
-              _context11.t0 = _context11['catch'](13);
+            case 21:
+              _context11.prev = 21;
+              _context11.t0 = _context11['catch'](14);
               return _context11.abrupt('return', this.fail(_context11.t0));
 
-            case 23:
+            case 24:
             case 'end':
               return _context11.stop();
           }
         }
-      }, _callee11, this, [[13, 20]]);
+      }, _callee11, this, [[14, 21]]);
     }));
 
     function addnewsAction() {

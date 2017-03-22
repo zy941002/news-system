@@ -51,20 +51,21 @@ var _class = function (_Base) {
 
   _class.prototype.indexAction = function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      var data;
+      var where, data;
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               this.setCorsHeader();
-              _context.next = 3;
-              return this.model('user').select();
+              where = this.get();
+              _context.next = 4;
+              return this.model('user').fetchUser(where);
 
-            case 3:
+            case 4:
               data = _context.sent;
               return _context.abrupt('return', this.success(data));
 
-            case 5:
+            case 6:
             case 'end':
               return _context.stop();
           }
@@ -89,7 +90,7 @@ var _class = function (_Base) {
               this.setCorsHeader();
               where = this.get();
               _context2.next = 4;
-              return this.model('user').fetchuser(where);
+              return this.model('user').fetchUser(where);
 
             case 4:
               data = _context2.sent;
@@ -185,19 +186,25 @@ var _class = function (_Base) {
               this.setCorsHeader();
               _get = this.get(), id = _get.id;
               model = this.model('user');
-              _context4.next = 5;
+              _context4.prev = 3;
+              _context4.next = 6;
               return model.where({ id: id }).delete();
 
-            case 5:
+            case 6:
               affectedRows = _context4.sent;
               return _context4.abrupt('return', this.success(affectedRows));
 
-            case 7:
+            case 10:
+              _context4.prev = 10;
+              _context4.t0 = _context4['catch'](3);
+              return _context4.abrupt('return', this.fail(_context4.t0));
+
+            case 13:
             case 'end':
               return _context4.stop();
           }
         }
-      }, _callee4, this);
+      }, _callee4, this, [[3, 10]]);
     }));
 
     function removeAction() {

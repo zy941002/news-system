@@ -101,6 +101,7 @@ export default {
   	 addLink:function(){
   		this.dialogTableVisible = true
   		if(this.curLink.id){
+        console.log(encodeURI(`admin/config/config/name/${this.curLink.name}/url/${this.curLink.url}/id/${this.curLink.id}/`))
   			API.PUT(`admin/config/config/name/${this.curLink.name}/url/${this.curLink.url}/${this.curLink.id}/`).then(res=>{
           console.log(res.body)
   				if(res.body.errmsg==0){
@@ -118,7 +119,7 @@ export default {
           url:this.curLink.url,
           type:1
         }
-        API.POST(`admin/config/config/`,config).then(res=>{
+        API.POST(`admin/config/config/`,encodeURI(config)).then(res=>{
           if(res.body.errmsg==0){
             this.$message({
               message:`${this.status}成功`,

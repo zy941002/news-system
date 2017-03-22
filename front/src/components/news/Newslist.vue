@@ -90,7 +90,6 @@ import API from '../../api/api.js'
 export default {
 	mounted(){
 		API.FIND(`news/news/fetch`,{pageNum:1}).then((res)=>{
-      console.log(res.data.data)
       res.data.data.data.map((item,index)=>{
         item.pass = Boolean(item.pass)
         item.top = Boolean(item.top)
@@ -135,7 +134,6 @@ export default {
     },
     handleSelectionChange(val) {
         this.multipleSelection = val;
-        // console.log(this.multipleSelection)
     },
     handleEdit(index, data) {
       this.$router.push({name:"newsdetail",query:{id:data.id}});

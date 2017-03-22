@@ -5,8 +5,9 @@
   		<span class="txt-info">登录</span>
   	</div>   	
    	<dl >
+   		<dt @click="goIndex()">推荐</dt>
 		<dt v-for="category in categories" class="tag">
-			<span @click="goCategory(category.id)">{{category.name}}</span>
+			<span @click="goCategory(category.id,category.name)">{{category.name}}</span>
 		</dt>
    	</dl>
   </div>
@@ -27,8 +28,11 @@ export default{
 		}
 	},
 	methods:{
-		goCategory(id){
-			let res = this.$emit("hideMenus",id);
+		goCategory(id,name){
+			let res = this.$emit("hideMenus",id,name);
+		},
+		goIndex(){
+			this.$emit("hideMenus");
 		}
 	}
 }
@@ -38,7 +42,8 @@ export default{
 .menu-list {
 	width: 300px;
 	background: @ColorF;
-	position: absolute;
+	position: fixed;
+	// position: absolute;
 	top: 0;
 	z-index: 100;
 	left: -300px;

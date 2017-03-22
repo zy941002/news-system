@@ -9,13 +9,14 @@ import Base from './base.js';
 export default class extends Base{
   async indexAction() {
     this.setCorsHeader()
-    let data = await this.model(`user`).select();
+    let where = this.get()
+    let data = await this.model(`user`).fetchUser(where);
     return this.success(data)
   }
   async fetchuserAction(){
     this.setCorsHeader();
     let where = this.get();
-    let data = await this.model(`user`).fetchuser(where);
+    let data = await this.model(`user`).fetchUser(where);
     return this.json({data:data})
   }
   async addAction(){
@@ -45,8 +46,13 @@ export default class extends Base{
     this.setCorsHeader();
     let {id} = this.get();
     let model= this.model(`user`);
-    let affectedRows = await model.where({id:id}).delete()
-    return this.success(affectedRows);
+    try {
+      let affectedRows = await model.where({id:id}).delete()  
+      return this.success(affectedRows)
+    }
+    catch(err){
+      return this.fail(err)
+    }
   }
   setCorsHeader(){
     this.header("Access-Control-Allow-Origin", this.header("origin") || "*");

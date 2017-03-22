@@ -27,7 +27,6 @@
     },
     methods:{
       goDetail(){
-        this.$store.dispatch('SET_USER',{id:this.user.id})
         this.$router.push({name:"userdetail",query:{id:this.user.id}})
       }
     }
