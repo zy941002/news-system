@@ -81,7 +81,7 @@ export default class extends think.controller.base {
     let model = this.model(`news`);    
     let where =  this.post();
     let now =  moment.utc(new Date()).format("YYYY-MM-DD");
-    let {id,title,content,pass,extra,top} = where;
+    let {id,title,content,pass,extra,top,imageurl,preview} = where;
     let cate = this.model(`news_cate`);
     if(!think.isEmpty(id)){
       extra.cate.forEach(async (item,index)=>{
@@ -93,12 +93,22 @@ export default class extends think.controller.base {
         content: content,
         pass : Number(pass),
         top : Number(top),
+        imageurl: imageurl,
+        preview: preview
       });
       return this.success(`更新新闻成功`)
 
     }else{
         try{
-           await model.add({title:title,timeflag:now,content: content,pass : parseInt(pass),author_id:extra.user.id});
+           await model.add({
+            title: title,
+            timeflag: now,
+            content: content,
+            pass: parseInt(pass),author_id:extra.user.id,
+            imageurl: imageurl,
+            preview: preview
+
+            });
             extra.cate.forEach(async (item,index)=>{
               let affectedRows = await cate.add({news_id:resid,cate_id:item.cate.id})
             }) 
@@ -117,6 +127,14 @@ export default class extends think.controller.base {
     // console.log(datime+"-----------------"+this.get(`date`))
     let res = await news.where({timeflag:datime,top:1}).select();
         return this.success(res)
+  }
+  async updateclickAction() {
+    this.setCorsHeader();
+    let { id , clicked } = this.post()
+    console.log(id,clicked)
+    let res = await this.model(`news`).where({id:id}).update({clicked:clicked})
+    consolelog(res)
+    return this.success(res)
   }
   async categorylistAction(){
     this.setCorsHeader();

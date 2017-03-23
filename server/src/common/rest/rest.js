@@ -17,6 +17,10 @@ export default class extends think.controller.rest {
     //如果没有取到，则从 http method 中获取
     this._method = "_method";
   }
+  __before(){
+    console.log(this.get())
+    // this.modelInstance.fieldReverse('password,score'); //隐藏 password 和 score 字段
+  }
   * getAction(){
     let data;
     if (this.id) {

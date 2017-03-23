@@ -23,6 +23,9 @@ export default{
 </script>
 <style lang="less" scoped>
 @import url('../../assets/less/CV.less');
+.news-index{
+  margin-top: 10px;
+}
 .news-title{
   width: 100%;
   height: 50px;
@@ -32,7 +35,6 @@ export default{
 
 .news-index{
   overflow: hidden;
-  box-shadow: 0 0 4px rgba(0,0,0,.9);
 }
 .trans-left {
   transform:translateX(-300px)

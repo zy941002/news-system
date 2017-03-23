@@ -34,7 +34,7 @@
 		  
 		    <el-table-column
 		      label="链接"
-		      width="180">
+		      width="300">
 		      <template scope="scope">
 		            {{ scope.row.url }}
 		      </template>
@@ -98,12 +98,14 @@ export default {
   		this.curLink = item;
   		this.dialogTableVisible  = true
   	},
-  	 addLink:function(){
+  	addLink:function(){
   		this.dialogTableVisible = true
   		if(this.curLink.id){
-        console.log(encodeURI(`admin/config/config/name/${this.curLink.name}/url/${this.curLink.url}/id/${this.curLink.id}/`))
-  			API.PUT(`admin/config/config/name/${this.curLink.name}/url/${this.curLink.url}/${this.curLink.id}/`).then(res=>{
-          console.log(res.body)
+  			API.POST(`admin/config/addconfig/`,{
+          name: this.curLink.name,
+          url: this.curLink.url,
+          id: this.curLink.id
+        }).then(res=>{
   				if(res.body.errmsg==0){
   					this.$message({
   						message:`${this.status}成功`,
@@ -119,7 +121,8 @@ export default {
           url:this.curLink.url,
           type:1
         }
-        API.POST(`admin/config/config/`,encodeURI(config)).then(res=>{
+        API.POST(`admin/config/addconfig/`,config).then(res=>{
+          console.log(res.body)
           if(res.body.errmsg==0){
             this.$message({
               message:`${this.status}成功`,
@@ -137,7 +140,7 @@ export default {
 		  this.dialogTableVisible = false
   	},
   	handleDelete:function(item,index){
-  		API.DELETE(`admin/config/${item.id}`).then(res=>{
+  		API.DELETE(`admin/config/delete?id=${item.id}`).then(res=>{
   			if(res.body.errmsg==0){
           this.$message.success(`删除成功`)
           this.tableData.splice(index,1)

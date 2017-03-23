@@ -1,5 +1,5 @@
 <template>
-	<div>		
+	<div class="access-panle">		
   		<aside class="access-panle" :class="{'show':showAccess}">
 		  <el-tabs v-model="active">
 		    <el-tab-pane label="登录" name="first"><login @hideAccess="hideAccess"></login></el-tab-pane>
@@ -32,8 +32,6 @@ export default{
 		hideAccess(){
 			let res = this.$emit("hideAccess");
 		}
-
-
 	},
 	components:{
 		login,
@@ -61,6 +59,7 @@ export default{
 	position: fixed;
 	transition: all .3s ease;
 	bottom: 0;
+	z-index: 119;
 }
 .show{
 	-webkit-transform: translateX(-300px);

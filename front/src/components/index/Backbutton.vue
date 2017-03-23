@@ -1,14 +1,8 @@
 <template>
   <div class="backbutton icon">
-  	<router-link :to="{path:'/index'}"> 回到首页</router-link>	
+  	<router-link :to="{path:'/index/'}"> 回到首页</router-link>	
   </div>
 </template>
-<script>
-
-export default{
-
-}
-</script>
 <style lang="less" scoped>
 .backbutton {
 	width: 80px;

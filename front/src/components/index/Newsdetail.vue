@@ -1,25 +1,56 @@
 <template>
-	<div>
-		<h1>{{news.title}}</h1>
-		<div>点击量<el-tag>{{news.clicked}}</el-tag></div>
-		<div v-html='news.content'></div>
-		评论框	
-		<el-input type='textarea' placehoder="有话要说"></el-input>
-		<div v-for="item in news.extra.comment">
-			<span>{{item.user.name}}</span>
-			{{item.content}}
+	<div class="index-news-main">
+		<h1 class="pv-center">{{news.title}}</h1>		
+		<section class="pv-center news-preivew">{{news.preview}}</section>
+		
+		<div class="pv-center news-extra">
+			<section class="news-extra-info"><i>WRITE BY&nbsp;&nbsp;{{news.extra.user.name}}&nbsp;&nbsp;</i></section>
+			<section class="news-extra-info">&nbsp;&nbsp;{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;</section>
+			<section class="news-extra-info"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{news.clicked}}</i> &nbsp;&nbsp;</section>
+		</div>			
+		
+		<div class="index-news-content"v-html='news.content'></div>	
+		
+		<div class="index-news-comment">
+			<i class="fa fa-pencil add-comment-icon" aria-hidden="true" @click="showCommentbox">&nbsp;&nbsp;添加新评论</i>	
+			<el-input :class="{hide:hide}" type='textarea' v-model="comment" placehoder="有话要说"></el-input>
+			<el-button  :class="{hide:hide}" type='primary' @click="submitComment">提交</el-button>
+		</div>		
+		
+		<div class="index-news-comments" v-for="(item,index) in news.extra.comment">			
+			<section>
+				<figure>
+					<img class="comment-user-avatar icon" :src="JSON.parse(item.user.file).url"/>
+					<div class="nick-date">
+						<div class="comemt-user">{{item.user.name}}</div>
+						<span class="comemt-date">{{moment(item.createTime).format(`YYYY·MM·DD`)}}</span>	
+					</div>					
+				</figure>
+			</section>
+			<div class="comment-content">{{item.content}}</div>		
 		</div >
 	</div>
 </template>
 <script>
 import API from '../../api/api.js'
 import { mapGetters } from 'vuex'
+import moment from 'moment'
+import store from '../../assets/js/storage.js'
+import '../../assets/less/overwriteeditor.less'
 export default{
 	data(){
 		return{
+			hide:true,
 			news:{
-				extra:{}
-			}
+				extra:{
+					user:{
+
+					},
+					cate:[],
+					comment:[]
+				}
+			},
+			comment:''
 		}
 	},
 	mounted(){
@@ -28,17 +59,98 @@ export default{
 				this.$set(this,'news',res.data.data.data[0])
 			})	
 		}
-		
-
+	},
+	methods:{
+		moment(){
+			return moment()
+		},
+		showCommentbox(){
+			this.hide = !this.hide;
+			console.log(this.show)
+		},
+		submitComment(){
+			let user = JSON.parse(store.get(`userInfo`));
+			if(user==null||user==undefined){
+				alert(`请先登录`)
+				return;
+			}else{
+				API.POST(`comments/comments/add`,{
+					content : this.comment,
+					newsid : this.news.id,
+					userid : user.id
+				}).then(res=>{
+					console.log(res)
+				})
+			}			
+		}
 	}
-
 }
 </script>
 <style lang="less" scoped>
 @import url('../../assets/less/CV.less');
+.hide{
+	display: none;
+}
+.hide{
+	display: none;
+}
+.news-preivew {
+	margin: 10px 0;
+	color: @DarkGray;
+}
+.news-extra {
+	margin-bottom: 50px;
+}
+.news-extra-info{
+	color: @DarkGray;	
+}
 .contet {
 	width: 500px;
 	height: auto;
 	background: red;
+}
+.index-news-main {
+	margin-top:80px;
+}
+.index-news-content ,.index-news-comment, .index-news-comments{
+	width: 55%;
+	display: block;
+	margin: 0 auto;	
+}
+.index-news-content {
+	margin-bottom: 50px;
+}
+.index-news-comments {
+	border-bottom: 1px solid #f0f0f0;
+	padding: 20px 0 30px;
+	// margin-bottom: 30px;
+}
+.comment-user-avatar {
+	width: 40px;
+	height: 40px;
+	vertical-align: middle;
+	border-radius: 50%;
+}
+.comemt-user, .comemt-date {
+	color: @DarkGray;
+	margin-left: 10px;
+	// display: inline-block;
+}
+.comemt-user {
+	font-size: 16px;
+}
+.comemt-date {
+	font-size: 12px;
+}
+.nick-date {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.comment-content {
+	margin: 10px 0 10px 50px;
+}
+.add-comment-icon {
+	margin: 10px 0;
 }
 </style>

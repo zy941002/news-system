@@ -18,6 +18,7 @@
       <el-form-item label="审核状态">
         <el-switch on-text="通过" off-text="不通过" v-model="ruleForm.pass"></el-switch>
       </el-form-item>
+
       <el-form-item label="分类于">
         <div v-if="ruleForm.extra.cate.length>0">
             <el-tag
@@ -41,6 +42,24 @@
             :value="item.id">
           </el-option>
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="首页配图">
+            <el-upload
+            action="http://localhost:8360/admin/upload"
+            type="drag"
+            name="image"
+            :data="ruleForm"
+            :multiple="false"
+            :on-success="setURL"
+            >        
+            <img v-if="ruleForm.imageurl" :src="ruleForm.imageurl" class="index-img">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+      </el-form-item>
+      
+      <el-form-item label="添加摘要" >
+        <el-input v-model="ruleForm.preview" type="textarea"></el-input>
       </el-form-item>
 
       <el-form-item label="新闻内容">
@@ -139,7 +158,9 @@ export default {
       categories:[],
       newscate:'',
       ruleForm:{
+        imageurl:'',
         title:"",
+        preview:"",
         extra:{
           cate:[],
           user:""
@@ -157,8 +178,8 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
+            console.log(this.ruleForm)
             API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
-              console.log(res)
               if(res.body.errno==0){
                 this.$message.success(`${this.status}成功`)
                 this.$router.push({path:`/admin/newspanle`})
@@ -178,7 +199,17 @@ export default {
       handleClose(tag){
         API.DELETE(`news/news/delcate`,{news_id:tag.news_id,cate_id:tag.cate_id}).then((res)=>{})
           this.ruleForm.extra.cate.splice(this.ruleForm.extra.cate.indexOf(tag),1)
+      },
+      setURL(res, file, fileList){
+        this.ruleForm.imageurl = res.url;
+        this.$store.dispatch('SET_FILE',res)
       }
     }
 }
 </script>
+<style type="text/css">
+  .index-img {
+    width: 300px;
+    height: 200px;
+  }
+</style>

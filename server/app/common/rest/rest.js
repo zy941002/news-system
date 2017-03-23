@@ -35,6 +35,10 @@ var _class = function (_think$controller$res) {
     this._method = "_method";
   };
 
+  _class.prototype.__before = function __before() {
+    console.log(this.get());
+  };
+
   _class.prototype.getAction = _regenerator2.default.mark(function getAction() {
     var data, _modelInstance$where, pk;
 

@@ -72,7 +72,12 @@ export default{
 .news-title{
   width: 100%;
   height: 50px;
-  position: relative;
+  // position: relative;
+  box-shadow: 0 0 4px rgba(0,0,0,.9);
+  background: white;
+  z-index: 11;
+  position: fixed;
+  top: 0;
   border-bottom: 1px solid rgba(0,0,0,.25);
 }
 
@@ -92,6 +97,7 @@ export default{
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 111;
   background: rgba(0,0,0,.4);
 }
 .access-icon{

@@ -41,7 +41,7 @@ export default{
       setURL(res){
         this.pics.push({url:res.url,id:res.id})
         let {originalFilename,url} = res
-        API.POST(`admin/config`,{name:originalFilename,url:url,type:0}).then(async (res)=>{
+        API.POST(`admin/config/addconfig`,{name:originalFilename,url:url,type:0}).then(async (res)=>{
           this.$message({
             message:"添加图片成功"
           })
@@ -52,7 +52,7 @@ export default{
       },
       handleRemove(file, fileList) {
       
-        API.DELETE(`admin/config/${file.id}`).then(res=>{
+        API.DELETE(`admin/config/delete?=id${file.id}`).then(res=>{
           this.pics.splice(fileList.indexOf(file),1)
         })
       },
