@@ -1,13 +1,16 @@
 <template>
 	<div class="access-panle">		
   		<aside class="access-panle" :class="{'show':showAccess}">
-		  <el-tabs v-model="active">
-		    <el-tab-pane label="登录" name="first"><login @hideAccess="hideAccess"></login></el-tab-pane>
-		    <el-tab-pane label="注册" name="second"><register></register></el-tab-pane>
-		  </el-tabs>
+		  	<el-tabs v-model="active" class="news-accces-tab">
+		    	<el-tab-pane label="登录" name="first">
+		    		<login @hideAccess="hideAccess"></login>
+		    	</el-tab-pane>
+		    	<el-tab-pane label="注册" name="second">
+		    		<register></register>
+		    	</el-tab-pane>
+		  	</el-tabs>
   		</aside>
-  </div>
-
+  	</div>
 </template>
 <script>
 import API from '../../api/api.js'
@@ -49,6 +52,10 @@ export default{
 	transition: all .3s ease;
 	border-bottom: 1px solid rgba(0,0,0,.25);
 	box-shadow: 0 0 4px rgba(0,0,0,.25);
+}
+
+.news-accces-tab {
+	margin-top: 50px;
 }
 .access-panle{
 	width: 300px;

@@ -18,6 +18,7 @@ export default class extends think.controller.base {
       this.end();
     }
     this.setCorsHeader();
+    this.id = this.get(`id`)
     return;
   }  
   //-----end of before

@@ -51,9 +51,10 @@ var _class = function (_think$controller$bas) {
                 this.end();
               }
               this.setCorsHeader();
+              this.id = this.get('id');
               return _context.abrupt('return');
 
-            case 4:
+            case 5:
             case 'end':
               return _context.stop();
           }

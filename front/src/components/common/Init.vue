@@ -2,7 +2,7 @@
   <div>
     <h1>系统初始化</h1>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    	<el-form-item label="用户名" prop="name">
+      <el-form-item label="用户名" prop="name">
         <el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
@@ -18,7 +18,7 @@
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
-</el-form>
+    </el-form>
   </div>
 </template>
 

@@ -1,12 +1,14 @@
 <template>
-  <div class="news-index">
-    <newsmenu :showList='showList' @hideMenus="hideMenus"></newsmenu> 
+  <div class="news-index">    
+    <newsmenu :showList='showList' @hideMenus="hideMenus"></newsmenu>
+    
     <div :class="{'trans-left':showAccess,'trans-right':showList}" class="news-title pv-center"> 
       <i class="fa fa-list icon list-icon her-center"  aria-hidden="true" @click="showLists"></i>
-        <h1>Incredible/{{position}}</h1>
+        <h1>Incredible</h1>
       <i class="fa fa-user-o icon access-icon her-center"  aria-hidden="true" @click="access"></i>
     </div>
-    <access :showAccess="showAccess" @hideAccess="hideAccess"></access>    
+    
+    <access  :showAccess="showAccess" @hideAccess="hideAccess"></access>        
     <div :class="{'cover':coverFlag}" @click="showCover"></div>
   </div>
 </template>
@@ -22,7 +24,6 @@ export default{
       showList: false,      
       coverFlag: false,
       active: "first",
-      position:"首页"
     }
   },
   methods:{
@@ -43,22 +44,33 @@ export default{
       this.showList = !this.showList
       this.coverFlag = true;
     },
-    hideMenus(id,position){
-      this.showList = this.coverFlag = false;
-      if(id){
-        this.position = position
-        this.$store.dispatch('SET_IDXCATEGORY',{id:id})
-        this.$router.push({path:'/index/category',query:{id:id}})     
-      }else{
-        this.$router.push({path:'/index/'})    
+    hideMenus(...args){
+      switch (args.length){
+        case 0:
+          this.$router.push({path:'/index/'})
+          this.showList = this.coverFlag = false
+          break;
+        case 1:
+          this.showAccess =this.coverFlag = true 
+          this.showList = false
+          break;
+        case 2:
+          this.showList = this.coverFlag = false;
+          let [id,position] = args
+          this.$store.dispatch('SET_IDXCATEGORY',{id:id})
+          this.$router.push({path:'/index/category',query:{id:id}})        
+          break;
       }
-
     },
     hideAccess(){
       this.showAccess = this.coverFlag = false;
       this.$router.push({path:'/index'})
+    },
+    showAccess(){
+      alert()
+      this.showAccess = !this.showAccess
+      this.coverFlag = false
     }
-
   },
   components:{
     newsheader,
@@ -72,7 +84,6 @@ export default{
 .news-title{
   width: 100%;
   height: 50px;
-  // position: relative;
   box-shadow: 0 0 4px rgba(0,0,0,.9);
   background: white;
   z-index: 11;

@@ -3,7 +3,8 @@ export const GET_IDXCATEGORY = `GET_IDXCATEGORY`
 import API from '../api/api.js'    
 export default {
     state:{
-        idxcategory:[],
+        idxcategory:{},
+   
     },
     mutations: {
         [SET_IDXCATEGORY](state,idxcategory) {
@@ -18,8 +19,7 @@ export default {
     actions:{
 	    async [SET_IDXCATEGORY]({ state, commit, rootState },params){
 	    	await API.FIND(`news/news/categorylist`,params).then(res => {
-				commit('SET_IDXCATEGORY',res.data.data);
-				
+				commit('SET_IDXCATEGORY',res.data)
 			},err=>{
 				console.log(res)
 			})

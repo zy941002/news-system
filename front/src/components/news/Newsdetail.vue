@@ -178,7 +178,6 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
-            console.log(this.ruleForm)
             API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
               if(res.body.errno==0){
                 this.$message.success(`${this.status}成功`)

@@ -3,14 +3,15 @@
  * rest controller
  * @type {Class}
  */
-export default class extends think.controller.base {
+import Base from '../../common/base/base.js'
+export default class extends Base{
   /**
    * init
    * @param  {Object} http []
    * @return {}      []
    */
   async indexAction(){
-    this.setCorsHeader();
+    // this.setCorsHeader();
     let __this = this;
     let affect = await this.model(`news_cate`).select();
     
@@ -22,15 +23,5 @@ export default class extends think.controller.base {
     return this.success()
 
 
-  }
-  /**
-   * before magic method
-   * @return {Promise} []
-   */
-  setCorsHeader(){
-    this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
-    this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
-    this.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-    this.header("Access-Control-Allow-Credentials", "true");
   }
 }

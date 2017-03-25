@@ -26,16 +26,20 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _base = require('../../common/base/base.js');
+
+var _base2 = _interopRequireDefault(_base);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var moment = require('moment');
 
-var _class = function (_think$controller$bas) {
-  (0, _inherits3.default)(_class, _think$controller$bas);
+var _class = function (_Base) {
+  (0, _inherits3.default)(_class, _Base);
 
   function _class() {
     (0, _classCallCheck3.default)(this, _class);
-    return (0, _possibleConstructorReturn3.default)(this, _think$controller$bas.apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, _Base.apply(this, arguments));
   }
 
   _class.prototype.fetchAction = function () {
@@ -48,12 +52,11 @@ var _class = function (_think$controller$bas) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              this.setCorsHeader();
               where = this.get();
-              _context5.next = 4;
+              _context5.next = 3;
               return this.model('news').fetchNews(where);
 
-            case 4:
+            case 3:
               news = _context5.sent;
               __this = this;
               promise = [];
@@ -183,10 +186,10 @@ var _class = function (_think$controller$bas) {
                 };
               }());
 
-              _context5.next = 10;
+              _context5.next = 9;
               return _promise2.default.all(promise);
 
-            case 10:
+            case 9:
               results = _context5.sent;
 
 
@@ -197,7 +200,7 @@ var _class = function (_think$controller$bas) {
 
               return _context5.abrupt('return', this.success(news));
 
-            case 13:
+            case 12:
             case 'end':
               return _context5.stop();
           }
@@ -492,28 +495,37 @@ var _class = function (_think$controller$bas) {
   }();
 
   _class.prototype.categorylistAction = function () {
-    var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
+    var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
       var _this4 = this;
 
-      var _get, id, news, cate, cates, promise, where, data;
-
-      return _regenerator2.default.wrap(function _callee15$(_context15) {
+      var news, cate, cates, promise, where, uncate, upromise, data, undata;
+      return _regenerator2.default.wrap(function _callee16$(_context16) {
         while (1) {
-          switch (_context15.prev = _context15.next) {
+          switch (_context16.prev = _context16.next) {
             case 0:
-              this.setCorsHeader();
-              _get = this.get(), id = _get.id, news = this.model('news'), cate = this.model('category'), cates = [], promise = [], where = {};
+              news = this.model('news'), cate = this.model('category'), cates = [], promise = [], where = {}, uncate = [], upromise = [];
 
-              if (id) {
-                where = {
-                  cate_id: id
-                };
+              if (!this.id) {
+                _context16.next = 6;
+                break;
               }
-              _context15.next = 5;
-              return this.model('news_cate').where(where).select();
+
+              where = {
+                cate_id: this.id
+              };
+              _context16.next = 5;
+              return this.model('news_cate').where({ cate_id: ["!=", this.id] }).select();
 
             case 5:
-              cates = _context15.sent;
+              uncate = _context16.sent;
+
+            case 6:
+              _context16.next = 8;
+              return this.model('news_cate').where(where).select();
+
+            case 8:
+              cates = _context16.sent;
+
 
               cates.forEach(function (item, index) {
                 promise.push(new _promise2.default(function () {
@@ -553,20 +565,68 @@ var _class = function (_think$controller$bas) {
                   };
                 }()));
               });
+              uncate.forEach(function (item, index) {
+                upromise.push(new _promise2.default(function () {
+                  var _ref16 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15(resolve, reject) {
+                    var cateitem, newsitem, res;
+                    return _regenerator2.default.wrap(function _callee15$(_context15) {
+                      while (1) {
+                        switch (_context15.prev = _context15.next) {
+                          case 0:
+                            _context15.next = 2;
+                            return cate.where({ id: item.cate_id }).select();
 
-              _context15.next = 9;
+                          case 2:
+                            cateitem = _context15.sent;
+                            _context15.next = 5;
+                            return news.where({ id: item.news_id }).select();
+
+                          case 5:
+                            newsitem = _context15.sent;
+                            res = {
+                              cate: cateitem[0],
+                              news: newsitem[0]
+                            };
+
+                            resolve(res);
+
+                          case 8:
+                          case 'end':
+                            return _context15.stop();
+                        }
+                      }
+                    }, _callee15, _this4);
+                  }));
+
+                  return function (_x15, _x16) {
+                    return _ref16.apply(this, arguments);
+                  };
+                }()));
+              });
+
+              _context16.next = 13;
               return _promise2.default.all(promise);
 
-            case 9:
-              data = _context15.sent;
-              return _context15.abrupt('return', this.success(data));
+            case 13:
+              data = _context16.sent;
+              _context16.next = 16;
+              return _promise2.default.all(upromise);
 
-            case 11:
+            case 16:
+              undata = _context16.sent;
+
+              console.log(undata.length);
+              return _context16.abrupt('return', this.json({
+                cate: data,
+                uncate: undata
+              }));
+
+            case 19:
             case 'end':
-              return _context15.stop();
+              return _context16.stop();
           }
         }
-      }, _callee15, this);
+      }, _callee16, this);
     }));
 
     function categorylistAction() {
@@ -576,15 +636,8 @@ var _class = function (_think$controller$bas) {
     return categorylistAction;
   }();
 
-  _class.prototype.setCorsHeader = function setCorsHeader() {
-    this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
-    this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
-    this.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-    this.header("Access-Control-Allow-Credentials", "true");
-  };
-
   return _class;
-}(think.controller.base);
+}(_base2.default);
 
 exports.default = _class;
 //# sourceMappingURL=news.js.map

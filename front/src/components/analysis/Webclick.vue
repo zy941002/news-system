@@ -1,8 +1,7 @@
   <template>
-  <div class="">
-    <chart :options="option"></chart>
-  </div>
-
+    <div class="">
+      <chart :options="option"></chart>
+    </div>
 </template>
 <script>
 let ECharts = require('vue-echarts/components/ECharts.vue') 

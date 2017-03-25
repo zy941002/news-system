@@ -50,16 +50,14 @@ export default{
 	components:{
 	},
 	mounted(){
-		API.FIND(`admin/config`).then(res=>{
-			this.links = res.data.data.filter((item,index)=>{
+		API.FIND(`admin/config`).then(res=> {
+			this.links = res.data.data.filter((item,index)=> { 
 				if(item.type==1){
 					return item
 				}
 			})
-			console.log(res.data.data)
 		})
 	}
-
 }
 </script>
 <style lang="less" scoped>

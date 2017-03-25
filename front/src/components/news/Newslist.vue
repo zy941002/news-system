@@ -39,7 +39,6 @@
           @change="handleStatus(scope.$index, scope.row)"
           off-text="不通过">
         </el-switch>
-        <!-- {{Boolean(scope.row.pass)}} -->
         </template>		
       </el-table-column>
 

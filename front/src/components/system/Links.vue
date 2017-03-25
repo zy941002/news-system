@@ -122,7 +122,6 @@ export default {
           type:1
         }
         API.POST(`admin/config/addconfig/`,config).then(res=>{
-          console.log(res.body)
           if(res.body.errmsg==0){
             this.$message({
               message:`${this.status}成功`,

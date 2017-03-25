@@ -1,25 +1,36 @@
 <template>
-	<div class="index-news-main">
-		<div v-for="item in news" class="index-category">			
+	<div class="category-main index-news-main">
+		<div class="other-cate-wrapper">
+			<div v-for="(item,index) in othercate" class="othercate">
+				<h4>
+					<router-link class="category-title  category-title-small cate-title" :to="{path:'/index/category',query:{id:item.cate.id}}">
+					{{item.cate.name}}</router-link>					
+				</h4>
+				<h3>
+					<router-link  :to="{path:'/index/newsdetail',query:{id:item.news.id}}">
+						<img :src="item.news.imageurl">
+					</router-link>
+					<router-link :to="{path:'/index/newsdetail',query:{id:item.news.id}}">{{item.news.title}}</router-link>
+				</h3>		
+			</div >
+		</div>
+		<div v-for="(item ,index) in news" class="index-category">			
+			<h2  class="category-title category-title-middle" v-if="index==0">{{item.cate.name}}</h2>
 			<h1 class="category-news-title">
-				<router-link :to="{path:'/index/newsdetail',query:{id:item.news.id}}">{{item.news.title}}</router-link>
-			</h1>
-
-
-			
+				<router-link class="category-news-title" :to="{path:'/index/newsdetail',query:{id:item.news.id}}">{{item.news.title}}</router-link>
+			</h1>				
 			<figure>
 				<img class="category-img" :src="item.news.imageurl">
 			</figure>
-
-			<div class="">
-				<section class="news-extra-info">&nbsp;&nbsp;{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;</section>
-				<section class="news-extra-info"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.news.clicked}}</i> &nbsp;&nbsp;</section>
+			<div class="news-extra">
+				<section class="news-extra-info">{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
+				<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.news.clicked}}</i> &nbsp;&nbsp;
+				</section>
 			</div>
-
-
-
-			{{item.news.preview}}			
-		</div >
+			<div class="cate-preview">
+				{{item.news.preview}}
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -30,7 +41,14 @@ export default{
 	name: "indexCategory",
 	mounted(){
 		if(this.$route.query.id){
-			this.$store.dispatch('SET_IDXCATEGORY',{id:this.$route.query.id})	
+			console.log(this.$route.query.id)
+			this.$store.dispatch('SET_IDXCATEGORY',{id:this.$route.query.id})
+		}
+		
+	},
+	data(){
+		return {
+
 		}
 	},
 	methods:{
@@ -40,35 +58,93 @@ export default{
 	},
 	computed: {
 		news(){
-			if(!!this.$store.state.idxCategory.idxcategory.length){
-				return this.$store.state.idxCategory.idxcategory;
-			}
-		}
-  	},
+			let data = this.$store.state.idxCategory.idxcategory.cate
+			return data
+		},
+		othercate(){
+			let data =this.$store.state.idxCategory.idxcategory.uncate
+				return data
+			}		
+  		},
 }
 </script>
 <style lang="less" scoped>
 @import url('../../assets/less/CV.less');
-.index-category:nth-of-type(1){
-	width: 600px;
-	background: red;
-	margin: 0 auto;	
+@firstpartheight:280px;
+.category-main{
+	width: 960px;
+	margin: 120px auto;
+	position: relative;
 	overflow: hidden;
-	.category-news-title {
-		float: left;	
-	}	
+}
+
+.index-category{
+	width: 60%;
+	margin: 10px 10px 0 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid @Gray;
 	figure{
-		width: 50%;
-		float: right;
 		img{
 			width: 100%;
+			height: 350px;
+			float: right;
 		}
 	}
 }
-.category-news-title {
-	width: 50%;
-	height: auto;
-	word-break: break-all;
+.cate-preview {
+	font-size: 13px;
+	line-height: 24px;
 }
+.category-news-title {
+	font-size: 24px;
+}
+.index-category:nth-of-type(1){
+	width: 100%;
+	height: @firstpartheight;
+	padding-bottom: 10px;
+	margin: 0 auto;	
+	.cate-preview {
+		width: 50%;
+		margin: 10px 0;
+	}
+	.category-news-title {
+		width: 40%;
+		height: auto;
+		overflow: hidden;		
+		word-break: break-all;	
+	}
+	figure{
+		width: 60%;
+		height: 100%;
+		float: right;
+		img{
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+.other-cate-wrapper{	
+	width: 38%;
+	float: right;
+	border-left: 1px solid @Gray;
 
+}
+.othercate {
+	width: 88%;
+	margin: 10px auto;
+	padding-bottom: 10px;
+	border-bottom: 1px solid @Gray;
+	img{
+		width: 100%;
+		height: 150px;
+	}
+}
+.cate-title {
+	padding: 5px 0;
+ 	display: block;
+	border-width: 2px 0 0 0 ;
+}
+.category-title{
+	border-width: 2px 0 0 0 ;	
+}
 </style>

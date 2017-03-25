@@ -1,6 +1,6 @@
 <template>
   <div>
-    <newsheader></newsheader><!-- <topnews></topnews> -->
+    <newsheader></newsheader>
     <router-view></router-view>
     <links></links>
     <backbutton></backbutton>
@@ -12,11 +12,13 @@ import newsheader from './Newsheader.vue'
 import backbutton from './Backbutton.vue'
 import topnews from './Topnews.vue'
 import links from './Links.vue'
+import carousel from './Carousel .vue'
 export default{
   components:{
     newsheader,
     topnews,
     links,
+    carousel,
     backbutton
   }
 }
@@ -55,5 +57,9 @@ export default{
 }
 .list-icon{
   left: 0;
+}
+.carousel {
+  width: 960px;
+  margin: 0 auto;
 }
 </style>

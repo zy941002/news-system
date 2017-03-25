@@ -1,6 +1,6 @@
 <template>
     <figure @click="goDetail()" >
-      <img :src="file.url" class="avatar">
+      <img :src="file.url" class="admin-avatar">
     </figure>
 </template>
 
@@ -33,13 +33,9 @@
   }
 </script>
 <style lang="less">
-  .avatar{
-    width: 50px;
-    height: 50px;
-    display: block;
-    border-radius: 50%;
-    // margin-left: 40px;
+@import url("../../assets/less/CV.less");
+  .admin-avatar{
+    &:extend(.avatar);
     margin: 20px 0px 0 40px;
   }
 </style>
-<!-- Add "scoped" attribute to limit CSS to this component only -->

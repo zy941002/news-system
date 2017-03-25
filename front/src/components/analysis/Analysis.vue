@@ -1,10 +1,10 @@
-  <template>
-  <div class="main">
-      <el-breadcrumb separator="/" class="bread-crumb">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      </el-breadcrumb>
-	   <webclick></webclick>
-  </div>
+<template>
+    <div class="main">
+          <el-breadcrumb separator="/" class="bread-crumb">
+              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          </el-breadcrumb>
+  	   <webclick></webclick>
+    </div>
 </template>
 <script>
 let ECharts = require('vue-echarts/components/ECharts.vue') 

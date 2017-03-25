@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item v-for="item in pics" :key='item'>
-        <img :src="item.url">      
-    </el-carousel-item>
-  </el-carousel> 
-
-  <el-upload
-      action="http://localhost:8360/admin/upload"
-      name="image"
-      :multiple="false"
-      :on-success="setURL"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :fileList="pics"
-      list-type="picture">
-      <i class="el-icon-plus avatar-uploader-icon"></i>
-  </el-upload>
-
-  </div>
+    <div>
+      <el-carousel :interval="4000" type="card" height="200px">
+        <el-carousel-item v-for="item in pics" :key='item'>
+          <img :src="item.url">      
+      </el-carousel-item>
+    </el-carousel> 
+    <el-upload
+        action="http://localhost:8360/admin/upload"
+        name="image"
+        :multiple="false"
+        :on-success="setURL"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :fileList="pics"
+        list-type="picture">
+        <i class="el-icon-plus avatar-uploader-icon"></i>
+    </el-upload>
+    </div>
 </template>
 <script>
 import API from '../../api/api.js'

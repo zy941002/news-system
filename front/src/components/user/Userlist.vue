@@ -3,8 +3,7 @@
     <el-breadcrumb separator="/" class="bread-crumb">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-    </el-breadcrumb>
-    
+    </el-breadcrumb>    
     <el-button type="primary" @click="goNew">添加用户</el-button>
     <el-table
       :data="pageInfo.data"
@@ -38,7 +37,6 @@
         label="地址"
         width="120">
       </el-table-column>
-
       <el-table-column
         label="类型"
         width="120">
@@ -48,7 +46,6 @@
           <div v-if="scope.row.type==2">超级管理员</div>
         </template>
       </el-table-column> 
-
       <el-table-column
         label="操作"
         width="150">
@@ -57,9 +54,7 @@
           <el-button @click="deleteUser(scope.$index,scope.row)"type="danger" size="small">删除</el-button>        
         </template>
       </el-table-column>
-
     </el-table>
-
     <div class="block">
       <el-pagination
         @size-change="handleSizeChange"

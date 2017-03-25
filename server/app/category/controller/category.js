@@ -1,46 +1,41 @@
 'use strict';
-/**
- * rest controller
- * @type {Class}
- */
 
 exports.__esModule = true;
 
-var _regenerator = require("babel-runtime/regenerator");
+var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-var _inherits2 = require("babel-runtime/helpers/inherits");
+var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _base = require('../../common/base/base.js');
+
+var _base2 = _interopRequireDefault(_base);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _class = function (_think$controller$bas) {
-  (0, _inherits3.default)(_class, _think$controller$bas);
+var _class = function (_Base) {
+  (0, _inherits3.default)(_class, _Base);
 
   function _class() {
     (0, _classCallCheck3.default)(this, _class);
-    return (0, _possibleConstructorReturn3.default)(this, _think$controller$bas.apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, _Base.apply(this, arguments));
   }
 
-  /**
-   * init
-   * @param  {Object} http []
-   * @return {}      []
-   */
   _class.prototype.indexAction = function () {
     var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
       var _this2 = this;
@@ -51,12 +46,11 @@ var _class = function (_think$controller$bas) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              this.setCorsHeader();
               __this = this;
-              _context2.next = 4;
-              return this.model("news_cate").select();
+              _context2.next = 3;
+              return this.model('news_cate').select();
 
-            case 4:
+            case 3:
               affect = _context2.sent;
 
 
@@ -68,7 +62,7 @@ var _class = function (_think$controller$bas) {
                       switch (_context.prev = _context.next) {
                         case 0:
                           _context.next = 2;
-                          return __this.model("news").where({ id: news_id }).select();
+                          return __this.model('news').where({ id: news_id }).select();
 
                         case 2:
                           news = _context.sent;
@@ -76,7 +70,7 @@ var _class = function (_think$controller$bas) {
                           console.log(news);
 
                         case 4:
-                        case "end":
+                        case 'end':
                           return _context.stop();
                       }
                     }
@@ -87,10 +81,10 @@ var _class = function (_think$controller$bas) {
                   return _ref2.apply(this, arguments);
                 };
               }());
-              return _context2.abrupt("return", this.success());
+              return _context2.abrupt('return', this.success());
 
-            case 7:
-            case "end":
+            case 6:
+            case 'end':
               return _context2.stop();
           }
         }
@@ -103,21 +97,9 @@ var _class = function (_think$controller$bas) {
 
     return indexAction;
   }();
-  /**
-   * before magic method
-   * @return {Promise} []
-   */
-
-
-  _class.prototype.setCorsHeader = function setCorsHeader() {
-    this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
-    this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
-    this.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-    this.header("Access-Control-Allow-Credentials", "true");
-  };
 
   return _class;
-}(think.controller.base);
+}(_base2.default);
 
 exports.default = _class;
 //# sourceMappingURL=category.js.map

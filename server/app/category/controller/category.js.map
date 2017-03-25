@@ -5,7 +5,6 @@
     ],
     "names": [
         "indexAction",
-        "setCorsHeader",
         "__this",
         "model",
         "select",
@@ -19,15 +18,11 @@
         "news",
         "console",
         "log",
-        "success",
-        "header",
-        "think",
-        "controller",
-        "base"
+        "success"
     ],
-    "mappings": "AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAKE;;;;;mBAKMA,W;;;;;;;;;;AACJ,mBAAKC,aAAL;AACIC,oB,GAAS,I;;qBACM,KAAKC,KAAL,cAAwBC,MAAxB,E;;;AAAfC,oB;;;AAGJA,qBAAOC,OAAP;AAAA,uFAAe,iBAAOC,IAAP,EAAYC,KAAZ;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iCACKN,OAAOC,KAAP,SAAqBM,KAArB,CAA2B,EAACC,IAAGC,OAAJ,EAA3B,EAAyCP,MAAzC,EADL;;AAAA;AACTQ,8BADS;;AAEXC,kCAAQC,GAAR,CAAYF,IAAZ;;AAFW;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iBAAf;;AAAA;AAAA;AAAA;AAAA;gDAIO,KAAKG,OAAL,E;;;;;;;;;;;;;;;;AAIT;;;;;;mBAIAd,a,4BAAe;AACb,SAAKe,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EA7B0BC,MAAMC,UAAN,CAAiBC,I",
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;AAKA;;;;;;;;;;;;;;mBAOQA,W;;;;;;;;;;AAEAC,oB,GAAS,I;;qBACM,KAAKC,KAAL,cAAwBC,MAAxB,E;;;AAAfC,oB;;;AAGJA,qBAAOC,OAAP;AAAA,uFAAe,iBAAOC,IAAP,EAAYC,KAAZ;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iCACKN,OAAOC,KAAP,SAAqBM,KAArB,CAA2B,EAACC,IAAGC,OAAJ,EAA3B,EAAyCP,MAAzC,EADL;;AAAA;AACTQ,8BADS;;AAEXC,kCAAQC,GAAR,CAAYF,IAAZ;;AAFW;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iBAAf;;AAAA;AAAA;AAAA;AAAA;gDAIO,KAAKG,OAAL,E",
     "file": "../../../src/category/controller/category.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * rest controller\n * @type {Class}\n */\nexport default class extends think.controller.base {\n  /**\n   * init\n   * @param  {Object} http []\n   * @return {}      []\n   */\n  async indexAction(){\n    this.setCorsHeader();\n    let __this = this;\n    let affect = await this.model(`news_cate`).select();\n    \n    \n    affect.forEach(async (item,index)=>{\n      let news = await  __this.model(`news`).where({id:news_id}).select();\n        console.log(news)\n    })\n    return this.success()\n\n\n  }\n  /**\n   * before magic method\n   * @return {Promise} []\n   */\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}"
+        "'use strict';\n/**\n * rest controller\n * @type {Class}\n */\nimport Base from '../../common/base/base.js'\nexport default class extends Base{\n  /**\n   * init\n   * @param  {Object} http []\n   * @return {}      []\n   */\n  async indexAction(){\n    // this.setCorsHeader();\n    let __this = this;\n    let affect = await this.model(`news_cate`).select();\n    \n    \n    affect.forEach(async (item,index)=>{\n      let news = await  __this.model(`news`).where({id:news_id}).select();\n        console.log(news)\n    })\n    return this.success()\n\n\n  }\n}"
     ]
 }

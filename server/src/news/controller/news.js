@@ -1,8 +1,9 @@
 'use strict'; 
 let moment = require('moment')
-export default class extends think.controller.base {
+import Base from '../../common/base/base.js'
+export default class extends Base{
+  
   async fetchAction(){
-  	this.setCorsHeader();
     let where = this.get();
   	let news = await this.model(`news`).fetchNews(where);
     let __this = this;
@@ -121,10 +122,7 @@ export default class extends think.controller.base {
   async topAction(){
     this.setCorsHeader();
     let news = this.model(`news`);
-    // console.log(moment(new Date()).format("YYYY-MM-DD")+"----moment---server now--------");
-    // console.log(new Date()+"Date-----------------NOW-----------")
     let datime = moment.utc(this.get(`date`)).format(`YYYY-MM-DD`)
-    // console.log(datime+"-----------------"+this.get(`date`))
     let res = await news.where({timeflag:datime,top:1}).select();
         return this.success(res)
   }
@@ -137,17 +135,19 @@ export default class extends think.controller.base {
     return this.success(res)
   }
   async categorylistAction(){
-    this.setCorsHeader();
-    let {id} = this.get(),
-        news = this.model(`news`),
+    let news = this.model(`news`),
         cate = this.model(`category`),
-        cates = [],promise = [],where = {}
-    if(id){
+        cates = [],promise = [],where = {},uncate = [],upromise=[];
+
+    if(this.id){
       where = {
-        cate_id:id
+        cate_id:this.id
       }
+      uncate = await this.model(`news_cate`).where({cate_id:["!=",this.id]}).select();
     }
     cates = await this.model(`news_cate`).where(where).select();  
+
+    
     cates.forEach((item,index)=>{
       promise.push(new Promise(async (resolve,reject)=>{
         let cateitem = await cate.where({id:item.cate_id}).select();
@@ -159,14 +159,24 @@ export default class extends think.controller.base {
         resolve(res)
       }))    
     })
+    uncate.forEach((item,index)=>{
+      upromise.push(new Promise(async (resolve,reject)=>{
+        let cateitem = await cate.where({id:item.cate_id}).select();
+        let newsitem = await news.where({id:item.news_id}).select();
+        let res = {
+          cate : cateitem[0],
+          news: newsitem[0]
+        }
+        resolve(res)
+      }))    
+    })
 
     let data =await Promise.all(promise);    
-    return this.success(data)
-  }
-  setCorsHeader(){
-    this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
-    this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
-    this.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-    this.header("Access-Control-Allow-Credentials", "true");
+    let undata = await Promise.all(upromise)
+    console.log(undata.length)
+    return this.json({
+      cate: data,
+      uncate: undata
+    })
   }
 }
