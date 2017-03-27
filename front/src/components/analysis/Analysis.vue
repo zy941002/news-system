@@ -10,7 +10,7 @@
 let ECharts = require('vue-echarts/components/ECharts.vue') 
 import Vue from 'vue'
 Vue.component('chart',ECharts)
-import webclick from './webclick.vue'
+import webclick from './Webclick.vue'
 import API from '../../api/api.js'
 export default {
   data: function () {

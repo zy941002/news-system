@@ -15,6 +15,32 @@
 	height: 50px;
 	border-radius: 50%;
 }
+.tag {
+	&-small{
+		padding: 2px 5px;
+		display: inline-block;
+		margin: 0 2px;
+		border-radius: 2px;
+		font-size: 12px;
+		color: white !important;
+		background: @ActiveBlue;
+	}
+
+}
+.article-title{
+	color:black;
+	margin: 10px 0;
+	cursor: pointer;
+	&-large{
+		font-size: 24px;
+	}
+	&-middle{
+		font-size: 18px;
+	}
+	&-small{
+		font-size: 16px;
+	}
+}
 .btn{
 	display: inline-block;
 	border-radius: 5px;
@@ -28,6 +54,7 @@
 	color:@ActiveBlue;
 	display: block;
 	border-top: 2px solid black;
+	cursor: pointer;
 	&-small{
 		font-size: 16px;
 		padding:5px 0;
@@ -47,9 +74,14 @@
 /**
  * 新闻的附加信息，作者，时间、浏览
  */
-.news-extra {
-	margin: 5px 0;
-}
 .news-extra-info{
-	color: @DarkGray;	
+	color: @DarkGray;
+	margin:3px 0;
+	display: inline-block;
+}
+a{
+	color: black;
+	&:active{
+		color: @ActiveBlue;
+	}
 }

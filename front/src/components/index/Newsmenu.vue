@@ -11,8 +11,8 @@
   		</div>
 	   	<dl>
 	   		<dt  class="recommend tag" @click="goIndex()">推荐</dt>
-			<dt v-for="(category,index) in categories" class="tag">
-				<span @click="goCategory(category.id,category.name)">{{category.name}}</span>
+			<dt v-for="(category,index) in categories" class="tag"@click="goCategory(category.id,category.name)">
+				<span>{{category.name}}</span>
 			</dt>
 	   	</dl>
 	   	<div v-if="user">
@@ -49,7 +49,8 @@ export default{
 	methods:{
 		goCategory(id,name){
 			let res = this.$emit("hideMenus",id,name);
-			this.$store.dispatch('SET_IDXCATEGORY',id)
+			let now = new Date().toString()
+			this.$store.dispatch('SET_IDXCATEGORY',{id,id,date:now})
 		},
 		goIndex(){
 			this.$emit("hideMenus");

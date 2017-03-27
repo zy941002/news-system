@@ -16,7 +16,13 @@
       </el-form-item>
 
       <el-form-item label="审核状态">
-        <el-switch on-text="通过" off-text="不通过" v-model="ruleForm.pass"></el-switch>
+        <el-switch on-text="通过" off-text="不通过"  @change="handleStatus(ruleForm)" v-model="ruleForm.pass"></el-switch>
+      </el-form-item>
+
+      <el-form-item label="置顶">
+        <el-switch on-text="置顶" off-text="不置顶" v-model="ruleForm.top"
+          @change="handleStatus(ruleForm)"
+        ></el-switch>
       </el-form-item>
 
       <el-form-item label="分类于">
@@ -97,7 +103,8 @@ export default {
 
     API.FIND(`news/news/fetch`,{id:id}).then((res)=>{
       if(res.data.data.data.length>0){
-        res.data.data.data[0].pass =   Boolean(res.data.data.data[0].pass);  
+        res.data.data.data[0].pass =   Boolean(res.data.data.data[0].pass)
+        res.data.data.data[0].top =   Boolean(res.data.data.data[0].top);  
         __this.$set(__this,'ruleForm',res.data.data.data[0])
       }
       
@@ -202,7 +209,17 @@ export default {
       setURL(res, file, fileList){
         this.ruleForm.imageurl = res.url;
         this.$store.dispatch('SET_FILE',res)
+      },
+      handleStatus(){
+        this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
+        API.POST(`news/news/addnews`,this.ruleForm).then(res=>{
+          if(res.data.errno>0){
+            this.$message.error(`后台出错，请联系客服`)
+          }
+        })
+
       }
+
     }
 }
 </script>

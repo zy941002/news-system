@@ -1,8 +1,8 @@
 <template>
   	<div>
-    	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    	  <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           	<el-upload
-          		action="http://120.77.37.91:8360/admin/upload"
+          		action="http://localhost:8360/admin/upload"
           		type="drag"
           		name="image"
           		:data="ruleForm"
@@ -10,27 +10,26 @@
           		:on-success="setURL">        
           		<img v-if="imageUrl" :src="imageUrl" class="avatar">
           		<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          		<div class="el-upload__tip" slot="tip" >点击上传头像</div>
          	</el-upload>
-	      	
-	      	<el-form-item label="昵称" prop="name">
-	        	<el-input type="text" v-model="ruleForm.nickname" auto-complete="off"></el-input>
+	      	<el-form-item  prop="name">
+	        	<el-input type="text" v-model="ruleForm.name" auto-complete="off" placeholder="用户名"></el-input>
 	      	</el-form-item>
 
-	      	<el-form-item label="用户名" prop="name">
-	        	<el-input type="text" v-model="ruleForm.name" auto-complete="off"></el-input>
+
+          <el-form-item  prop="nickname">
+            <el-input type="text" v-model="ruleForm.nickname" auto-complete="off" placeholder="昵称"></el-input>
+          </el-form-item>
+
+	      	<el-form-item  prop="password">
+	        	<el-input type="password" v-model="ruleForm.password" placeholder="密码"auto-complete="off"></el-input>
 	      	</el-form-item>
 
-	      	<el-form-item label="密码" prop="password">
-	        	<el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+	      	<el-form-item  prop="checkPass">
+	        	<el-input type="password" v-model="ruleForm.checkPass" placeholder="确认密码"auto-complete="off"></el-input>
 	      	</el-form-item>
 
-	      	<el-form-item label="确认密码" prop="checkPass">
-	        	<el-input type="password" v-model="ruleForm.checkPass" auto-complete="off"></el-input>
-	      	</el-form-item>
-
-	      	<el-form-item label="邮箱" prop="email">
-	        	<el-input v-model.number="ruleForm.email"></el-input>
+	      	<el-form-item  prop="email">
+	        	<el-input v-model.number="ruleForm.email" placeholder="邮箱"></el-input>
 	      	</el-form-item>
 
 	      	<el-form-item>
@@ -43,6 +42,7 @@
 
 <script>
 import API from '../../api/api.js'
+import Storage from '../../assets/js/storage.js'
   export default {
     name:"register",
     data() {
@@ -100,9 +100,17 @@ import API from '../../api/api.js'
 	            	let file = {file:this.$store.state.file}
 	            	let params = Object.assign(this.ruleForm,this.$store.state.file)
 	            	API.POST(`admin/user/add`,this.ruleForm).then((res)=>{
-	            	
+                  console.log(res.data)
+
+	            	  if(res.data.errno==0){
+                      this.$router.push({path:`/index/`})
+                      this.$emit('hideAccess')
+                      this.$router.push({path:'/index/'})
+                      Storage.set('userInfo',JSON.stringify(params));
+                  }
 	            	})
 	          	} else {
+                console.log(validate)
 	            	this.$message.error('请正确填写表单信息');
 	            	return false;
 	         	}

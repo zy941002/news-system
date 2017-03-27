@@ -1,7 +1,7 @@
 <template>
   <div>
     <newsheader></newsheader>
-    <router-view></router-view>
+    <router-view class="out-put"></router-view>
     <links></links>
     <backbutton></backbutton>
   </div>
@@ -25,6 +25,9 @@ export default{
 </script>
 <style lang="less" scoped>
 @import url('../../assets/less/CV.less');
+.out-put {
+  min-height: 300px;
+}
 .news-index{
   margin-top: 10px;
 }

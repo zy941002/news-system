@@ -2,10 +2,12 @@
 	<div class="index-news-main">
 		<h1 class="pv-center">{{news.title}}</h1>
 		<section class="pv-center news-preivew">{{news.preview}}</section>
-		<div class="pv-center news-extra">
-			<section class="news-extra-info"><i>WRITE BY&nbsp;&nbsp;{{news.extra.user.name}}&nbsp;&nbsp;</i></section>
-			<section class="news-extra-info">&nbsp;&nbsp;{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;</section>
-			<section class="news-extra-info"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{news.clicked}}</i> &nbsp;&nbsp;</section>
+		<div class="pv-center news-extra">			
+			<section class="news-extra-info"><i>WRITE BY&nbsp;&nbsp;{{news.extra.user.name}}&nbsp;&nbsp;</i>&nbsp;&nbsp;{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{news.clicked}}</i> &nbsp;&nbsp;</section>
+			
+			<i  class="news-extra-info tag-small"  v-for="cate in news.extra.cate">			
+				<router-link :to="{path:'/index/categoty',query:{id:cate.cate.id}}">{{cate.cate.name}}</router-link>	
+			</i>
 		</div>
 		<div class="index-news-content"v-html='news.content'></div>		
 		<div class="index-news-comment">

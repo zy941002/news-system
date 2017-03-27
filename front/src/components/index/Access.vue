@@ -6,7 +6,7 @@
 		    		<login @hideAccess="hideAccess"></login>
 		    	</el-tab-pane>
 		    	<el-tab-pane label="注册" name="second">
-		    		<register></register>
+		    		<regester  @hideAccess="hideAccess"></regester>
 		    	</el-tab-pane>
 		  	</el-tabs>
   		</aside>
@@ -15,7 +15,7 @@
 <script>
 import API from '../../api/api.js'
 import login from './Login.vue'
-import register from './Regeister.vue'
+import regester from './Regester.vue'
 export default{
 	data(){
 		return {
@@ -38,7 +38,7 @@ export default{
 	},
 	components:{
 		login,
-		register
+		regester
 	}
 
 }
@@ -57,7 +57,7 @@ export default{
 .news-accces-tab {
 	margin-top: 50px;
 }
-.access-panle{
+.access-panle {
 	width: 300px;
 	background: @ColorF;
 	position: absolute;
@@ -68,13 +68,9 @@ export default{
 	bottom: 0;
 	z-index: 119;
 }
-.show{
-	-webkit-transform: translateX(-300px);
-	   -moz-transform: translateX(-300px);
-	    -ms-transform: translateX(-300px);
-	     -o-transform: translateX(-300px);
-	        transform: translateX(-300px);
-	        z-index: 100;
+.show {
+    transform: translateX(-300px);
+    z-index: 100;
 }
 .trans-left {
 	transform:translateX(-300px)

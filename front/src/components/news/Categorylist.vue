@@ -43,7 +43,6 @@ export default{
       this.$set(this,'tableData',res.data.data)
     }),
     API.FIND(`admin/category`).then((res)=>{
-      console.log(res.data.data)
       this.$set(this,'categories',res.data.data)
     })
   },

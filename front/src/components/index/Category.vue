@@ -2,9 +2,8 @@
 	<div class="category-main index-news-main">
 		<div class="other-cate-wrapper">
 			<div v-for="(item,index) in othercate" class="othercate">
-				<h4>
-					<router-link class="category-title  category-title-small cate-title" :to="{path:'/index/category',query:{id:item.cate.id}}">
-					{{item.cate.name}}</router-link>					
+				<h4 @click="goCategory(item.cate.id)"class="category-title  category-title-small cate-title">
+					{{item.cate.name}}
 				</h4>
 				<h3>
 					<router-link  :to="{path:'/index/newsdetail',query:{id:item.news.id}}">
@@ -25,6 +24,7 @@
 			<div class="news-extra">
 				<section class="news-extra-info">{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
 				<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.news.clicked}}</i> &nbsp;&nbsp;
+				
 				</section>
 			</div>
 			<div class="cate-preview">
@@ -41,8 +41,8 @@ export default{
 	name: "indexCategory",
 	mounted(){
 		if(this.$route.query.id){
-			console.log(this.$route.query.id)
-			this.$store.dispatch('SET_IDXCATEGORY',{id:this.$route.query.id})
+			let now = new Date().toString()
+			this.$store.dispatch('SET_IDXCATEGORY',{id:this.$route.query.id,date:now})
 		}
 		
 	},
@@ -54,7 +54,10 @@ export default{
 	methods:{
 		moment(){
 			return moment()
-		}
+		},
+		goCategory(id){
+			this.$store.dispatch('SET_IDXCATEGORY',{id:id,date:new Date().toString()})
+		},
 	},
 	computed: {
 		news(){

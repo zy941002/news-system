@@ -1,15 +1,14 @@
 <template>
     <div>
-      	<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-        	<el-form-item label="用户名" prop="username">
-          		<el-input type="text" v-model="ruleForm.username" auto-complete="off"></el-input>
+      	<el-form :model="ruleForm" :rules="rules" ref="ruleForm">  	
+          <el-form-item  prop="username" >
+          		<el-input type="text"placeholder="用户名" v-model="ruleForm.username" auto-complete="off"></el-input>
+        	</el-form-item>        
+        	<el-form-item prop="password">
+          		<el-input type="password" placeholder="密码" v-model="ruleForm.password" auto-complete="off"></el-input>
         	</el-form-item>
         
-        	<el-form-item label="密码" prop="password">
-          		<el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
-        	</el-form-item>
-        
-        	<el-form-item>
+        	<el-form-item class="fx-v-btw">
           		<el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           		<el-button @click="resetForm('ruleForm')">重置</el-button>
         	</el-form-item>
@@ -67,8 +66,10 @@ import API from '../../api/api.js'
 	                		return;
 	              		}else if (res.data.data[0][`type`]===2) {
 	                		this.$message.success("欢迎登录本系统");
+                      this.$router.push(`/index/`)
+                      this.$emit(`hideAccess`)
 	                		Storage.set('userInfo',JSON.stringify(res.data.data[0]));
-	               	    }
+	               	   }
 	           		})
 	          	}else {
 	            	this.$message.error('请正确填写表单信息');
@@ -83,5 +84,8 @@ import API from '../../api/api.js'
 }
 </script>
 <style lang="less" scoped>
-@import url('../../assets/less/CV.less');
+// @import url('../../assets/less/CV.less');
+// .access-login-form {
+// 	width: 90%;
+// }
 </style>

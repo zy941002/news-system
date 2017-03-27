@@ -1,8 +1,7 @@
 'use strict'; 
 let moment = require('moment')
 import Base from '../../common/base/base.js'
-export default class extends Base{
-  
+export default class extends Base{  
   async fetchAction(){
     let where = this.get();
   	let news = await this.model(`news`).fetchNews(where);
@@ -58,20 +57,16 @@ export default class extends Base{
   }
   // 删除分类
   async delcateAction(){
-    this.setCorsHeader();
     let where = this.get();
     let affectedRows = await this.model(`news_cate`).where(where).delete();
   }
 
   // 新增分类
-  async addCateAction(){
-    this.setCorsHeader();
-    let where = this.post();
-    console.log(where);
+  async addCateAction(){;
+
   }
   // 删除新闻
   async removeAction(){
-    this.setCorsHeader();
     let model = this.model(`news`);
     let id = this.get(`id`);
     let affectedRows = await model.where({id:id}).delete()
@@ -86,7 +81,12 @@ export default class extends Base{
     let cate = this.model(`news_cate`);
     if(!think.isEmpty(id)){
       extra.cate.forEach(async (item,index)=>{
-        let affectedRows = await cate.thenAdd({news_id:id,cate_id:item.cate.id},{news_id:id,cate_id:item.cate.id})
+        let affectedRows = await cate.thenAdd({
+          news_id:id,
+          cate_id:
+          item.cate.id}
+          ,{news_id:id,
+            cate_id:item.cate.id})
       })
       let affectedRows = await model.where({id:id,}).update({
         title: title,
@@ -126,23 +126,29 @@ export default class extends Base{
     let res = await news.where({timeflag:datime,top:1}).select();
         return this.success(res)
   }
+  async untopAction(){
+    let news = this.model(`news`),
+        datime = moment.utc(this.get(`date`)).format(`YYYY-MM-DD`),
+        res = await news.where({timeflag:datime,top:["!=",1]}).select(); 
+        console.log(`untop`+res.length)
+    return this.success(res)
+  }
   async updateclickAction() {
     this.setCorsHeader();
     let { id , clicked } = this.post()
-    console.log(id,clicked)
     let res = await this.model(`news`).where({id:id}).update({clicked:clicked})
-    consolelog(res)
     return this.success(res)
   }
   async categorylistAction(){
     let news = this.model(`news`),
         cate = this.model(`category`),
-        cates = [],promise = [],where = {},uncate = [],upromise=[];
+        cates = [],promise = [],where = {},uncate = [],upromise=[],
+        timeflag = moment(this.get(`date`)).format(`YYYY-MM-DD`);
 
     if(this.id){
       where = {
         cate_id:this.id
-      }
+      } 
       uncate = await this.model(`news_cate`).where({cate_id:["!=",this.id]}).select();
     }
     cates = await this.model(`news_cate`).where(where).select();  
@@ -151,29 +157,39 @@ export default class extends Base{
     cates.forEach((item,index)=>{
       promise.push(new Promise(async (resolve,reject)=>{
         let cateitem = await cate.where({id:item.cate_id}).select();
-        let newsitem = await news.where({id:item.news_id}).select();
-        let res = {
-          cate : cateitem[0],
-          news: newsitem[0]
-        }
-        resolve(res)
+        let newsitem = await news.where({
+            id:item.news_id,
+            timeflag:timeflag}).select();
+        if(newsitem[0]){
+          let res = {
+            cate : cateitem[0],
+            news: newsitem[0]
+          }
+          resolve(res)  
+        }        
       }))    
     })
+
     uncate.forEach((item,index)=>{
       upromise.push(new Promise(async (resolve,reject)=>{
         let cateitem = await cate.where({id:item.cate_id}).select();
-        let newsitem = await news.where({id:item.news_id}).select();
-        let res = {
-          cate : cateitem[0],
-          news: newsitem[0]
+        let newsitem = await news.where({
+          id:item.news_id,
+          timeflag:timeflag
+        }).select();
+
+        if(newsitem[0]){
+          let res = {
+            cate : cateitem[0],
+            news: newsitem[0]
+          }
+          resolve(res)  
         }
-        resolve(res)
       }))    
     })
 
     let data =await Promise.all(promise);    
     let undata = await Promise.all(upromise)
-    console.log(undata.length)
     return this.json({
       cate: data,
       uncate: undata
