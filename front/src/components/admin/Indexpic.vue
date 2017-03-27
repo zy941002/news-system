@@ -6,7 +6,7 @@
       </el-carousel-item>
     </el-carousel> 
     <el-upload
-        action="http://localhost:8360/admin/upload"
+        action="http://120.77.37.91:8360/"
         name="image"
         :multiple="false"
         :on-success="setURL"

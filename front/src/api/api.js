@@ -8,7 +8,7 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
-const baseUrl = 'http://localhost:8360/'
+const baseUrl = 'http://120.77.37.91:8360/'
 
 export default {
 	[FIND]:async function(url,parms){

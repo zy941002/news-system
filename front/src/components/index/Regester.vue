@@ -2,7 +2,7 @@
   	<div>
     	  <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           	<el-upload
-          		action="http://localhost:8360/admin/upload"
+          		action="http://120.77.37.91:8360/admin/upload"
           		type="drag"
           		name="image"
           		:data="ruleForm"
