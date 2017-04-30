@@ -5,8 +5,15 @@
           <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" theme="dark" :router=true>
           	<Usericon></Usericon>
             <el-menu-item index="analysis"><i class="el-icon-star-on"></i>走势分析  </el-menu-item>
-          	<el-menu-item index="userlist"><i class="el-icon-star-on"></i>用户管理</el-menu-item>
-            <el-menu-item index="newspanle"><i class="el-icon-menu"></i>新闻管理</el-menu-item>
+          	<div v-if="user.type==2">
+              <el-menu-item index="userlist"><i class="el-icon-star-on"></i>用户管理</el-menu-item>  
+              <el-menu-item index="newspanle"><i class="el-icon-menu"></i>新闻管理</el-menu-item>
+            </div>
+            
+            <div v-if="user.type==1">
+              <el-menu-item index="newspanle"><i class="el-icon-star-on"></i>我的新闻</el-menu-item>  
+            </div>
+            
             <el-menu-item index="category"><i class="el-icon-setting"></i>分类管理</el-menu-item>
             <el-menu-item index="setting" ><i class="el-icon-setting"></i>系统设置</el-menu-item>
           </el-menu>
@@ -23,6 +30,15 @@
   	components: {
       Usericon
   	},
+    mounted(){
+      this.user = JSON.parse(Storage.get(`userInfo`));
+      console.log(this.user)
+    },
+    data(){
+      return {
+        user:{}
+      }
+    },
     methods: {
       set_state(type){
         this.$store.dispatch(type);

@@ -4,6 +4,8 @@
         "../../../src/common/base/base.js"
     ],
     "names": [
+        "moment",
+        "require",
         "init",
         "http",
         "__before",
@@ -13,14 +15,19 @@
         "end",
         "id",
         "get",
+        "page",
+        "now",
+        "utc",
+        "Date",
+        "format",
         "header",
         "think",
         "controller",
         "base"
     ],
-    "mappings": ";AAQA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mBAEEA,I,iBAAKC,I,EAAM;AACT,oCAAMD,IAAN,YAAWC,IAAX;AACD,G;;mBACKC,Q;;;;;;;AACAC,oB,GAAS,KAAKF,IAAL,CAAUE,MAAV,CAAiBC,WAAjB,E;;AACb,kBAAGD,WAAW,SAAd,EAAwB;AACtB,qBAAKE,aAAL;AACA,qBAAKC,GAAL;AACD;AACD,mBAAKD,aAAL;AACA,mBAAKE,EAAL,GAAU,KAAKC,GAAL,MAAV;;;;;;;;;;;;;;;;;;mBAIFH,a,4BAAe;AACb,SAAKI,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EApB0BC,MAAMC,UAAN,CAAiBC,I",
+    "mappings": ";AAQA;;;;;;;;;;;;;;;;;;;;;;;;;;AACA,IAAIA,SAASC,QAAQ,QAAR,CAAb;;;;;;;;;;mBAEEC,I,iBAAKC,I,EAAM;AACT,oCAAMD,IAAN,YAAWC,IAAX;AACD,G;;mBACKC,Q;;;;;;;AACAC,oB,GAAS,KAAKF,IAAL,CAAUE,MAAV,CAAiBC,WAAjB,E;;AACb,kBAAGD,WAAW,SAAd,EAAwB;AACtB,qBAAKE,aAAL;AACA,qBAAKC,GAAL;AACD;AACD,mBAAKD,aAAL;AACA,mBAAKE,EAAL,GAAU,KAAKC,GAAL,MAAV;AACA,mBAAKC,IAAL,GAAY,KAAKD,GAAL,QAAZ;AACA,mBAAKE,GAAL,GAAYZ,OAAOa,GAAP,CAAW,IAAIC,IAAJ,EAAX,EAAuBC,MAAvB,CAA8B,YAA9B,CAAZ;;;;;;;;;;;;;;;;;;mBAIFR,a,4BAAe;AACb,SAAKS,MAAL,CAAY,6BAAZ,EAA2C,KAAKA,MAAL,CAAY,QAAZ,KAAyB,GAApE;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,+BAA5C;AACA,SAAKA,MAAL,CAAY,8BAAZ,EAA4C,6BAA5C;AACA,SAAKA,MAAL,CAAY,kCAAZ,EAAgD,MAAhD;AACD,G;;;EAtB0BC,MAAMC,UAAN,CAAiBC,I",
     "file": "../../../src/common/base/base.js",
     "sourcesContent": [
-        "\n// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\nexport default class extends think.controller.base {\n  init(http) {\n    super.init(http);\n  }\n  async __before(){\n    let method = this.http.method.toLowerCase();\n    if(method === 'options'){\n      this.setCorsHeader();\n      this.end();\n    }\n    this.setCorsHeader();\n    this.id = this.get(`id`)\n    return;\n  }  \n  //-----end of before\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}\n"
+        "\n// +----------------------------------------------------------------------\n// | NEWS [ 新闻网站管理系统 ]\n// +----------------------------------------------------------------------\n// | Copyright (c) inkzhou@gmail.com All rights reserved.\n// +----------------------------------------------------------------------\n// | Author: zhouying <inkzhou@gmail.com>\n// +----------------------------------------------------------------------\n'use strict';\nlet moment = require('moment')\nexport default class extends think.controller.base {\n  init(http) {\n    super.init(http);\n  }\n  async __before(){\n    let method = this.http.method.toLowerCase();\n    if(method === 'options'){\n      this.setCorsHeader();\n      this.end();\n    }\n    this.setCorsHeader();\n    this.id = this.get(`id`)\n    this.page = this.get(`page`)\n    this.now =  moment.utc(new Date()).format(\"YYYY-MM-DD\");\n    return;\n  }  \n  //-----end of before\n  setCorsHeader(){\n    this.header(\"Access-Control-Allow-Origin\", this.header(\"origin\") || \"*\");\n    this.header(\"Access-Control-Allow-Headers\", \"x-requested-with,Content-Type\");\n    this.header(\"Access-Control-Allow-Methods\", \"GET,POST,OPTIONS,PUT,DELETE\");\n    this.header(\"Access-Control-Allow-Credentials\", \"true\");\n  }\n}\n"
     ]
 }

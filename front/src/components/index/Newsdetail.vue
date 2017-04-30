@@ -3,30 +3,45 @@
 		<h1 class="pv-center">{{news.title}}</h1>
 		<section class="pv-center news-preivew">{{news.preview}}</section>
 		<div class="pv-center news-extra">			
-			<section class="news-extra-info"><i>WRITE BY&nbsp;&nbsp;{{news.extra.user.name}}&nbsp;&nbsp;</i>&nbsp;&nbsp;{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{news.clicked}}</i> &nbsp;&nbsp;</section>
-			
-			<i  class="news-extra-info tag-small"  v-for="cate in news.extra.cate">			
-				<router-link :to="{path:'/index/categoty',query:{id:cate.cate.id}}">{{cate.cate.name}}</router-link>	
+			<section class="news-extra-info">
+				<i>WRITE BY&nbsp;&nbsp;
+					{{news.name}}&nbsp;&nbsp;
+					{{moment(news.create_time).format(`YYYY-MM-DD`)}}&nbsp;&nbsp;
+					<i class="fa fa-eye active" aria-hidden="true"></i>&nbsp;&nbsp;
+					{{news.clicked}} &nbsp;&nbsp;
+				</i>
+			</section>			
+			<i v-for="cate in news.categories">
+				<span class="tag tag-small" @click="goCategory(cate.id)">{{cate.name}}</span>
 			</i>
 		</div>
 		<div class="index-news-content"v-html='news.content'></div>		
+		
 		<div class="index-news-comment">
-			<i class="fa fa-pencil add-comment-icon" aria-hidden="true" @click="showCommentbox">&nbsp;&nbsp;添加新评论</i>	
+			<i class="fa fa-pencil add-comment-icon" aria-hidden="true" @click="toggleComment">&nbsp;&nbsp;添加新评论</i>	
 			<el-input :class="{hide:hide}" type='textarea' v-model="comment" placehoder="有话要说"></el-input>
-			<el-button  :class="{hide:hide}" type='primary' @click="submitComment">提交</el-button>
+			<el-button  :class="{hide:hide}"class="submit-btn"@click="toggleComment">收起评论</el-button>
+			<el-button  :class="{hide:hide}" type='primary' class="submit-btn"@click="submitComment">提交</el-button>	
 		</div>		
-		<div class="index-news-comments" v-for="(item,index) in news.extra.comment">			
+		<div class="index-news-comments" v-for="(item,index) in comments.data">			
 			<section>
 				<figure>
-					<img class="comment-user-avatar icon" :src="JSON.parse(item.user.file).url"/>
+					<img class="comment-user-avatar icon" :src="JSON.parse(item.file).url"/>
 					<div class="nick-date">
-						<div class="comment-user">{{item.user.name}}</div>
-						<span class="comment-date">{{moment(item.createTime).format(`YYYY·MM·DD`)}}</span>	
+						<div class="comment-user">{{item.nickname}}</div>
+						<span class="comment-date">{{moment(item.createTime).format(`YYYY-MM-DD`)}}</span>					
 					</div>					
 				</figure>
 			</section>
-			<div class="comment-content">{{item.content}}</div>		
+			<div class="comment-content">{{item.content}}</div>			
 		</div >
+		<el-pagination
+  			small
+  			layout="prev, pager, next"
+  			@size-change="handleSizeChange"
+      		@current-change="handleCurrentChange"
+  			:page-count="comments.totalPages">
+		</el-pagination>
 	</div>
 </template>
 <script>
@@ -39,31 +54,54 @@ export default{
 	data(){
 		return{
 			hide:true,
+			categories:[],
 			news:{
-				extra:{
-					user:{
-
-					},
-					cate:[],
-					comment:[]
-				}
+			},
+			comments:{
+				count: "",
+				totalPages: 0,
+				numsPerPage: "",
+				currentPage: "",
+				data:[]
 			},
 			comment:''
 		}
 	},
 	mounted(){
 		if(this.$route.query.id){
-			API.FIND(`news/news/fetch`,{id:this.$route.query.id}).then((res)=>{
-				this.$set(this,'news',res.data.data.data[0])
+			API.FIND(`news/news/find`,{id:this.$route.query.id}).then((res)=>{
+				this.$set(this,'news',res.data.data);
+			})
+			API.FIND(`comments/comments/find`,{id:this.$route.query.id,page:1}).then((res)=>{
+				this.$set(this,"comments",res.data.data)
+				console.log(this.comments.totalPages)
 			})	
+			API.FIND(`news/news/find`,{id:this.$route.query.id}).then((res)=>{				
+				this.$set(this,"categories",res.data.data)
+			})
 		}
 	},
 	methods:{
 		moment(){
 			return moment()
 		},
+		handleSizeChange(val) {
+      		console.log(`每页 ${val} 条`);
+    	},
+	    handleCurrentChange(val) {
+	    	let self = this;
+			API.FIND(`comments/comments/find`,{id:this.$route.query.id,page:val}).then((res)=>{
+				this.$set(this,"comments",res.data.data)
+			})
+	    },
 		showCommentbox(){
 			this.hide = !this.hide;
+		},
+		goCategory(id){
+			this.$router.push({path:'/index/categoty',query:{id,id}})
+		},
+		toggleComment(){
+			this.hide = !this.hide
 		},
 		submitComment(){
 			let user = JSON.parse(store.get(`userInfo`));
@@ -73,10 +111,17 @@ export default{
 			}else{
 				API.POST(`comments/comments/add`,{
 					content : this.comment,
-					newsid : this.news.id,
-					userid : user.id
+					newsid : this.$route.query.id,
+					userid : user.id,
 				}).then(res=>{
-					console.log(res)
+					if(res.data.errno==0){
+						this.comments.data.unshift({
+							content:this.comment,
+							file:user.file,							
+						})
+						this.comment="";
+						this.toggleComment();
+					}					
 				})
 			}			
 		}
@@ -104,13 +149,16 @@ export default{
 	line-height: 24px;
 }
 .index-news{
+	overflow: hidden;
 	&-content{
 		margin-bottom: 50px;
 	}
-
+	&-comment {
+		overflow: hidden;
+	}
 	&-comments {
 		border-bottom: 1px solid #f0f0f0;
-		padding: 20px 0 30px;
+		padding: 20px 0 10px;
 	}
 }
 .comment{
@@ -133,5 +181,9 @@ export default{
 }
 .add-comment-icon {
 	margin: 10px 0;
+}
+.submit-btn{
+	float: right;
+	margin: 10px;
 }
 </style>

@@ -23,8 +23,7 @@
 			</figure>
 			<div class="news-extra">
 				<section class="news-extra-info">{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
-				<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.news.clicked}}</i> &nbsp;&nbsp;
-				
+				<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.news.clicked}}</i> &nbsp;&nbsp;				
 				</section>
 			</div>
 			<div class="cate-preview">
@@ -48,7 +47,6 @@ export default{
 	},
 	data(){
 		return {
-
 		}
 	},
 	methods:{
@@ -61,12 +59,10 @@ export default{
 	},
 	computed: {
 		news(){
-			let data = this.$store.state.idxCategory.idxcategory.cate
-			return data
+			return this.$store.state.idxCategory.idxcategory.cate
 		},
 		othercate(){
-			let data =this.$store.state.idxCategory.idxcategory.uncate
-				return data
+			return this.$store.state.idxCategory.idxcategory.uncate
 			}		
   		},
 }
@@ -80,7 +76,6 @@ export default{
 	position: relative;
 	overflow: hidden;
 }
-
 .index-category{
 	width: 60%;
 	margin: 10px 10px 0 0;
@@ -130,7 +125,6 @@ export default{
 	width: 38%;
 	float: right;
 	border-left: 1px solid @Gray;
-
 }
 .othercate {
 	width: 88%;

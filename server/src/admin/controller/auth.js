@@ -5,9 +5,9 @@ var fs = require('fs');
 var path = require('path');
 let moment = require('moment')
 let util = require('util')
-import Base from './base.js';
+import Base from '../../common/base/base.js';
 
-export default class extends think.controller.base{
+export default class extends Base{
   async loginAction() {  
       this.setCorsHeader();
       let where = this.post();      
@@ -16,16 +16,13 @@ export default class extends think.controller.base{
         return this.fail({errorno:-1},"用户名或密码错误")  
       }
       else{
-        this.user = data;
-        await this.session('userinfo',data);
-        console.log(await this.session(`userinfo`))
+        this.user = data;        
         return this.success(data)
       }
   }
   async addAction(){
     let method = this.http.method.toLowerCase();
     if(method === 'options'){
-      this.setCorsHeader()
       this.end();
     }
     else{  
@@ -44,11 +41,5 @@ export default class extends think.controller.base{
         return this.success(affectedRows);
       }
     }
-  }
-  setCorsHeader(){
-    this.header("Access-Control-Allow-Origin", this.header("origin") || "*");
-    this.header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
-    this.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-    this.header("Access-Control-Allow-Credentials", "true");
   }
 }

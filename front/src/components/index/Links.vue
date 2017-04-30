@@ -50,7 +50,7 @@ export default{
 	components:{
 	},
 	mounted(){
-		API.FIND(`admin/config`).then(res=> {
+		API.FIND(`admin/config`).then(res=> {	
 			this.links = res.data.data.filter((item,index)=> { 
 				if(item.type==1){
 					return item

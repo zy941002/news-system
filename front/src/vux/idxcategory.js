@@ -20,7 +20,6 @@ export default {
 	    async [SET_IDXCATEGORY]({ state, commit, rootState },params){
 	    	await API.FIND(`news/news/categorylist`,params).then(res => {
 				commit('SET_IDXCATEGORY',res.data)
-                console.log(res.data.uncate)
 			},err=>{
 				console.log(res)
 			})

@@ -4,25 +4,36 @@
         "../../../src/category/controller/category.js"
     ],
     "names": [
-        "indexAction",
-        "__this",
+        "findAction",
+        "promises",
         "model",
+        "where",
+        "news_id",
+        "id",
         "select",
-        "affect",
+        "res",
         "forEach",
         "item",
         "index",
-        "where",
-        "id",
-        "news_id",
-        "news",
-        "console",
-        "log",
+        "push",
+        "resolve",
+        "reject",
+        "cate_id",
+        "find",
+        "data",
+        "all",
+        "categories",
+        "addAction",
+        "get",
+        "add",
+        "deleteAction",
+        "delete",
+        "affectedRows",
         "success"
     ],
-    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;AAKA;;;;;;;;;;;;;;mBAOQA,W;;;;;;;;;;AAEAC,oB,GAAS,I;;qBACM,KAAKC,KAAL,cAAwBC,MAAxB,E;;;AAAfC,oB;;;AAGJA,qBAAOC,OAAP;AAAA,uFAAe,iBAAOC,IAAP,EAAYC,KAAZ;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iCACKN,OAAOC,KAAP,SAAqBM,KAArB,CAA2B,EAACC,IAAGC,OAAJ,EAA3B,EAAyCP,MAAzC,EADL;;AAAA;AACTQ,8BADS;;AAEXC,kCAAQC,GAAR,CAAYF,IAAZ;;AAFW;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iBAAf;;AAAA;AAAA;AAAA;AAAA;gDAIO,KAAKG,OAAL,E",
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAKA;;;;;;;;;;;;;;mBAOQA,U;;;;;;;;;AACCC,sB,GAAW,E;;qBACA,KAAKC,KAAL,cAAwBC,KAAxB,CAA8B,EAACC,SAAQ,KAAKC,EAAd,EAA9B,EAAiDC,MAAjD,E;;;AAAZC,iB;;AACJA,kBAAIC,OAAJ;AAAA,uFAAY,kBAAMC,IAAN,EAAWC,KAAX;AAAA;AAAA;AAAA;AAAA;AACTT,mCAASU,IAAT,CAAc;AAAA,mGAAY,iBAAOC,OAAP,EAAeC,MAAf;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,6CACN,OAAKX,KAAL,aAAuBC,KAAvB,CAA6B,EAACE,IAAGI,KAAKK,OAAT,EAA7B,EAAgDC,IAAhD,EADM;;AAAA;AACnBC,0CADmB;;AAEvBJ,8CAAQI,IAAR;;AAFuB;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,6BAAZ;;AAAA;AAAA;AAAA;AAAA,8BAAd;;AADS;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,iBAAZ;;AAAA;AAAA;AAAA;AAAA;;qBAMsB,kBAAQC,GAAR,CAAYhB,QAAZ,C;;;AAAlBiB,wB;gDACGA,U;;;;;;;;;;;;;;;;;mBAKHC,S;;;;;;;AACAL,qB,GAAU,KAAKM,GAAL,eAAqBN,O;;mBAChC,KAAKT,E;;;;;;qBACU,KAAKH,KAAL,cAAwBmB,GAAxB,CAA4B,EAACjB,SAAQ,KAAKC,EAAd,EAAiBS,SAAQA,OAAzB,EAA5B,C;;;AAAZP,iB;gDACGA,G;;;;;;;;;;;;;;;;;mBAOLe,Y;;;;;;;AACAR,qB,GAAU,KAAKM,GAAL,W;;qBACW,KAAKlB,KAAL,cAAwBC,KAAxB,CAA8B,EAACC,SAAQ,KAAKC,EAAd,EAAiBS,SAAQA,OAAzB,EAA9B,EAAiES,MAAjE,E;;;AAArBC,0B;gDACG,KAAKC,OAAL,CAAaD,YAAb,C",
     "file": "../../../src/category/controller/category.js",
     "sourcesContent": [
-        "'use strict';\n/**\n * rest controller\n * @type {Class}\n */\nimport Base from '../../common/base/base.js'\nexport default class extends Base{\n  /**\n   * init\n   * @param  {Object} http []\n   * @return {}      []\n   */\n  async indexAction(){\n    // this.setCorsHeader();\n    let __this = this;\n    let affect = await this.model(`news_cate`).select();\n    \n    \n    affect.forEach(async (item,index)=>{\n      let news = await  __this.model(`news`).where({id:news_id}).select();\n        console.log(news)\n    })\n    return this.success()\n\n\n  }\n}"
+        "'use strict';\n/**\n * rest controller\n * @type {Class}\n */\nimport Base from '../../common/base/base.js'\nexport default class extends Base{\n  // 新闻的分类管理\n  /**\n   * 通过新闻ID获取分类\n   * @return {[type]} [description]\n   */\n  async findAction(){\n    let  promises = [];\n    let res = await this.model(`news_cate`).where({news_id:this.id}).select()\n    res.forEach(async(item,index)=>{\n       promises.push(new Promise(async (resolve,reject)=>{\n          let data = await this.model(`category`).where({id:item.cate_id}).find()\n          resolve(data)\n       }))\n    })\n    let categories =await Promise.all(promises);\n    return categories;\n  } \n  /**\n   * 通过新闻ID添加分类\n   */\n  async addAction(){\n    let cate_id = this.get(`cate_id`)||cate_id\n    if(this.id){\n      let res = await this.model(`news_cate`).add({news_id:this.id,cate_id:cate_id});\n      return res;  \n    }\n    \n  }\n  /**\n   * 通过新闻删除分类\n   */\n  async deleteAction(){\n    let cate_id = this.get(`cate_id`)\n    let affectedRows = await this.model(`news_cate`).where({news_id:this.id,cate_id:cate_id}).delete();\n    return this.success(affectedRows)\n  }\n}"
     ]
 }

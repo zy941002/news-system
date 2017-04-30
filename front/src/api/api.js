@@ -6,9 +6,9 @@ export const POST =	`POST`
 
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import {baseUrl} from './baseserver.js'
 
 Vue.use(VueResource)
-const baseUrl = 'http://localhost:8360/'
 
 export default {
 	[FIND]:async function(url,parms){

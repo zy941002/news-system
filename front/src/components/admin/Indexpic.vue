@@ -20,13 +20,16 @@
 </template>
 <script>
 import API from '../../api/api.js'
+import {baseUrl} from '../../api/baseserver.js'
 export default{
     data(){
       return{
         pics:[],
+        baseUrl: baseUrl
       }
     },
     mounted(){
+      console.log(this.baseUrl)
       API.FIND(`admin/config/`).then((res)=>{
         this.pics = res.data.data.filter((item,index)=>{
           if(item.type==0){
@@ -38,7 +41,8 @@ export default{
     methods:{
       setURL(res){
         this.pics.push({url:res.url,id:res.id})
-        let {originalFilename,url} = res
+        let {originalFilename,url} = res;
+        console.log(res)
         API.POST(`admin/config/addconfig`,{name:originalFilename,url:url,type:0}).then(async (res)=>{
           this.$message({
             message:"添加图片成功"
@@ -48,9 +52,9 @@ export default{
       handlePreview(file){
 
       },
-      handleRemove(file, fileList) {
-      
-        API.DELETE(`admin/config/delete?=id${file.id}`).then(res=>{
+      handleRemove(file, fileList) {   
+      console.log(file)   
+        API.DELETE(`admin/config/delete?id=${file.id}`).then(res=>{
           this.pics.splice(fileList.indexOf(file),1)
         })
       },
@@ -59,19 +63,4 @@ export default{
 </script>
 <style lang="less" scoped>
 @import url('../../assets/less/CV.less');
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
-  
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
 </style>

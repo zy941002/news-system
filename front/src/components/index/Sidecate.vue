@@ -38,9 +38,9 @@ export default{
 
     }
   },
-  mounted(){
-  	// let now = new Date()
+  mounted(){  	
   	API.FIND(`news/news/untop?date=${new Date()}`).then(res=>{
+      console.log(res)
       this.untops = res.data.data
   	})
   }

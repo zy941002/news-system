@@ -25,6 +25,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var moment = require('moment');
+
 var _class = function (_think$controller$bas) {
   (0, _inherits3.default)(_class, _think$controller$bas);
 
@@ -52,9 +54,11 @@ var _class = function (_think$controller$bas) {
               }
               this.setCorsHeader();
               this.id = this.get('id');
+              this.page = this.get('page');
+              this.now = moment.utc(new Date()).format("YYYY-MM-DD");
               return _context.abrupt('return');
 
-            case 5:
+            case 7:
             case 'end':
               return _context.stop();
           }

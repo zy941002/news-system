@@ -19,6 +19,7 @@
 </template>
 <script>
 import Storage from '../../assets/js/storage.js'
+import API from '../../api/api.js'
   export default{
   	name:"login",
     data(){
@@ -58,7 +59,7 @@ import Storage from '../../assets/js/storage.js'
       submitForm(formName){
         this.$refs[formName].validate((valid)=>{
           if (valid){
-            this.$http.post(`http://localhost:8360/admin/auth/login`,{
+            API.POST(`admin/auth/login`,{
               name : this.ruleForm.username,
               password: this.ruleForm.password
             }).then( (res)=> {

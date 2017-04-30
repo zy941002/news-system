@@ -128,6 +128,7 @@ import API from '../../api/api.js'
   	},
   	mounted(){
       API.FIND(`admin/user`).then(res=>{
+        // console.log(res.data)
         this.$set(this,"pageInfo",res.data.data)
       })
   	},

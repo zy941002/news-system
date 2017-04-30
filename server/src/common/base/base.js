@@ -7,6 +7,7 @@
 // | Author: zhouying <inkzhou@gmail.com>
 // +----------------------------------------------------------------------
 'use strict';
+let moment = require('moment')
 export default class extends think.controller.base {
   init(http) {
     super.init(http);
@@ -19,6 +20,8 @@ export default class extends think.controller.base {
     }
     this.setCorsHeader();
     this.id = this.get(`id`)
+    this.page = this.get(`page`)
+    this.now =  moment.utc(new Date()).format("YYYY-MM-DD");
     return;
   }  
   //-----end of before

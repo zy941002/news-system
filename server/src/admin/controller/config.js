@@ -1,6 +1,4 @@
 'use strict';
-
-import Rest from '../../common/rest/rest.js'
 import Base from '../../common/base/base.js'
 export default class extends Base {
 	async indexAction(){
@@ -19,8 +17,10 @@ export default class extends Base {
 	}
 	async deleteAction(){
 		let {id} = this.get()
+		console.log(id)
 		if(id){
 			let affectedRows = await this.model(`config`).where({id:id}).delete();
+			console.log(affectedRows)
 			return this.success(`删除成功`)
 		}
 	}

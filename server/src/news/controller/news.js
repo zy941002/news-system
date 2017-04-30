@@ -1,70 +1,28 @@
 'use strict'; 
 let moment = require('moment')
 import Base from '../../common/base/base.js'
-export default class extends Base{  
-  async fetchAction(){
-    let where = this.get();
-  	let news = await this.model(`news`).fetchNews(where);
-    let __this = this;
-    let promise = [];
-    
-    news.data.forEach(async (item,index)=>{          
-      
-      promise.push(new Promise(async (resolve,reject)=>{            
-        // 查找评论
-        let cmt = await __this.model(`comments`).where({newsid:item.id}).select();
-
-        cmt.forEach(async (item,index)=>{
-          let user = `user`
-          let cmtuser = await __this.model(`user`).where({id:item.userid}).select();
-              cmt[index][user] = cmtuser[0];                 
-        })
-
-        //查找分类    
-        let link = await __this.model(`news_cate`).where({news_id:item.id}).select()
-        link.forEach(async (item,index)=>{
-          let cate = "cate";     
-          let data = await __this.model(`category`).where({id:item.cate_id}).select()          
-              link[index][cate] = data[0]; 
-        })
-
-        
-        // 查找作者
-        let user =await __this.model(`user`).where({id:item.author_id}).select(); 
-        
-
-        let res = {
-          cate:link,
-          user: user[0],
-          comment: cmt
+export default class extends Base{
+  async findlistsAction(){
+    let news = await this.model(`user`).join({
+      news:{
+        join:"right",
+        on:["id","author_id"],
+      }
+    }).page(this.page, 10)
+    .countSelect();
+    return this.success(news)
+  }
+  async findAction(){
+    let news = await this.model(`news`).where({"news.id":this.id}).join({
+        user:{
+          on:["author_id","id"]
         }
-        resolve(res)
-      }))
-    });    
-    
-    let results = await Promise.all(promise);
-
-
-    news.data.map((item,index)=>{
-      let extra = 'extra';
-      return item[extra] = results[index]
-    })
-
-
-
-
-  	return this.success(news);
-  }
-  // 删除分类
-  async delcateAction(){
-    let where = this.get();
-    let affectedRows = await this.model(`news_cate`).where(where).delete();
+    }).fieldReverse("password,id").find();
+    let categoryInstance = this.controller('category', 'category');
+    news[`categories`] = await this.action(categoryInstance,'find');
+    return this.success(news)
   }
 
-  // 新增分类
-  async addCateAction(){;
-
-  }
   // 删除新闻
   async removeAction(){
     let model = this.model(`news`);
@@ -73,24 +31,13 @@ export default class extends Base{
     return this.success(affectedRows);
   }
   async addnewsAction(){
-    this.setCorsHeader();
     let model = this.model(`news`);    
-    let where =  this.post();
-    let now =  moment.utc(new Date()).format("YYYY-MM-DD");
-    let {id,title,content,pass,extra,top,imageurl,preview} = where;
-    let cate = this.model(`news_cate`);
+    let news =  this.post();
+    // let now =  moment.utc(new Date()).format("YYYY-MM-DD");
+    let {id,title,content,pass,top,imageurl,preview,user,categories} = news;
     if(!think.isEmpty(id)){
-      extra.cate.forEach(async (item,index)=>{
-        let affectedRows = await cate.thenAdd({
-          news_id:id,
-          cate_id:
-          item.cate.id}
-          ,{news_id:id,
-            cate_id:item.cate.id})
-      })
-      let affectedRows = await model.where({id:id,}).update({
+      let affectedRows = await model.where({id:id}).update({
         title: title,
-        timeflag: now,
         content: content,
         pass : Number(pass),
         top : Number(top),
@@ -101,40 +48,41 @@ export default class extends Base{
 
     }else{
         try{
-           await model.add({
+           let res = await model.add({
             title: title,
-            timeflag: now,
+            create_time: this.now,
             content: content,
-            pass: parseInt(pass),author_id:extra.user.id,
+            pass : Number(pass),
+            top : Number(top),
+            author_id:user.id,
             imageurl: imageurl,
             preview: preview
-
             });
-            extra.cate.forEach(async (item,index)=>{
-              let affectedRows = await cate.add({news_id:resid,cate_id:item.cate.id})
-            }) 
-           return this.success(`添加新闻成功`)
+            let promise = []; 
+        news.categories.forEach(async(item,index)=>{
+          await promise.push(this.model(`news_cate`).add({news_id:res,cate_id:item.id}));
+        })
+        Promise.all(promise);
+        return this.success(`添加新闻成功`)
         }catch(err){
+            console.log(err)
             return this.fail(err)
         } 
       }
   }
-  async topAction(){
-    this.setCorsHeader();
+  async topAction(){  
     let news = this.model(`news`);
     let datime = moment.utc(this.get(`date`)).format(`YYYY-MM-DD`)
-    let res = await news.where({timeflag:datime,top:1}).select();
+    let res = await news.where({create_time:datime,top:1}).select();
         return this.success(res)
   }
   async untopAction(){
     let news = this.model(`news`),
         datime = moment.utc(this.get(`date`)).format(`YYYY-MM-DD`),
-        res = await news.where({timeflag:datime,top:["!=",1]}).select(); 
-        console.log(`untop`+res.length)
+        res = await news.where({create_time:datime,top:["!=",1]}).select(); 
     return this.success(res)
   }
   async updateclickAction() {
-    this.setCorsHeader();
     let { id , clicked } = this.post()
     let res = await this.model(`news`).where({id:id}).update({clicked:clicked})
     return this.success(res)
@@ -142,57 +90,26 @@ export default class extends Base{
   async categorylistAction(){
     let news = this.model(`news`),
         cate = this.model(`category`),
-        cates = [],promise = [],where = {},uncate = [],upromise=[],
-        timeflag = moment(this.get(`date`)).format(`YYYY-MM-DD`);
-
-    if(this.id){
-      where = {
-        cate_id:this.id
-      } 
-      uncate = await this.model(`news_cate`).where({cate_id:["!=",this.id]}).select();
-    }
-    cates = await this.model(`news_cate`).where(where).select();  
-
-    
-    cates.forEach((item,index)=>{
-      promise.push(new Promise(async (resolve,reject)=>{
-        let cateitem = await cate.where({id:item.cate_id}).select();
-        let newsitem = await news.where({
-            id:item.news_id,
-            timeflag:timeflag}).select();
-        if(newsitem[0]){
-          let res = {
-            cate : cateitem[0],
-            news: newsitem[0]
+        where = {},
+        create_time = moment(this.get(`create_time`)||new Date()).format(`YYYY-MM-DD`);
+        if(this.id){
+          where = {
+            create_time: create_time,
+            "cate_id" : this.id
           }
-          resolve(res)  
-        }        
-      }))    
-    })
-
-    uncate.forEach((item,index)=>{
-      upromise.push(new Promise(async (resolve,reject)=>{
-        let cateitem = await cate.where({id:item.cate_id}).select();
-        let newsitem = await news.where({
-          id:item.news_id,
-          timeflag:timeflag
-        }).select();
-
-        if(newsitem[0]){
-          let res = {
-            cate : cateitem[0],
-            news: newsitem[0]
+        }else{
+          where = {
+            create_time: create_time,
           }
-          resolve(res)  
         }
-      }))    
-    })
-
-    let data =await Promise.all(promise);    
-    let undata = await Promise.all(upromise)
-    return this.json({
-      cate: data,
-      uncate: undata
-    })
+    let res = await this.model(`news_cate`).join({
+      news:{
+        on:["news_id","news.id"],
+      },
+      category:{
+        on:["cate_id","category.id"],
+      }
+    }).where(where).select();
+    return this.json(res)
   }
 }

@@ -19,7 +19,7 @@
         label="作者"
         width="180">
         <template scope='scope'>
-        	{{ scope.row.extra.user.name }}
+        	{{ scope.row.name }}
         </template>		
       </el-table-column>
       <el-table-column
@@ -29,24 +29,63 @@
         	{{ scope.row.title }}			      
         </template>		
       </el-table-column>
-      <el-table-column
-        label="审核状态"
-        width="90">
-        <template scope='scope'>
-        <el-switch
-          v-model="scope.row.pass"
-          on-text="通过"
-          @change="handleStatus(scope.$index, scope.row)"
-          off-text="不通过">
-        </el-switch>
-        </template>		
-      </el-table-column>
+      
+      <div v-if="user.type==1">
+        <el-table-column
+          label="审核状态"
+          width="100">
+          <template scope='scope'>
+          <div v-if="scope.row.pass=='0'">
+            <el-button type=" danger">拒绝</el-button>  
+          </div>
+          <div v-if="scope.row.pass=='1'">
+            <el-button type="success">通过</el-button>  
+          </div>          
+          </template>     
+        </el-table-column>
 
+        <el-table-column  label="置顶" width="120">
+        <template scope='scope'>
+          <div v-if="scope.row.top=='0'">
+            <el-button type=" danger">未置顶</el-button>  
+          </div>
+          <div v-if="scope.row.top=='1'">
+            <el-button type="success">置顶</el-button>  
+          </div>        
+        </template>
+        </el-table-column> 
+      </div>
+      
+
+      <div v-if="user.type==2">
+        <el-table-column
+          label="审核状态"
+          width="90">
+          <template scope='scope'>
+            <el-switch
+            v-model="scope.row.pass"
+            on-text="通过"
+            @change="handleStatus(scope.$index, scope.row)"
+            off-text="不通过">
+          </el-switch>
+          </template>   
+        </el-table-column> 
+
+        <el-table-column  label="置顶" width="120">
+        <template scope='scope'>
+          <el-switch
+            v-model="scope.row.top"
+            on-text="置顶"
+            @change="handleStatus(scope.$index, scope.row)"
+            off-text="不置顶">
+          </el-switch>
+        </template>
+      </el-table-column>
+      </div>
 
       <el-table-column 
         label="操作"
-        width="150"
-      >
+        width="150">
         <template scope="scope">
           <el-button
             size="small"
@@ -57,17 +96,7 @@
             @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
-
-      <el-table-column  label="置顶" width="120">
-        <template scope='scope'>
-        <el-switch
-          v-model="scope.row.top"
-          on-text="置顶"
-          @change="handleStatus(scope.$index, scope.row)"
-          off-text="不置顶">
-        </el-switch>
-        </template>
-      </el-table-column>
+      </el-table-column>      
     </el-table>
   <div class="block">
     <el-pagination
@@ -85,19 +114,33 @@
 <script>
 import { mapGetters } from 'vuex'
 import API from '../../api/api.js'
-
+import store from '../../assets/js/storage.js'
 export default {
 	mounted(){
-		API.FIND(`news/news/fetch`,{pageNum:1}).then((res)=>{
-      res.data.data.data.map((item,index)=>{
-        item.pass = Boolean(item.pass)
-        item.top = Boolean(item.top)
+    this.user = JSON.parse(store.get("userInfo"));
+    if(this.user.type==1){
+      API.FIND(`news/news/findlists`,{pageNum:1,author_id:this.user.id}).then(res=>{      
+        res.data.data.data.map((item,index)=>{
+          item.pass = Boolean(item.pass)
+          item.top = Boolean(item.top)
+        })
+        this.$set(this,'pageInfo',res.data.data)
       })
-      this.$set(this,'pageInfo',res.data.data)
-    })
+    }
+    if(this.user.type==2){
+      API.FIND(`news/news/findlists`,{page:1}).then(res=>{      
+        console.log(res.data.data.data)
+        res.data.data.data.map((item,index)=>{
+          item.pass = Boolean(item.pass)
+          item.top = Boolean(item.top)
+        })
+        this.$set(this,'pageInfo',res.data.data.data)
+      })
+    }    
 	},
   data(){
     return{
+      user:{},
       pageInfo: {
         count: 0,
         currentPage:1,
@@ -110,17 +153,17 @@ export default {
   },
   methods: {
     handleStatus(index,item){
-      console.log(item.pass,item.top)
       API.POST(`news/news/addnews`,item).then((res)=>{
-        console.log(res)
+        if(res.data.errno==0){
+          return true;
+        }
       })
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.currentPage = val;
-        API.FIND(`news/news/fetch`,{pageNum:val}).then((res)=>{
+        API.FIND(`news/news/findlists`,{page:val}).then((res)=>{
           res.data.data.data.map((item,index)=>{
             item.pass = Boolean(item.pass)
             item.top = Boolean(item.top)

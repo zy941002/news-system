@@ -100,6 +100,7 @@ export default{
   	margin: 5px 0;
   	transform : all .6s ease; 
   	display: flex;
+  	color: black;
   	background: @ColorF;
   	justify-content:space-between;
   	border-bottom: 1px solid @Gray;

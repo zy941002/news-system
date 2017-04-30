@@ -12,6 +12,7 @@
           <div class="news-image"  @click="updateCount(news)">
              <img :src="news.imageurl">
           </div>
+
           <p class="news-preview">{{news.preview}}</p>
     	</div>    
     </div>

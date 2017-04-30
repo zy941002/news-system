@@ -9,7 +9,7 @@ export default {
     mysql: {
       host: 'localhost',
       port: '3306',
-      database: 'news',
+      database:'news',
       user: 'root',
       password: '1q2w3e',
       prefix: '',

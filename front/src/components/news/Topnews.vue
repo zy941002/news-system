@@ -1,6 +1,5 @@
 <template>
-  <div>
-	  <div class="block">
+  <div>	  
 	    <el-date-picker
 	      v-model="topDate"
 	      align="right"
@@ -8,14 +7,10 @@
 	      placeholder="选择日期"
 	      :picker-options="pickerOptions1">
 	    </el-date-picker>
-	  </div>
-
-  	<el-table
-    :data="data"
-    border
-    style="width: 100%"
-    >
-    >
+  	 <el-table
+      :data="data"
+      border
+      style="width: 100%">
       <el-table-column
         label="新闻ID"
         width="90">

@@ -6,6 +6,10 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -36,66 +40,154 @@ var _class = function (_Base) {
     return (0, _possibleConstructorReturn3.default)(this, _Base.apply(this, arguments));
   }
 
-  _class.prototype.indexAction = function () {
-    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+  _class.prototype.findAction = function () {
+    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
       var _this2 = this;
 
-      var __this, affect;
-
-      return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var promises, res, categories;
+      return _regenerator2.default.wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              __this = this;
-              _context2.next = 3;
-              return this.model('news_cate').select();
+              promises = [];
+              _context3.next = 3;
+              return this.model('news_cate').where({ news_id: this.id }).select();
 
             case 3:
-              affect = _context2.sent;
+              res = _context3.sent;
 
-
-              affect.forEach(function () {
-                var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(item, index) {
-                  var news;
-                  return _regenerator2.default.wrap(function _callee$(_context) {
+              res.forEach(function () {
+                var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(item, index) {
+                  return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
-                      switch (_context.prev = _context.next) {
+                      switch (_context2.prev = _context2.next) {
                         case 0:
-                          _context.next = 2;
-                          return __this.model('news').where({ id: news_id }).select();
+                          promises.push(new _promise2.default(function () {
+                            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(resolve, reject) {
+                              var data;
+                              return _regenerator2.default.wrap(function _callee$(_context) {
+                                while (1) {
+                                  switch (_context.prev = _context.next) {
+                                    case 0:
+                                      _context.next = 2;
+                                      return _this2.model('category').where({ id: item.cate_id }).find();
 
-                        case 2:
-                          news = _context.sent;
+                                    case 2:
+                                      data = _context.sent;
 
-                          console.log(news);
+                                      resolve(data);
 
-                        case 4:
+                                    case 4:
+                                    case 'end':
+                                      return _context.stop();
+                                  }
+                                }
+                              }, _callee, _this2);
+                            }));
+
+                            return function (_x3, _x4) {
+                              return _ref3.apply(this, arguments);
+                            };
+                          }()));
+
+                        case 1:
                         case 'end':
-                          return _context.stop();
+                          return _context2.stop();
                       }
                     }
-                  }, _callee, _this2);
+                  }, _callee2, _this2);
                 }));
 
                 return function (_x, _x2) {
                   return _ref2.apply(this, arguments);
                 };
               }());
-              return _context2.abrupt('return', this.success());
+              _context3.next = 7;
+              return _promise2.default.all(promises);
 
-            case 6:
+            case 7:
+              categories = _context3.sent;
+              return _context3.abrupt('return', categories);
+
+            case 9:
             case 'end':
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee3, this);
     }));
 
-    function indexAction() {
+    function findAction() {
       return _ref.apply(this, arguments);
     }
 
-    return indexAction;
+    return findAction;
+  }();
+
+  _class.prototype.addAction = function () {
+    var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var cate_id, res;
+      return _regenerator2.default.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              cate_id = this.get('cate_id') || cate_id;
+
+              if (!this.id) {
+                _context4.next = 6;
+                break;
+              }
+
+              _context4.next = 4;
+              return this.model('news_cate').add({ news_id: this.id, cate_id: cate_id });
+
+            case 4:
+              res = _context4.sent;
+              return _context4.abrupt('return', res);
+
+            case 6:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    }));
+
+    function addAction() {
+      return _ref4.apply(this, arguments);
+    }
+
+    return addAction;
+  }();
+
+  _class.prototype.deleteAction = function () {
+    var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var cate_id, affectedRows;
+      return _regenerator2.default.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              cate_id = this.get('cate_id');
+              _context5.next = 3;
+              return this.model('news_cate').where({ news_id: this.id, cate_id: cate_id }).delete();
+
+            case 3:
+              affectedRows = _context5.sent;
+              return _context5.abrupt('return', this.success(affectedRows));
+
+            case 5:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this);
+    }));
+
+    function deleteAction() {
+      return _ref5.apply(this, arguments);
+    }
+
+    return deleteAction;
   }();
 
   return _class;

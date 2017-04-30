@@ -7,6 +7,6 @@
     "mappings": "AAAA;;;;;;;;;;;;;;;;AAEA",
     "file": "../../../src/admin/controller/category.js",
     "sourcesContent": [
-        "'use strict';\n\nimport Rest from '../../common/rest/rest.js'\n\nexport default class extends Rest {\n  \n}\n"
+        "'use strict';\n\nimport Rest from '../../common/rest/rest.js'\n\nexport default class extends Rest {\n  \n}"
     ]
 }

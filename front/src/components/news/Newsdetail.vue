@@ -6,66 +6,60 @@
       <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="news" :rules="rules" ref="news" label-width="100px">
       <el-form-item label="新闻名称" prop="title">
-        <el-input v-model="ruleForm.title"></el-input>
-      </el-form-item>
-
+        <el-input v-model="news.title"></el-input></el-form-item>
+      
       <el-form-item label="点击量" prop="clicked">
-        <el-input v-model="ruleForm.clicked":disabled="true"></el-input>
-      </el-form-item>
+        <el-input v-model="news.clicked":disabled="true"></el-input></el-form-item>
 
       <el-form-item label="审核状态">
-        <el-switch on-text="通过" off-text="不通过"  @change="handleStatus(ruleForm)" v-model="ruleForm.pass"></el-switch>
-      </el-form-item>
+        <el-switch on-text="通过" off-text="不通过"  @change="handleStatus(news)" v-model="news.pass"></el-switch></el-form-item>
 
       <el-form-item label="置顶">
-        <el-switch on-text="置顶" off-text="不置顶" v-model="ruleForm.top"
-          @change="handleStatus(ruleForm)"
-        ></el-switch>
+        <el-switch on-text="置顶" off-text="不置顶" v-model="news.top"@change="handleStatus(news)"></el-switch>
       </el-form-item>
 
       <el-form-item label="分类于">
-        <div v-if="ruleForm.extra.cate.length>0">
-            <el-tag
-            v-for="tag in ruleForm.extra.cate"
+        <div v-if="news.categories.length>0">
+          <el-tag
+            v-for="tag in news.categories"
             :closable="true"
             :key='tag'
-            @close="handleClose(tag)"
-          >{{tag.cate.name}}</el-tag>
+            @close="handleClose(tag)">{{tag.name}}</el-tag>
         </div>
+        
         <div v-else>
-          <el-tag>暂无分类</el-tag>
-        </div>        
+          <el-tag>暂无分类</el-tag></div>        
+      
       </el-form-item>
 
       <el-form-item label="新增分类" >
         <el-select  placeholder="请选择" v-model="newscate">
           <el-option
-            v-for="item in categories"
+            v-for="item in exisitCates"
             :label="item.name"
             :key = 'item'
-            :value="item.id">
-          </el-option>
+            :value="item"></el-option>
         </el-select>
       </el-form-item>
 
       <el-form-item label="首页配图">
-            <el-upload
+          <el-upload
             action="http://localhost:8360/admin/upload"
             type="drag"
             name="image"
-            :data="ruleForm"
+            :show-file-list="false"            
             :multiple="false"
-            :on-success="setURL"
-            >        
-            <img v-if="ruleForm.imageurl" :src="ruleForm.imageurl" class="index-img">
+             :data="news"
+            :on-success="setURL">
+            <img v-if="news.imageurl" :src="news.imageurl" class="index-img">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
+          </el-upload>
       </el-form-item>
       
       <el-form-item label="添加摘要" >
-        <el-input v-model="ruleForm.preview" type="textarea"></el-input>
+        <el-input v-model="news.preview" type="textarea"></el-input>
       </el-form-item>
 
       <el-form-item label="新闻内容">
@@ -73,8 +67,8 @@
       </el-form-item>
       
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">{{status}}</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button type="primary" @click="submitForm('news')">{{status}}</el-button>
+        <el-button @click="resetForm('news')">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -98,80 +92,85 @@ export default {
       }
     },
   mounted(){
-    let id = this.$route.query.id?this.$route.query.id:-1;
+    this.news.id = this.$route.query.id
     let __this = this;
-
-    API.FIND(`news/news/fetch`,{id:id}).then((res)=>{
-      if(res.data.data.data.length>0){
-        res.data.data.data[0].pass =   Boolean(res.data.data.data[0].pass)
-        res.data.data.data[0].top =   Boolean(res.data.data.data[0].top);  
-        __this.$set(__this,'ruleForm',res.data.data.data[0])
-      }
-      
-    
-      let editor = new wangEditor('editor');
+     let editor = new wangEditor('editor');
         editor.config.uploadImgUrl = 'http://localhost:8360/admin/upload';
         editor.config.uploadImgFileName = 'image';
         editor.config.printLog = false;
       
-      editor.config.uploadImgFns.onload = function (resultText, xhr) {
-        var originalName = editor.uploadImgOriginalName || '';  
-        editor.command(null, 'insertHtml', '<img src="' + JSON.parse(resultText).url + '" alt="' + originalName + '" style="max-width:100%;"/>');
-      };
+    editor.config.uploadImgFns.onload = function (resultText, xhr) {
+      var originalName = editor.uploadImgOriginalName || '';  
+      editor.command(null, 'insertHtml', '<img src="' + JSON.parse(resultText).url + '" alt="' + originalName + '" style="max-width:100%;"/>');
+    };
       
-      editor.config.uploadImgFns.ontimeout = function (xhr) {
-        alert('上传超时');
-      };
-      
-      editor.config.uploadImgFns.onerror = function (xhr) {
-        alert('上传错误');
-      };
-      
-      editor.create();
-      
-      editor.onchange = function () {
-        __this.ruleForm.content = this.$txt.html();
-        console.log(__this.ruleForm.content)
-      };
-      
-      editor.$txt.html(__this.ruleForm.content);
-    })        
+    editor.config.uploadImgFns.ontimeout = function (xhr) {
+      alert('上传超时');
+    };
+    
+    editor.config.uploadImgFns.onerror = function (xhr) {
+      alert('上传错误');
+    };
+    
+    editor.create();    
+    editor.onchange = function () {
+      __this.news.content = this.$txt.html();
+    };
+    
+    if(this.news.id){
+       API.FIND(`news/news/find`,{id:this.news.id}).then(res=>{
+          if(res.data.errno==0){
+            res.data.data.pass = Boolean(res.data.data.pass)
+            res.data.data.top = Boolean(res.data.data.top)
+
+            __this.$set(__this,'news',res.data.data)
+            this.news.id = this.$route.query.id
+            editor.$txt.html(__this.news.content)
+          }  
+       })
+    }    
+   
+        
   },
   created(){
     API.FIND(`admin/category`).then((res)=>{
-      this.categories = res.data.data
+      this.exisitCates = res.data.data
     })
   },
   watch:{
     newscate:function(newVal){
-      API.FIND(`admin/category/${newVal}`).then(res=>{
-        let hasin = false;
-        let  cell = res.data.data;
-        this.ruleForm.extra.cate.forEach((item,index)=>{
-          if(item.cate.name==cell.name){
-            this.$message({message:`该新闻已属于${item.cate.name}`,type:"error"});
-            hasin = true;
-            return;
-          }
-        });        
-        if(!hasin){
-          this.ruleForm.extra.cate.push({cate:{name:cell.name,id:cell.id}})
+      let id = this.$route.query.id?this.$route.query.id:-1;
+      let hasin = false;
+      this.news.categories.forEach((item,index)=>{
+        if(newVal.id===item.id){
+          this.$message({message:`该新闻已属于${item.name}`,type:"error"});
+          hasin  = true;
+          return ;
         }
-      })
+      });
+      if(!hasin&&this.news.id){
+        API.FIND(`category/category/add`,{id:id,cate_id:newVal.id}).then(res=>{
+          console.log(res.data)
+        })
+        this.news.categories.push({name:newVal.name,id:newVal.id})
+      }else if(!hasin){
+        this.news.categories.push({name:newVal.name,id:newVal.id})
+      }
     }
   },
   data() {
     return {
+      exisitCates:[],
       categories:[],
       newscate:'',
-      ruleForm:{
-        imageurl:'',
+      news:{
+        user:{},
         title:"",
-        preview:"",
-        extra:{
-          cate:[],
-          user:""
-        }
+        categories:[],
+        pass:false,
+        top:false,
+        content:"",
+        imageurl:""
       },
       rules: {
         title:[
@@ -182,15 +181,15 @@ export default {
     },  
     methods: {
       submitForm(formName) {
+        this.news.user = JSON.parse(storage.get(`userInfo`))
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
-            API.POST(`news/news/addnews`,this.ruleForm).then((res)=>{
+            API.POST(`news/news/addnews`,this.news).then((res)=>{
               if(res.body.errno==0){
                 this.$message.success(`${this.status}成功`)
                 this.$router.push({path:`/admin/newspanle`})
               }else if(res.body.errno>0){
-                this.$message.error(`后台出错，请将错误码${res.body.errmsg.code}发送给客服`)
+                this.$message.error(`后台出错，请将错误码发送给客服`)
               }
             })
           } else {
@@ -203,24 +202,25 @@ export default {
         this.$refs[formName].resetFields();
       },
       handleClose(tag){
-        API.DELETE(`news/news/delcate`,{news_id:tag.news_id,cate_id:tag.cate_id}).then((res)=>{})
-          this.ruleForm.extra.cate.splice(this.ruleForm.extra.cate.indexOf(tag),1)
+        API.DELETE(`category/category/delete`,{id:this.news.id,cate_id:tag.id}).then((res)=>{
+          if(res.data.errno===0){
+            this.news.categories.splice(this.news.categories.indexOf(tag),1)  
+          }
+        })          
       },
-      setURL(res, file, fileList){
-        this.ruleForm.imageurl = res.url;
+      setURL(res, file){
+        this.news.imageurl =  res.url
         this.$store.dispatch('SET_FILE',res)
       },
-      handleStatus(){
-        this.ruleForm.extra.user = JSON.parse(storage.get(`userInfo`));
-        API.POST(`news/news/addnews`,this.ruleForm).then(res=>{
-          if(res.data.errno>0){
-            this.$message.error(`后台出错，请联系客服`)
-          }
-        })
-
+      handleStatus(){        
+        console.log(this.news.id)
+        if(this.news.id){
+          API.POST(`news/news/addnews`,this.news).then(res=>{
+            console.log(res)
+          })
+        }
       }
-
-    }
+  }
 }
 </script>
 <style type="text/css">
