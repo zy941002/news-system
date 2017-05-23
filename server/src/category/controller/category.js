@@ -34,7 +34,7 @@ export default class extends Base{
     
   }
   /**
-   * 通过新闻删除分类
+   * 通过新闻删除该新闻分类
    */
   async deleteAction(){
     let cate_id = this.get(`cate_id`)

@@ -1,7 +1,4 @@
 <template>
-<!--   <div class="fix-header">
-      <i class="el-icon-menu" @click="showMenus"></i>      
-  </div> -->
 </template>
 
 <script>

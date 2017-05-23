@@ -1,15 +1,16 @@
 <template>
-  <div class="login-panel">
-    <h2 class="ver-center brand-name"><i>欢迎使用新闻发布系统</i></h2>
-    <div class="abs-center login-board">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm ">
+  <div class="login-panel fx-hs-center">
+    <h2 class="brand-name"><i>欢迎使用新闻发布系统</i></h2>
+    <div class="login-board">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
       	<el-form-item label="用户名" prop="username">
           <el-input type="text" v-model="ruleForm.username" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item>
+
+        <el-form-item class="fx-v-btw">
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
@@ -99,17 +100,27 @@ import API from '../../api/api.js'
     bottom: 0;
     background: @Navyblue;
   }
-  .login-board{
-    width: 400px;
-    height: 250px;
+  .login-board {
     background: @ColorF;
     border-radius: 5px;
+    padding: 30px 45px;
     box-shadow: rgba(0, 0, 0, 0.7) 5px 3px 8px;
+    margin-top:40px;
   }
   .brand-name{
     color:@ColorF;
+    margin-top:40px;
   }
-  .demo-ruleForm{
-    padding:40px 50px 0 20px;
+  .el-form {
+    width: 300px;
+  } 
+  .el-form-item{
+    margin-bottom: 20px !important;
+  }
+  // .el-form-item__content {
+  //   margin: 0;
+  // }
+  .fx-v-btw{
+    margin-left: -80px;
   }
 </style>

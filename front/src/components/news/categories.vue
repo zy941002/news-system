@@ -3,11 +3,9 @@
   	<el-table
       slot = "lable"
       :data="tableData"
-      border
       style="width: 100%">
       <el-table-column
-        label="分类ID"
-        width="180">
+        label="分类ID">
         <template scope="scope">
           <el-icon name="time"></el-icon>
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
@@ -15,9 +13,7 @@
       </el-table-column>
 
       <el-table-column
-        label="分类名称"
-        width="180">
-        
+        label="分类名称">        
         <template scope="scope">
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
         </template>

@@ -5,11 +5,12 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import store from './vux/store.js'
-import 'element-ui/lib/theme-default/index.css'
+import '../../theme/index.css'
 import ECharts from 'echarts'
 import './assets/less/CV.less'
+import moment from 'moment';
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 Vue.use(ElementUI)
-
 
 if (window.sessionStorage.userInfo) {
 	store.commit('SET_USER',JSON.parse(window.sessionStorage.userInfo));

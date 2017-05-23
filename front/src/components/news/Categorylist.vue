@@ -7,37 +7,31 @@
         :value="item.id">
       </el-option>
     </el-select>
-
-  <el-date-picker
-    v-model="date"
-    align="right"
-    type="date"
-    placeholder="选择日期"
-    :onchange="queryByDate"
-    :picker-options="pickerOptions1"></el-date-picker>
-  
-  
-  <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="name"
-        label="分类"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="新闻"
-        width="180">
-      </el-table-column>
-      
-      <el-table-column
-        label="操作">
-        <template scope="scope">
-          <el-button @click="lookup(scope.$index,scope.row)"  type="primary" size="small">查看</el-button>
-      </template>
-      </el-table-column>
-
+    <el-date-picker
+      v-model="date"
+      align="right"
+      type="date"
+      placeholder="选择日期"
+      :onchange="queryByDate"
+      :picker-options="pickerOptions1">
+    </el-date-picker>
+    <el-table
+        :data="tableData"
+        style="width: 100%">
+        <el-table-column
+          prop="name"
+          label="分类">
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="新闻">
+        </el-table-column>      
+        <el-table-column
+          label="操作">
+          <template scope="scope">
+            <el-button @click="lookup(scope.$index,scope.row)"  type="success" size="small">查看</el-button>
+        </template>
+        </el-table-column>
     </el-table>
   </div>
 </template>

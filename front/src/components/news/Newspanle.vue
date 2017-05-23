@@ -1,13 +1,12 @@
-	
-<template>
-  <div class="main">
-     <el-breadcrumb separator="/" class="bread-crumb">
+	<template>
+  <div>
+     <el-breadcrumb separator="/" class="bread-crumb fx-h-center">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/newspanle' }">新闻列表</el-breadcrumb-item>
     </el-breadcrumb>
     
       <el-tabs v-model="activeName">
-    	<el-tab-pane label="新闻列表" name="first">
+    	 <el-tab-pane label="新闻列表" name="first">        
       <newslist></newslist>
     </el-tab-pane>
 

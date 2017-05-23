@@ -8,7 +8,7 @@
         "reg",
         "news"
     ],
-    "mappings": ";;;AAAA;;;kBAGe;AACXA,WAAO,EAAC;AACJC,aAAK;AADF,KADI;AAIX;AACHC,UAAM,EAAC;AACAD,aAAK;AADN;AALQ,C",
+    "mappings": ";;;kBAGe;AACXA,WAAO;AACHC,aAAK;AADF,KADI;;AAKdC,UAAM;AACCD,aAAK;AADN;AALQ,C",
     "file": "../../../src/common/config/route.js",
     "sourcesContent": [
         "/**\n * Created by Zhouying on 2017/1/18.\n */\nexport default {\n    admin: {//系统后台\n        reg: /^admin/\n    },\n    //默认走topic\n\tnews: {//系统后台\n        reg: /^news/\n    },\n}"

@@ -22,12 +22,10 @@
       this.user = JSON.parse(Storage.get("userInfo"));
       this.file = JSON.parse(this.user.file)
     },
-    mounted(){
-      
-    },
     methods:{
       goDetail(){
         this.$router.push({name:"userdetail",query:{id:this.user.id}})
+        
       }
     }
   }
@@ -36,6 +34,6 @@
 @import url("../../assets/less/CV.less");
   .admin-avatar{
     &:extend(.avatar);
-    margin: 20px 0px 0 40px;
+    display: inline-block;
   }
 </style>

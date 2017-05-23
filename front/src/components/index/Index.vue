@@ -1,9 +1,9 @@
 <template>
   <div>
-    <newsheader></newsheader>
-    <router-view class="out-put"></router-view>
-    <links></links>
-    <backbutton></backbutton>
+      <newsheader></newsheader>
+      <router-view class="out-put"></router-view>
+      <links></links>
+      <backbutton></backbutton>
   </div>
 </template>
 <script>
@@ -14,6 +14,11 @@ import topnews from './Topnews.vue'
 import links from './Links.vue'
 import carousel from './Carousel .vue'
 export default{
+  mounted(){
+    API.POST(`news/news/pv`,{date:new Date()}).then(res=>{
+      console.log(`res`)
+    })
+  },
   components:{
     newsheader,
     topnews,

@@ -1,13 +1,11 @@
 <template>
   <div class="news-index">    
-    <newsmenu :showList='showList' @hideMenus="hideMenus"></newsmenu>
-    
+    <newsmenu :showList='showList' @hideMenus="hideMenus"></newsmenu>    
     <div :class="{'trans-left':showAccess,'trans-right':showList}" class="news-title pv-center"> 
       <i class="fa fa-list icon list-icon her-center"  aria-hidden="true" @click="showLists"></i>
         <h1>Incredible</h1>
       <i class="fa fa-user-o icon access-icon her-center"  aria-hidden="true" @click="access"></i>
-    </div>
-    
+    </div>    
     <access  :showAccess="showAccess" @hideAccess="hideAccess"></access>        
     <div :class="{'cover':coverFlag}" @click="showCover"></div>
   </div>

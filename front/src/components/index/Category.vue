@@ -1,34 +1,33 @@
 <template>
 	<div class="category-main index-news-main">
 		<div class="other-cate-wrapper">
-			<div v-for="(item,index) in othercate" class="othercate">
-				<h4 @click="goCategory(item.cate.id)"class="category-title  category-title-small cate-title">
-					{{item.cate.name}}
-				</h4>
-				<h3>
-					<router-link  :to="{path:'/index/newsdetail',query:{id:item.news.id}}">
-						<img :src="item.news.imageurl">
-					</router-link>
-					<router-link :to="{path:'/index/newsdetail',query:{id:item.news.id}}">{{item.news.title}}</router-link>
-				</h3>		
-			</div >
+			<div v-for="(item ,index) in news"  class="othercate">
+				<div v-if="item.imageurl==''">
+					<h2  class="category-title category-title-middle" v-if="index==0">{{item.name}}</h2>
+					<h1 class="category-news-title" @click="goDetail(item)">
+							{{item.title}}
+					</h1>				
+					<div class="news-extra">
+						<section class="news-extra-info">{{moment(item.create_time).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
+							<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.clicked}}</i> &nbsp;&nbsp;				
+						</section>
+					</div>
+					<div class="cate-preview">{{item.preview}}</div>
+				</div>			
+			</div>
 		</div>
-		<div v-for="(item ,index) in news" class="index-category">			
-			<h2  class="category-title category-title-middle" v-if="index==0">{{item.cate.name}}</h2>
-			<h1 class="category-news-title">
-				<router-link class="category-news-title" :to="{path:'/index/newsdetail',query:{id:item.news.id}}">{{item.news.title}}</router-link>
-			</h1>				
-			<figure>
-				<img class="category-img" :src="item.news.imageurl">
-			</figure>
-			<div class="news-extra">
-				<section class="news-extra-info">{{moment(news.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
-				<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.news.clicked}}</i> &nbsp;&nbsp;				
-				</section>
-			</div>
-			<div class="cate-preview">
-				{{item.news.preview}}
-			</div>
+		<div v-for="(item ,index) in news">
+			<div v-if="item.imageurl!==''"class="index-category">
+				<h2  class="category-title category-title-middle" v-if="index==0">{{item.name}}</h2>
+				<h1 class="category-news-title" @click="goDetail(item)">{{item.title}}</h1>				
+				<figure><img class="category-img" :src="item.imageurl"></figure>
+				<div class="news-extra">
+					<section class="news-extra-info">{{moment(item.create_time).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
+					<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{item.clicked}}</i> &nbsp;&nbsp;				
+					</section>
+				</div>
+				<div class="cate-preview">{{item.preview}}</div>
+			</div>						
 		</div>
 	</div>
 </template>
@@ -59,10 +58,11 @@ export default{
 	},
 	computed: {
 		news(){
-			return this.$store.state.idxCategory.idxcategory.cate
+			console.log(this.$store.state.idxCategory.idxcategory)
+			return this.$store.state.idxCategory.idxcategory
 		},
 		othercate(){
-			return this.$store.state.idxCategory.idxcategory.uncate
+			return this.$store.state.idxCategory.idxcategory
 			}		
   		},
 }
@@ -95,31 +95,6 @@ export default{
 }
 .category-news-title {
 	font-size: 24px;
-}
-.index-category:nth-of-type(1){
-	width: 100%;
-	height: @firstpartheight;
-	padding-bottom: 10px;
-	margin: 0 auto;	
-	.cate-preview {
-		width: 50%;
-		margin: 10px 0;
-	}
-	.category-news-title {
-		width: 40%;
-		height: auto;
-		overflow: hidden;		
-		word-break: break-all;	
-	}
-	figure{
-		width: 60%;
-		height: 100%;
-		float: right;
-		img{
-			width: 100%;
-			height: 100%;
-		}
-	}
 }
 .other-cate-wrapper{	
 	width: 38%;

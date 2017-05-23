@@ -8,11 +8,10 @@
         <h3 class="article-title article-title-large" @click="updateCount(news)">
           {{news.title}}
         </h3>  		
-        <time class="news-extra-info"><i>{{moment(news.timeflag).format("YYYY-MM-DD")}}</i>&nbsp;&nbsp;<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{news.clicked}}</i></time>       
-          <div class="news-image"  @click="updateCount(news)">
+        <time class="news-extra-info"><i>{{moment(news.create_time).format("YYYY-MM-DD")}}</i>&nbsp;&nbsp;<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{news.clicked}}</i></time>       
+          <div class="news-image"  @click="updateCount(news)" v-if="news.imageurl!=''">
              <img :src="news.imageurl">
           </div>
-
           <p class="news-preview">{{news.preview}}</p>
     	</div>    
     </div>

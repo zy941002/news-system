@@ -1,6 +1,6 @@
 <template>
     <div>
-      	<el-form :model="ruleForm" :rules="rules" ref="ruleForm">  	
+      	<el-form :model="ruleForm" :rules="rules" ref="ruleForm"> 
           <el-form-item  prop="username" >
           		<el-input type="text"placeholder="用户名" v-model="ruleForm.username" auto-complete="off"></el-input>
         	</el-form-item>        
@@ -61,12 +61,13 @@ import API from '../../api/api.js'
 	              		password: this.ruleForm.password
 	            	}).
 	            	then(res=>{
+                  console.log(res)
 	              		if(res.data.errorno<0 ){
 	                		this.$message.error('用户名或密码错误')
 	                		return;
-	              		}else if (res.data.data[0][`type`]===2) {
-	                		this.$message.success("欢迎登录本系统");
-                      this.$router.push(`/index/`)
+	              		}else {
+	                		this.$message.success("欢迎登录本系统")
+                      this.$router.push({path:"/index/"})
                       this.$emit(`hideAccess`)
 	                		Storage.set('userInfo',JSON.stringify(res.data.data[0]));
 	               	   }
@@ -85,7 +86,4 @@ import API from '../../api/api.js'
 </script>
 <style lang="less" scoped>
 // @import url('../../assets/less/CV.less');
-// .access-login-form {
-// 	width: 90%;
-// }
 </style>

@@ -9,7 +9,7 @@
         "testAction",
         "success"
     ],
-    "mappings": "AAAA;;;;;;;;;;;;;;;;AAEA;;;;;;;;;;;;;;AAGE;;;;mBAIAA,W,0BAAa;AACX;AACA,WAAO,KAAKC,OAAL,EAAP;AACD,G;;mBACDC,U,yBAAa;AACZ,WAAO,KAAKC,OAAL,CAAa,WAAb,CAAP;AACA,G",
+    "mappings": "AAAA;;;;;;;;;;;;;;;;AAEA;;;;;;;;;;;;;;mBAOEA,W,0BAAa;AAEX,WAAO,KAAKC,OAAL,EAAP;AACD,G;;mBACDC,U,yBAAa;AACZ,WAAO,KAAKC,OAAL,CAAa,WAAb,CAAP;AACA,G",
     "file": "../../../src/home/controller/index.js",
     "sourcesContent": [
         "'use strict';\n\nimport Base from '../../common/base/base.js';\n\nexport default class extends Base {\n  /**\n   * index action\n   * @return {Promise} []\n   */\n  indexAction(){\n    //auto render template file index_index.html\n    return this.display();\n  }\n  testAction() {\n  \treturn this.success(\"useAction\")\n  }\n}"

@@ -1,45 +1,33 @@
 <template>
-  <div class="main">
-    <el-breadcrumb separator="/" class="bread-crumb">
+  <div>
+    <el-breadcrumb separator="/" class="bread-crumb fx-h-center">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
     </el-breadcrumb>    
-    <el-button type="primary" @click="goNew">添加用户</el-button>
     <el-table
       :data="pageInfo.data"
       border
       style="width: 100%">
       <el-table-column
-        prop="id"
-        label="用户ID"
-        width="120">
-      </el-table-column>
-      
-      <el-table-column
         prop="name"
-        label="用户名"
-        width="120">
+        label="用户名">
       </el-table-column>
 
       <el-table-column
         prop="nickname"
-        label="昵称"
-        width="120">
+        label="昵称">
       </el-table-column>
       
       <el-table-column
         prop="email"
-        label="邮箱"
-        width="200">
+        label="邮箱">
       </el-table-column>
       <el-table-column
         prop="address"
-        label="地址"
-        width="120">
+        label="地址">
       </el-table-column>
       <el-table-column
-        label="类型"
-        width="120">
+        label="类型">
         <template scope="scope">
           <div v-if="scope.row.type==0">普通用户</div>
           <div v-if="scope.row.type==1">管理员</div>
@@ -47,15 +35,15 @@
         </template>
       </el-table-column> 
       <el-table-column
-        label="操作"
-        width="150">
+        label="操作">
         <template scope="scope">
-          <el-button @click="edit(scope.$index,scope.row)" type="button" size="small">编辑</el-button>
-          <el-button @click="deleteUser(scope.$index,scope.row)"type="danger" size="small">删除</el-button>        
+          <el-button @click="edit(scope.$index,scope.row)" type="button" size="small"><i class="el-icon-edit"></i></el-button>
+          <el-button @click="deleteUser(scope.$index,scope.row)"type="danger" size="small"><i class="el-icon-delete"></i></el-button>        
         </template>
       </el-table-column>
     </el-table>
-    <div class="block">
+    <el-button type="primary" @click="goNew">添加用户</el-button>
+    <div class="block fx-v-center">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"

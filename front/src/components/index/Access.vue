@@ -59,7 +59,6 @@ export default{
 .access-panle {
 	width: 300px;
 	background: @ColorF;
-	// position: absolute;
 	top: 0;
 	right: -300px;
 	position: fixed;

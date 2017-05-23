@@ -1,11 +1,9 @@
 <template>
-  <div class="main category-list">
-    <el-breadcrumb separator="/" class="bread-crumb">
+  <div class="category-list">
+    <el-breadcrumb separator="/" class="bread-crumb fx-h-center">
+      <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/' }">分类管理</el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <newcategoy></newcategoy>
-    
+    </el-breadcrumb>    
     <el-tabs v-model="activeName">
     <el-tab-pane label="分类列表" name="first">
       <categories></categories>    
@@ -15,6 +13,7 @@
       <categorylist></categorylist>
     </el-tab-pane>
    </el-tabs>
+   <newcategoy></newcategoy>
   </div>
 </template>
 
@@ -43,4 +42,6 @@ export default {
   }
 }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  
+</style>

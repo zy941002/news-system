@@ -34,9 +34,9 @@ export default{
 		});
 		this.user = JSON.parse(Storage.get("userInfo"));
 		if(this.user){
-			this.file = JSON.parse(this.user.file)	
+			this.file = (typeof this.user.file === "string")?JSON.parse(this.user.file):this.user.file ;	
 		}
-      	
+		
 	},
 	data(){
 		return{

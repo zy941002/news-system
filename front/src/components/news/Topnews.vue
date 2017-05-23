@@ -12,23 +12,20 @@
       border
       style="width: 100%">
       <el-table-column
-        label="新闻ID"
-        width="90">
+        label="新闻ID">
         <template scope="scope">
           <el-icon name="time"></el-icon>
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>    
       <el-table-column
-        label="标题"
-        width="180">
+        label="标题">
         <template scope='scope'>
         	{{ scope.row.title }}			      
         </template>		
       </el-table-column>
       <el-table-column
-        label="审核状态"
-        width="90">
+        label="审核状态">
         <template scope='scope'>
         <el-switch
           v-model="scope.row.pass"

@@ -4,17 +4,18 @@
           	<el-upload
           		action="http://localhost:8360/admin/upload"
           		type="drag"
+              class="fx-v-center"
           		name="image"
+              :show-file-list="false"
           		:data="ruleForm"
           		:multiple="false"
-          		:on-success="setURL">        
-          		<img v-if="imageUrl" :src="imageUrl" class="avatar">
-          		<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          		:on-success="setURL">
+              <i v-if="imageUrl"><img class="avatar" :src="imageUrl"/></i>
+          		<i v-else class="el-icon-plus avatar-uploader-icon"><br/>点击上传头像</i>
          	</el-upload>
 	      	<el-form-item  prop="name">
 	        	<el-input type="text" v-model="ruleForm.name" auto-complete="off" placeholder="用户名"></el-input>
 	      	</el-form-item>
-
 
           <el-form-item  prop="nickname">
             <el-input type="text" v-model="ruleForm.nickname" auto-complete="off" placeholder="昵称"></el-input>
@@ -32,7 +33,7 @@
 	        	<el-input v-model.number="ruleForm.email" placeholder="邮箱"></el-input>
 	      	</el-form-item>
 
-	      	<el-form-item>
+	      	<el-form-item class="fx-v-btw">
 	        	<el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
 	        	<el-button @click="resetForm('ruleForm')">重置</el-button>
 	     	</el-form-item>
@@ -77,7 +78,7 @@ import Storage from '../../assets/js/storage.js'
           	type:1,
         },
         rules: {
-          	pass: [
+          	password: [
             	{ validator: validatePass, trigger: 'blur',required: true},
           	],
           	checkPass: [
@@ -87,7 +88,7 @@ import Storage from '../../assets/js/storage.js'
             	{ required: true, message: '请输入邮箱地址' },
             	{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
           	],
-          	username: [
+          	name: [
              	{ required: true, message: '请输入用户名', trigger: 'change' }
           	]
         }
@@ -100,8 +101,6 @@ import Storage from '../../assets/js/storage.js'
 	            	let file = {file:this.$store.state.file}
 	            	let params = Object.assign(this.ruleForm,this.$store.state.file)
 	            	API.POST(`admin/user/add`,this.ruleForm).then((res)=>{
-                  console.log(res.data)
-
 	            	  if(res.data.errno==0){
                       this.$router.push({path:`/index/`})
                       this.$emit('hideAccess')
@@ -130,3 +129,12 @@ import Storage from '../../assets/js/storage.js'
   	}
 }
 </script>
+<style type="text/css">
+  .avatar {
+    margin: 0 auto;
+  }
+  .avatar-uploader-icon{
+    color: #ccc;
+    font-size: 12px;
+  }
+</style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <el-breadcrumb separator="/" class="bread-crumb">
+  <div>
+    <el-breadcrumb separator="/" class="bread-crumb fx-h-center">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/newspanle' }">新闻列表</el-breadcrumb-item>
       <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
@@ -11,12 +11,14 @@
         <el-input v-model="news.title"></el-input></el-form-item>
       
       <el-form-item label="点击量" prop="clicked">
-        <el-input v-model="news.clicked":disabled="true"></el-input></el-form-item>
+          <el-input v-model="news.clicked":disabled="true"></el-input>
+      </el-form-item>
 
-      <el-form-item label="审核状态">
-        <el-switch on-text="通过" off-text="不通过"  @change="handleStatus(news)" v-model="news.pass"></el-switch></el-form-item>
+      <el-form-item label="审核状态"v-if="news.user.type==2">
+        <el-switch on-text="通过" off-text="不通过"  @change="handleStatus(news)" v-model="news.pass"></el-switch>
+      </el-form-item>
 
-      <el-form-item label="置顶">
+      <el-form-item label="置顶" v-if="news.user.type==2">
         <el-switch on-text="置顶" off-text="不置顶" v-model="news.top"@change="handleStatus(news)"></el-switch>
       </el-form-item>
 
@@ -30,8 +32,7 @@
         </div>
         
         <div v-else>
-          <el-tag>暂无分类</el-tag></div>        
-      
+          <el-tag>暂无分类</el-tag></div>              
       </el-form-item>
 
       <el-form-item label="新增分类" >
@@ -40,7 +41,8 @@
             v-for="item in exisitCates"
             :label="item.name"
             :key = 'item'
-            :value="item"></el-option>
+            :value="item">
+          </el-option>
         </el-select>
       </el-form-item>
 
@@ -93,6 +95,7 @@ export default {
     },
   mounted(){
     this.news.id = this.$route.query.id
+    this.news.user = JSON.parse(storage.get(`userInfo`))
     let __this = this;
      let editor = new wangEditor('editor');
         editor.config.uploadImgUrl = 'http://localhost:8360/admin/upload';
@@ -119,10 +122,10 @@ export default {
     
     if(this.news.id){
        API.FIND(`news/news/find`,{id:this.news.id}).then(res=>{
+        console.log(res.data.data)
           if(res.data.errno==0){
             res.data.data.pass = Boolean(res.data.data.pass)
             res.data.data.top = Boolean(res.data.data.top)
-
             __this.$set(__this,'news',res.data.data)
             this.news.id = this.$route.query.id
             editor.$txt.html(__this.news.content)
@@ -183,7 +186,7 @@ export default {
       submitForm(formName) {
         this.news.user = JSON.parse(storage.get(`userInfo`))
         this.$refs[formName].validate((valid) => {
-          if (valid) {
+          if (valid&&this.news.content!=="") {
             API.POST(`news/news/addnews`,this.news).then((res)=>{
               if(res.body.errno==0){
                 this.$message.success(`${this.status}成功`)
@@ -213,7 +216,6 @@ export default {
         this.$store.dispatch('SET_FILE',res)
       },
       handleStatus(){        
-        console.log(this.news.id)
         if(this.news.id){
           API.POST(`news/news/addnews`,this.news).then(res=>{
             console.log(res)

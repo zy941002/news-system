@@ -1,11 +1,11 @@
 <template>
-	<div class="index-news-main">
+	<div class="index-news-detail">
 		<h1 class="pv-center">{{news.title}}</h1>
 		<section class="pv-center news-preivew">{{news.preview}}</section>
 		<div class="pv-center news-extra">			
 			<section class="news-extra-info">
 				<i>WRITE BY&nbsp;&nbsp;
-					{{news.name}}&nbsp;&nbsp;
+					{{user.name}}&nbsp;&nbsp;
 					{{moment(news.create_time).format(`YYYY-MM-DD`)}}&nbsp;&nbsp;
 					<i class="fa fa-eye active" aria-hidden="true"></i>&nbsp;&nbsp;
 					{{news.clicked}} &nbsp;&nbsp;
@@ -23,7 +23,7 @@
 			<el-button  :class="{hide:hide}"class="submit-btn"@click="toggleComment">收起评论</el-button>
 			<el-button  :class="{hide:hide}" type='primary' class="submit-btn"@click="submitComment">提交</el-button>	
 		</div>		
-		<div class="index-news-comments" v-for="(item,index) in comments.data">			
+		<div class="index-news-comments" v-for="(item,index) in comments.data">
 			<section>
 				<figure>
 					<img class="comment-user-avatar icon" :src="JSON.parse(item.file).url"/>
@@ -35,13 +35,15 @@
 			</section>
 			<div class="comment-content">{{item.content}}</div>			
 		</div >
-		<el-pagination
-  			small
-  			layout="prev, pager, next"
-  			@size-change="handleSizeChange"
-      		@current-change="handleCurrentChange"
-  			:page-count="comments.totalPages">
-		</el-pagination>
+		<div class="fx-v-center comment-pagnation">
+			<el-pagination			
+	  			small
+	  			layout="prev, pager, next"
+	  			@size-change="handleSizeChange"
+	      		@current-change="handleCurrentChange"
+	  			:page-count="comments.totalPages">
+			</el-pagination>
+		</div>
 	</div>
 </template>
 <script>
@@ -57,6 +59,7 @@ export default{
 			categories:[],
 			news:{
 			},
+			user:{},
 			comments:{
 				count: "",
 				totalPages: 0,
@@ -71,10 +74,10 @@ export default{
 		if(this.$route.query.id){
 			API.FIND(`news/news/find`,{id:this.$route.query.id}).then((res)=>{
 				this.$set(this,'news',res.data.data);
+				this.$set(this,'user',res.data.data.user)
 			})
 			API.FIND(`comments/comments/find`,{id:this.$route.query.id,page:1}).then((res)=>{
-				this.$set(this,"comments",res.data.data)
-				console.log(this.comments.totalPages)
+				this.$set(this,"comments",res.data.data)				
 			})	
 			API.FIND(`news/news/find`,{id:this.$route.query.id}).then((res)=>{				
 				this.$set(this,"categories",res.data.data)
@@ -148,10 +151,14 @@ export default{
 	margin: 10px auto;
 	line-height: 24px;
 }
+.index-news-detail{
+	margin-top: 50px;
+}
 .index-news{
 	overflow: hidden;
 	&-content{
 		margin-bottom: 50px;
+		min-height: 560px;
 	}
 	&-comment {
 		overflow: hidden;
@@ -173,6 +180,9 @@ export default{
 	}
 	&-content {
 		margin: 10px 0 10px 50px;		
+	}
+	&-pagnation {
+		margin: 10px 0;
 	}
 }	
 .nick-date {

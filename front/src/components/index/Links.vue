@@ -19,7 +19,6 @@
 	  			</ul>
 	  		</div >
   		</div>
-
   		<footer>
   			<div class="info news-common-footer">
   			<li class="copyright">本网站文字内容均归理工大学周颖所有，任何单位及个人未经许可，不得擅自转载使用</li>

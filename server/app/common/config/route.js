@@ -1,15 +1,12 @@
 "use strict";
 
 exports.__esModule = true;
-/**
- * Created by Zhouying on 2017/1/18.
- */
 exports.default = {
-    admin: { //系统后台
+    admin: {
         reg: /^admin/
     },
-    //默认走topic
-    news: { //系统后台
+
+    news: {
         reg: /^news/
     }
 };

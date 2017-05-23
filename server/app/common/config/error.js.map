@@ -7,7 +7,7 @@
         "key",
         "msg"
     ],
-    "mappings": "AAAA;AACA;;;;;kBAGe;AACb;AACAA,OAAK,OAFQ,EAEC;AACdC,OAAK,QAHQ,CAGC;AAHD,C",
+    "mappings": "AAAA;;;kBAIe;AAEbA,OAAK,OAFQ;AAGbC,OAAK,QAHQ,E",
     "file": "../../../src/common/config/error.js",
     "sourcesContent": [
         "'use strict';\n/**\n * err config\n */\nexport default {\n  //key: value\n  key: \"errno\", //error number\n  msg: \"errmsg\" //error message\n};"

@@ -1,14 +1,32 @@
-.main{
-	margin-left:200px;
-}
 .bread-crumb{
 	font-size:16px;
-	height:60px;
-	display:flex;
-	align-items:center;
-	background:@Gray;
-	border-radius: 10px;
+	height:80px;
+	position: absolute;
+	top:-44px;
+	width: 80%;
+	border-radius: 3px;
+	background: white;
+	box-shadow: 2px 3px 10px rgba(0,0,0,.25);
 	padding-left: 10px;
+}
+.el-menu-item-group__title{
+	padding-top: 0px;
+}
+.el-submenu__title:hover,
+.el-submenu .el-menu-item:hover,
+.el-menu-item:hover{
+	background: @ActiveBlue;
+	transition: all .1s ease;
+	color: white;
+}
+.el-tabs__item.is-active {
+    color: white;
+    background: @ActiveBlue;
+    border-radius: 4px;
+    transition: all .25s ease;
+}
+.el-tabs__active-bar{
+	display: none;
 }
 .avatar {
 	width: 50px;
@@ -43,6 +61,16 @@
 		font-size: 16px;
 	}
 }
+.info-body {
+	// width: 80%;
+	border-radius: 3px;
+	padding: 0 10%;
+	padding-top:44px;
+	background: @LightGray;
+	margin:0 auto;
+	position: relative;
+	margin-top: 20px;
+}
 .active {
 	color: @ActiveBlue;
 }
@@ -73,12 +101,12 @@
 		font-size: 32px;
 	}
 }
-.index-news-main {
-	margin-top:80px;
-}
 /**
  * 新闻的附加信息，作者，时间、浏览
  */
+.pagenation{
+	margin: 5px 0;
+}
 .news-extra-info{
 	color: @DarkGray;
 	margin:3px 0;

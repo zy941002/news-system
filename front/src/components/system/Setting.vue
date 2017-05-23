@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <el-breadcrumb separator="/" class="bread-crumb">
+  <div>
+    <el-breadcrumb separator="/" class="bread-crumb fx-h-center">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/setting' }">系统设置</el-breadcrumb-item>
     </el-breadcrumb>

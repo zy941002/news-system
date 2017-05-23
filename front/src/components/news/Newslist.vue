@@ -1,30 +1,34 @@
 <template>
   <div>
-    <el-button type="primary" @click="goNew">添加新闻</el-button>    
+    <div>
+      <el-date-picker
+        v-model="date"
+        type="date"
+        placeholder="选择日期"
+        >
+      </el-date-picker>
+    </div>
   	<el-table
     :data="pageInfo.data"
-    border
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
-    >
+    style="width: 100%">
       <el-table-column
         label="新闻ID"
-        width="90">
+        width="80">
         <template scope="scope">
           <el-icon name="time"></el-icon>
-          <span style="margin-left: 10px">{{ scope.row.id }}</span>
+          <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>    
       <el-table-column
         label="作者"
-        width="180">
+        width="100">
         <template scope='scope'>
         	{{ scope.row.name }}
         </template>		
       </el-table-column>
       <el-table-column
         label="标题"
-        width="180">
+        width="250">
         <template scope='scope'>
         	{{ scope.row.title }}			      
         </template>		
@@ -36,10 +40,10 @@
           width="100">
           <template scope='scope'>
           <div v-if="scope.row.pass=='0'">
-            <el-button type=" danger">拒绝</el-button>  
+            <el-button size="small" type=" danger">拒绝</el-button>  
           </div>
           <div v-if="scope.row.pass=='1'">
-            <el-button type="success">通过</el-button>  
+            <el-button size="small" type="success">通过</el-button>  
           </div>          
           </template>     
         </el-table-column>
@@ -47,20 +51,17 @@
         <el-table-column  label="置顶" width="120">
         <template scope='scope'>
           <div v-if="scope.row.top=='0'">
-            <el-button type=" danger">未置顶</el-button>  
+            <el-button size="small" type=" danger">未置顶</el-button>  
           </div>
           <div v-if="scope.row.top=='1'">
-            <el-button type="success">置顶</el-button>  
+            <el-button size="small" type="success">置顶</el-button>  
           </div>        
         </template>
         </el-table-column> 
       </div>
-      
-
       <div v-if="user.type==2">
         <el-table-column
-          label="审核状态"
-          width="90">
+          label="审核状态">
           <template scope='scope'>
             <el-switch
             v-model="scope.row.pass"
@@ -70,8 +71,7 @@
           </el-switch>
           </template>   
         </el-table-column> 
-
-        <el-table-column  label="置顶" width="120">
+        <el-table-column  label="置顶">
         <template scope='scope'>
           <el-switch
             v-model="scope.row.top"
@@ -97,27 +97,27 @@
         </template>
       </el-table-column>
       </el-table-column>      
-    </el-table>
-  <div class="block">
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="pageInfo.currentPage"
-      layout="prev, pager, next, jumper"
-      :page-count="pageInfo.totalPages">
-    </el-pagination>
-  </div>
-
-
+    </el-table>  
+    <div class="fx-v-btw pagenation">
+      <el-button type="primary" @click="goNew">添加新闻</el-button>    
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="pageInfo.currentPage"
+        layout="prev, pager, next, jumper"
+        :page-count="pageInfo.totalPages">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import API from '../../api/api.js'
 import store from '../../assets/js/storage.js'
+import moment from 'moment'
 export default {
 	mounted(){
     this.user = JSON.parse(store.get("userInfo"));
+    let create_time =moment( this.date||new Date()).format(`YYYY-MM-DD`);
     if(this.user.type==1){
       API.FIND(`news/news/findlists`,{pageNum:1,author_id:this.user.id}).then(res=>{      
         res.data.data.data.map((item,index)=>{
@@ -129,7 +129,6 @@ export default {
     }
     if(this.user.type==2){
       API.FIND(`news/news/findlists`,{page:1}).then(res=>{      
-        console.log(res.data.data.data)
         res.data.data.data.map((item,index)=>{
           item.pass = Boolean(item.pass)
           item.top = Boolean(item.top)
@@ -141,6 +140,7 @@ export default {
   data(){
     return{
       user:{},
+      date:"",
       pageInfo: {
         count: 0,
         currentPage:1,
@@ -151,6 +151,35 @@ export default {
       multipleSelection: [],
     }
   },
+  watch:{
+    date:function(newVal){
+      let create_time =moment( this.date||new Date()).format(`YYYY-MM-DD`);
+      this.user = JSON.parse(store.get("userInfo"));
+      if(newVal){
+        if(this.user.type==1){
+          API.FIND(`news/news/findlists`,{pageNum:1,author_id:this.user.id,create_time:create_time}).then(res=>{      
+            res.data.data.data.map((item,index)=>{
+              item.pass = Boolean(item.pass)
+              item.top = Boolean(item.top)
+            })
+            this.$set(this,'pageInfo',res.data.data)
+          })
+        }
+        if(this.user.type==2){
+          API.FIND(`news/news/findlists`,{page:1,create_time:create_time}).then(res=>{      
+            res.data.data.data.map((item,index)=>{
+              item.pass = Boolean(item.pass)
+              item.top = Boolean(item.top)
+            })
+            this.$set(this,'pageInfo',res.data.data.data)
+          })
+        }        
+
+
+
+      }
+    }
+  },
   methods: {
     handleStatus(index,item){
       API.POST(`news/news/addnews`,item).then((res)=>{
@@ -158,9 +187,6 @@ export default {
           return true;
         }
       })
-    },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
         API.FIND(`news/news/findlists`,{page:val}).then((res)=>{
@@ -174,9 +200,6 @@ export default {
     goNew(){
       this.$router.push({name:'newsdetail'})
     },
-    handleSelectionChange(val) {
-        this.multipleSelection = val;
-    },
     handleEdit(index, data) {
       this.$router.push({name:"newsdetail",query:{id:data.id}});
     },
@@ -188,7 +211,6 @@ export default {
         }).then(() => {
           API.DELETE(`news/news/remove`,{id:row.id}).then((res)=>{
             this.pageInfo.data.splice(index,1);
-            // this.$store.dispatch('SET_NEWS')
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -204,4 +226,3 @@ export default {
   }
 }
 </script>
-<style></style>

@@ -1,5 +1,5 @@
 <template> 
-  	<sidebar></sidebar>
+    <sidebar></sidebar>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ import Sidebar from '../common/Sidebar.vue'
 export default {
   name: 'admin',
   components:{
-  	Sidebar
+    Sidebar
   }
 }
 </script>

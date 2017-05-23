@@ -1,53 +1,53 @@
   <template>
-    <div class="">
-      <chart :options="option"></chart>
+    <div class="analysis-wrapper">
+      <chart class="news-analysis" :options="option"></chart>
     </div>
 </template>
 <script>
 let ECharts = require('vue-echarts/components/ECharts.vue') 
-import Vue from 'vue'
 Vue.component('chart',ECharts)
+import Vue from 'vue'
 import API from '../../api/api.js'
 export default {
-  data: function () {
-    return {
-      option :{
-        title: {
-          text: '网站点击量',
-          // subtext: '纯属虚构'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data:['点击量','预购','成交']
-        },
-        toolbox: {
-          show: true,
-          feature: {
-            magicType: {show: true, type: ['stack', 'tiled']},
-            saveAsImage: {show: true}
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: ['周一','周二','周三','周四','周五','周六','周日']
-        },
-        yAxis: {
-          ype: 'value'
-        },
-        series: [
-        {
-          name: '点击量',
-          type: 'line',
-          smooth: true,
-          data: [1320, 1132, 601, 234, 120, 90, 20]
-        }]
+  mounted(){
+    API.FIND("admin/record/getrecord").then(res=>{
+      res.data.data.forEach((item,index)=>{
+        this.option.xAxis.data.push (this.$moment(item.date).format(`MM-DD`))
+        this.option.series[0].data.push(item.count)
+      })
+    })
+  },  
+  data() {
+    return{
+      option: {
+          title: {
+              text: '首页PV量',
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          toolbox: {
+              show: true,
+              feature: {
+                saveAsImage: {show: true}
+              }
+          },
+          xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: []
+          },
+          yAxis: {
+              type: 'value'
+          },
+          series: [{
+              name: '点击量',
+              type: 'line',
+              smooth: true,
+              data: []
+          }]
       }
     }
-  },
+  }
 }
-  
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->

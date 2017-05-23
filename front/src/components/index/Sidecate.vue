@@ -3,10 +3,11 @@
   <h4 class="category-title category-title-middle">时事追踪</h4>
     <div v-for="untop in untops" class="side-news-item">
     <h4 class="article-title article-title-middle" @click="goDetail(untop)">{{untop.title}}</h4>
-        <figure><img class="side-news-image"  @click="goDetail(untop)" :src="untop.imageurl"></figure>
+        <figure v-if="untop.imageurl!=''"><img class="side-news-image"  @click="goDetail(untop)" :src="untop.imageurl"></figure>
+        <section class="news-preview">{{untop.preview}}</section>
         <div>
           <section class="news-extra-info">
-            &nbsp;&nbsp;{{moment(untop.timeflag).format(`YYYY-HH-DD`)}}&nbsp;&nbsp;
+            &nbsp;&nbsp;{{moment(untop.create_time).format("YYYY-MM-DD")}}&nbsp;&nbsp;
             <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;<i>{{untop.clicked}}</i> &nbsp;&nbsp;
           </section>
       </div>
@@ -35,12 +36,10 @@ export default{
         console.log(res)
       })
       this.$router.push({path:"/index/newsdetail",query:{id:news.id}});
-
     }
   },
   mounted(){  	
   	API.FIND(`news/news/untop?date=${new Date()}`).then(res=>{
-      console.log(res)
       this.untops = res.data.data
   	})
   }
@@ -61,5 +60,10 @@ export default{
     height: 200px;
     display: block;
   }
+}
+.news-preview{
+    font-size: 14px;
+    color: gray;
+    padding: 10px 0;
 }
 </style>

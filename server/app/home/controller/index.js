@@ -28,12 +28,7 @@ var _class = function (_Base) {
     return (0, _possibleConstructorReturn3.default)(this, _Base.apply(this, arguments));
   }
 
-  /**
-   * index action
-   * @return {Promise} []
-   */
   _class.prototype.indexAction = function indexAction() {
-    //auto render template file index_index.html
     return this.display();
   };
 

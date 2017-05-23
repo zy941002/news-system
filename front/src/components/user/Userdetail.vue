@@ -1,20 +1,17 @@
   <template>
-  <div class="main">    
-    <el-breadcrumb separator="/" class="bread-crumb">
+  <div>    
+    <el-breadcrumb separator="/" class="bread-crumb fx-h-center">
       <el-breadcrumb-item :to="{ path: '/admin/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/admin/userlist' }">用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>{{status}}</el-breadcrumb-item>
-    </el-breadcrumb>
-    
+      <el-breadcrumb-item>{{status}}用户</el-breadcrumb-item>
+    </el-breadcrumb>    
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="user-form">
         <div class="upload-avatar  pv-center">
           <el-upload
-          action="http://47.92.70.247:8360/admin/upload"
+          action="http://localhost:8360/admin/upload"
           type="drag"
           name="image"
           :data="ruleForm"
-          :on-preview="handlePreview"
-
           :multiple="false"
           :on-success="setURL"
           >        
@@ -23,21 +20,26 @@
           <div class="el-upload__tip" slot="tip" >点击上传头像</div>
           </el-upload>
         </div>  
-
-
         <div class="user-item">
           <el-form-item label="用户名" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
 
           <el-form-item label="昵称" prop="nickname">
-            <el-input v-model="ruleForm.nickname"></el-input>
+            <el-input  v-model="ruleForm.nickname"></el-input>
           </el-form-item>
 
-          <el-form-item label="邮寄地址" prop="address">
-            <el-input v-model="ruleForm.address"></el-input>
+          <el-form-item type="password" label="密码" prop="password">
+            <el-input type="password" v-model="ruleForm.password"></el-input>
           </el-form-item>
+          <div v-if="'创建'=== status">
+           <el-form-item label="确认密码" prop="checkPass">
+            <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off"></el-input>
+          </el-form-item>
+          </div>
 
+
+        
           <el-form-item label="邮箱" prop="email">
             <el-input v-model="ruleForm.email"></el-input>
           </el-form-item>
@@ -52,10 +54,9 @@
 
           
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">立即{{status}}</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
-
         </div>
     </el-form>
   </div>
@@ -70,20 +71,30 @@ import * as Util from '../../assets/js/util.js'
     computed:{
       status(){
         if(this.$route.query.id){
-          return "更新用户"
+          return "更新"
         }else{
-          return "新增用户"
+          return "创建"
         }
       }
     },
     data(){
-      return {
+      var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.ruleForm.password) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      }      
+      return {        
         user:null,
         imageUrl: '',
         ruleForm:{
           name: "",
           nickname: "",
-          address: "",
+          password:"",
+          checkPass:"",
           email: "",
           type: 0,          
         },
@@ -99,6 +110,9 @@ import * as Util from '../../assets/js/util.js'
             { required: true, message: '请输入邮箱', trigger: 'blur' },
             { type: 'email',  message: '请输入正确的邮箱地址', trigger: 'blur' }
           ],
+          checkPass: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
         }
       }
     }, 
@@ -106,24 +120,18 @@ import * as Util from '../../assets/js/util.js'
       let params = {},id="";
       this.$route.query.id?params ={id:this.$route.query.id}:params={id:0}
       API.FIND(`admin/user/fetchuser`,params).then(res=>{
+        console.log(res.data.data.data[0])
         if(res.data.data.data[0]){
           if(JSON.parse(res.data.data.data[0].file)){
             this.$set(this,'imageUrl',JSON.parse(res.data.data.data[0].file).url)  
           }else{
             this.$set(this,'imageUrl',"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1490099421&di=7e2596e95a1374e5da277896882ffb4c&src=http://n1.itc.cn/img8/wb/recom/2015/12/10/144970265150133679.jpeg") 
-          }
-          
-          this.$set(this,`ruleForm`,res.data.data.data[0])  
+          }          
+          this.$set(this,`ruleForm`,res.data.data.data[0])
         }        
       })
     },   
     methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -176,7 +184,7 @@ import * as Util from '../../assets/js/util.js'
     height: 150px;
   }
   .user-form{
-    width: 70%;
+    width: 80%;
   }
   .upload-avatar{
     text-align: center;

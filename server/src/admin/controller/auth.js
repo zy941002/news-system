@@ -17,6 +17,7 @@ export default class extends Base{
       }
       else{
         this.user = data;        
+        console.log(data);
         return this.success(data)
       }
   }

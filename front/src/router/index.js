@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import NotFound from '../components/common/NotFound.vue'
-import Admin from '../components/admin/index.vue'
+import Admin from '../components/admin/Index.vue'
 import Init from '../components/common/Init.vue'
 import Login from '../components/admin/Login.vue'
 
@@ -93,8 +93,8 @@ export default new Router({
         },
         {
           path: '*',
-          name: 'userlist',   
-          component: resolve => require(['../components/user/Userlist.vue'], resolve)
+          name: 'analysis',   
+          component: resolve => require(['../components/analysis/Analysis.vue'], resolve)
         },
       ]
     },
